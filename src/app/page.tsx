@@ -6,7 +6,7 @@ export default function Home() {
 
   return (
     <main className="grid justify-center">
-      <h1 className="p-4">deadline o matic</h1>
+      <h1 className="py-6 text-4xl">Deadline o matic</h1>
       <Calendar startDate={startDate}/> 
     </main>
   )

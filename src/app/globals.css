@@ -2,7 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-td{
-  border:solid;
-  border-width: 1px;
+div.week > div:first-child{
+  @apply rounded-l-2xl
+}
+div.week > div:last-child{
+  @apply rounded-r-2xl
 }

@@ -16,7 +16,7 @@ export default function Calendar({startDate}: {startDate: Date}){
     
   }
       
-  return <div className="w-full table-fixed">
+  return <div className="calendar w-full table-fixed">
       {rows}
   </div>
 }
