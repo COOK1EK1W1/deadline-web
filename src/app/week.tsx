@@ -4,7 +4,7 @@ export default function Week({startOfWeek}: {startOfWeek: Date}){
   for (let i = 0; i < 7; i++){
     const dateOfDay = new Date(startOfWeek.getTime() + 24*60*60*1000 * i)
       rows.push(
-          <div className="w-24 h-28 border">   
+          <div key={i} className="w-24 h-28 border">   
               <div className={`${dateOfDay.getDate() == 1 ? "w-16" : "w-8"} m-1 p-1 text-center rounded-full ${(dateOfDay.toLocaleDateString() == new Date().toLocaleDateString()) ? "bg-red-500" :  "bg-slate-300" }`}>
                 {dateOfDay.getDate()} {dateOfDay.getDate() == 1 && months[dateOfDay.getMonth()]}
               </div>
