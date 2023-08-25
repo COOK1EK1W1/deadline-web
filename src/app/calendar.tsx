@@ -1,6 +1,6 @@
 import Week from "./week"
 
-export default function Calendar({startDate}: {startDate: Date}){
+export default function Calendar({startDate, deadlines}: {startDate: Date, deadlines: any}){
   const numWeeks = 12
   const rows = []
   for (var i = 0; i < numWeeks; i++){
@@ -11,7 +11,7 @@ export default function Calendar({startDate}: {startDate: Date}){
       </div>
     )
     rows.push(
-      <Week startOfWeek={dateOfWeek} key={i}></Week>
+      <Week startOfWeek={dateOfWeek} key={i} deadlines={deadlines}></Week>
     )
     
   }

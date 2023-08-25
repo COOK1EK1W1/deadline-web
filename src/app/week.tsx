@@ -1,4 +1,5 @@
-export default function Week({startOfWeek}: {startOfWeek: Date}){
+export default function Week({startOfWeek, deadlines}: {startOfWeek: Date, deadlines: any}){
+  console.log(deadlines)
   const rows = []
   const months = ["Jan", "Feb", "Mar", "Apr", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
   for (let i = 0; i < 7; i++){
@@ -10,9 +11,10 @@ export default function Week({startOfWeek}: {startOfWeek: Date}){
               </div>
 
               {/* dummy data */}
-              <div className="w-5/6 m-1 bg-green-500 rounded-full px-1 mb-1 text-center">test</div>          
-              <div className="w-5/6 m-1 bg-green-500 rounded-full px-1 mb-1 text-center">test</div>            
-            
+              {deadlines.map((x: any, j: number)=>(
+              (new Date(x.due).toLocaleDateString() == dateOfDay.toLocaleDateString()) && <div key={j} className="w-5/6 m-1 bg-green-500 rounded-full px-1 mb-1 text-center">{x.name}</div>
+              ))}
+                        
           </div>
       )
     
