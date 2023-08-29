@@ -5,5 +5,6 @@ export const dynamic = 'force-dynamic'
 
 export async function GET(request: Request){
   const deadlines = await sql`SELECT * FROM deadlines`
+  console.log("query")
   return NextResponse.json(deadlines)
 }

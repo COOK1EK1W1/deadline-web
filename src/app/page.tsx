@@ -4,12 +4,12 @@ export const revalidate = 60
 export const dynamic = 'force-dynamic'
 
 export default async function Home() {
-  const startDate = new Date(2023, 7, 10)
+  const startDate = new Date(2023, 7, 17)
 
   // 
   // console.log(deadlines)
-  const time = await fetch(`${process.env.LOCAL_ADDRESS}/api/deadlines`, {next: {revalidate: 60}})
-  const stuff = (await time.json())
+  const deadlines = await fetch(`${process.env.LOCAL_ADDRESS}/api/deadlines`, {next: {revalidate: 7200}})
+  const stuff: DBResponse = (await deadlines.json())
   const {fields, rows} = stuff
 
 
