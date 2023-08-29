@@ -4,7 +4,7 @@ export const revalidate = 60
 export const dynamic = 'force-dynamic'
 
 export default async function Home() {
-  const startDate = new Date(2023, 7, 17)
+  const startDate = new Date(2023, 7, 14)
 
   // 
   // console.log(deadlines)
@@ -14,7 +14,7 @@ export default async function Home() {
 
 
   return (
-    <main className="grid justify-center">
+    <main className="flex flex-col items-center">
       <h1 className="py-6 text-4xl">Deadline o matic</h1>
       <Calendar startDate={startDate} deadlines={rows}/> 
     </main>

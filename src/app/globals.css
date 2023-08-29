@@ -8,3 +8,23 @@ div.week > div:first-child{
 div.week > div:last-child{
   @apply rounded-r-2xl
 }
+
+.calendar{
+  width:98%;
+  max-width: 800px;
+}
+
+@media only screen and (max-width:500px){
+  div.week>div:nth-child(6){
+    display:none
+  }
+  div.week>div:nth-child(7){
+    display:none
+  }
+  div.week>div:nth-child(5){
+    @apply rounded-r-2xl
+  }
+  .calendar{
+    width:98%;
+  }
+}

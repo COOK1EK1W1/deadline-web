@@ -7,7 +7,7 @@ export default function Calendar({startDate, deadlines}: {startDate: Date, deadl
     const dateOfWeek = new Date(startDate.getTime() + 7*24*60*60*1000 * i)
     rows.push(
       <div key={i}>
-        <div>week {i+1} - begining {dateOfWeek.getDate().toString()}/{(dateOfWeek.getMonth() + 1).toString()}</div>
+        <div className="pl-3">Week {i+1} - Beginning {dateOfWeek.getDate().toString()}/{(dateOfWeek.getMonth() + 1).toString()}</div>
       </div>
     )
     rows.push(
@@ -16,7 +16,7 @@ export default function Calendar({startDate, deadlines}: {startDate: Date, deadl
     
   }
       
-  return <div className="calendar w-full table-fixed">
+  return <div className="calendar" >
       {rows}
   </div>
 }
