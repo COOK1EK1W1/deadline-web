@@ -1,4 +1,3 @@
-
 function firstBeforeSecond(first: Date, second: Date) : boolean{
   const firstTime = new Date(first.toLocaleDateString()).getTime()
   const secondTime = new Date(second.toLocaleDateString()).getTime()
@@ -47,15 +46,15 @@ export default function Week({startOfWeek, deadlines}: {startOfWeek: Date, deadl
     rows.push(
       <div key={i} className="w-full h-28 border">   
               {/* dates */}
-              <div className={`${dateOfDay.getDate() == 1 ? "w-16" : "w-8"} m-1 p-1 text-center rounded-full ${(dateOfDay.toLocaleDateString() == new Date().toLocaleDateString()) ? "bg-red-500" :  "bg-slate-300" }`}>
+              <div className={`${dateOfDay.getDate() == 1 ? "w-16" : "w-8"} cursor-default m-1 p-1 text-center rounded-full ${(dateOfDay.toLocaleDateString() == new Date().toLocaleDateString()) ? "bg-red-500" :  "bg-slate-300" }`}>
                 {dateOfDay.getDate()} {dateOfDay.getDate() == 1 && months[dateOfDay.getMonth()]}
               </div>
 
               {/* deadlines */}
               {deadlinesOrdered[i].map((x: any, j: number)=>(
-                <div key={j} className={`h-6 mb-1 bg-green-500 text-center 
+                <div key={j} className={`cursor-pointer h-6 mb-1 bg-green-500 text-center 
                                         ${(sameDay(dateOfDay, new Date(x.due))) && "rounded-r-full w-5/6"} 
-                                        ${(sameDay(dateOfDay, new Date(x.start || x.due))) && "rounded-l-full ml-2"}`}>
+                                        ${(sameDay(dateOfDay, new Date(x.start || x.due))) && "rounded-l-full ml-2"}`} >
                   {(i==0 || sameDay(dateOfDay, new Date(x.due)) || sameDay(dateOfDay, new Date(x.start|| x.due))) && x.name}
                 </div>
               ))}

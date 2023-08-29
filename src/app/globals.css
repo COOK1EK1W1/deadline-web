@@ -28,3 +28,13 @@ div.week > div:last-child{
     width:98%;
   }
 }
+
+.modalCover{
+  @apply fixed w-full h-full top-0 right-0;
+  backdrop-filter: blur(4px) opacity(0);
+  transition :backdrop-filter 1s;
+}
+
+.modalCover.active{
+  backdrop-filter: blur(4px) opacity(1);
+}
