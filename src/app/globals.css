@@ -31,10 +31,24 @@ div.week > div:last-child{
 
 .modalCover{
   @apply fixed w-full h-full top-0 right-0;
-  backdrop-filter: blur(4px) opacity(0);
-  transition :backdrop-filter 1s;
+  backdrop-filter: blur(10px) opacity(0);
+  transition :backdrop-filter 0.3s;
+  display:none;
 }
 
 .modalCover.active{
   backdrop-filter: blur(4px) opacity(1);
+}
+.modalCover.hidden{
+  display:block
+}
+
+.modalCard{
+  margin-top: 100vh;
+  transition-duration: 0.3s;
+  width: 80%;
+  height: 60vh;
+}
+.modalCover.active>div>.modalCard{
+  margin-top: 50vh;
 }
