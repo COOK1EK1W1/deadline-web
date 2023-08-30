@@ -5,9 +5,9 @@ import Week from "./week"
 export default function Calendar({startDate, deadlines}: {startDate: Date, deadlines:(Deadline|undefined)[][]}){
   const [showModal, setShowModal] = useState(false)
   const [showCover, setshowCover] = useState(false)
-  const [popupDeadline, setPopupDeadline] = useState<Deadline|undefined>(undefined)
+  const [popupDeadline, setPopupDeadline] = useState<(Deadline|undefined)[]>([])
 
-  function openModal(d: Deadline){
+  function openModal(d: (Deadline|undefined)[]){
     setPopupDeadline(d)
     setshowCover(true)
     setTimeout(()=>setShowModal(true),10);
@@ -37,13 +37,20 @@ export default function Calendar({startDate, deadlines}: {startDate: Date, deadl
       <div className={`modalCover ${showModal && "active"} ${showCover&&"hidden"}`} onClick={()=>{closeModal()}}>
         <div className="flex w-full h-full justify-center">
           <div className="bg-white rounded-3xl modalCard">
-            {popupDeadline && <div className="m-4">
-              <h2>{popupDeadline.name}</h2>
-              <h3>{popupDeadline.subject}</h3>
-              <p>start: {popupDeadline.start}</p>
-              <p>due: {popupDeadline.due}</p>
-              
-              </div>}
+            <div className="m-2">
+              {popupDeadline.map((x, i) =>{
+
+                return (x !== undefined && <div className="pb-4" key={i}>
+                  <h2>{x.name}</h2>
+                  <h3>{x.subject}</h3>
+                  <p>start: {x.start}</p>
+                  <p>due: {x.due}</p>
+                </div>)
+
+                })}
+
+            </div>
+            
           </div>
         </div>
       </div>
