@@ -1,4 +1,7 @@
 "use client"
+
+import DateIco from "./date"
+
 function sameDay(first: Date, second: Date): boolean{
   const firstTime = first.toLocaleDateString()
   const secondTime = second.toLocaleDateString()
@@ -8,15 +11,12 @@ function sameDay(first: Date, second: Date): boolean{
 export default function Week({startOfWeek, deadlines, modal}: {startOfWeek: Date, deadlines: (Deadline|undefined)[][], modal: CallableFunction}){
   // console.log(deadlines)
   const rows = []
-  const months = ["Jan", "Feb", "Mar", "Apr", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
   for (let i = 0; i < 7; i++){
-    const dateOfDay = new Date(startOfWeek.getTime() + 24*60*60*1000 * i)
+    const dateOfDay: Date = new Date(startOfWeek.getTime() + 24*60*60*1000 * i)
     rows.push(
-      <div key={i} className="w-full h-28 border" onClick={()=>{modal(deadlines[i])}}>   
+      <div key={i} className="w-full h-28 border cursor-pointer" onClick={()=>{modal({date: dateOfDay, deadlines: deadlines[i]})}}>   
               {/* dates */}
-              <div className={`${dateOfDay.getDate() == 1 ? "w-16" : "w-8"} cursor-default m-1 p-1 text-center rounded-full ${(dateOfDay.toLocaleDateString() == new Date().toLocaleDateString()) ? "bg-red-500" :  "bg-slate-300" }`}>
-                {dateOfDay.getDate()} {dateOfDay.getDate() == 1 && months[dateOfDay.getMonth()]}
-              </div>
+              <DateIco date={dateOfDay} showDay={true}/>
 
               {/* deadlines */}
               {deadlines[i].map((x: any, j: number)=>(
