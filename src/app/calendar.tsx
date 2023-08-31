@@ -25,12 +25,12 @@ export default function Calendar({startDate, deadlines}: {startDate: Date, deadl
   for (var i = 0; i < numWeeks; i++){
     const dateOfWeek = new Date(startDate.getTime() + 7*24*60*60*1000 * i)
     rows.push(
-      <div key={i}>
+      <div key={i*2}>
         <div className="pl-3">Week {i+1} - Beginning {dateOfWeek.getDate().toString()}/{(dateOfWeek.getMonth() + 1).toString()}</div>
       </div>
     )
     rows.push(
-      <Week startOfWeek={dateOfWeek} key={i} deadlines={deadlines.slice(0+i*7, 7+i*7)} modal={openModal}></Week>
+      <Week startOfWeek={dateOfWeek} key={i*2+1} deadlines={deadlines.slice(0+i*7, 7+i*7)} modal={openModal}></Week>
     )
     
   }
