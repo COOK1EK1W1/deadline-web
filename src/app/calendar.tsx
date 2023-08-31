@@ -12,10 +12,12 @@ export default function Calendar({startDate, deadlines}: {startDate: Date, deadl
     setPopupDeadline(d)
     setshowCover(true)
     setTimeout(()=>setShowModal(true),10);
+    document.body.classList.add("modalOpen")
   }
   function closeModal(){
     setShowModal(false)
     setTimeout(()=>setshowCover(false),300);
+    document.body.classList.remove("modalOpen")
   } 
 
   const numWeeks = 12
@@ -35,7 +37,7 @@ export default function Calendar({startDate, deadlines}: {startDate: Date, deadl
       
   return <div className="calendar">
       {rows}
-      <div className={`modalCover ${showModal && "active"} ${showCover&&"hidden"}`} onClick={()=>{closeModal()}}>
+      <div className={`modalCover ${showModal && "active"} ${showCover&&"hidden"}`} onClick={()=>{closeModal()}} onScroll={()=>console.log("scroll")}>
         <div className="flex w-full h-full justify-center">
           <div className="bg-white rounded-3xl modalCard">
             <Modal deadlines={popupDeadline.deadlines} today={popupDeadline.date}/>

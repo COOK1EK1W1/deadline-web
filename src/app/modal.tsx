@@ -3,8 +3,6 @@
 import DateIco from "./date"
 
 export default function modal({deadlines, today} : {deadlines: (Deadline | undefined)[], today:Date}){
-  const days = ["mon", "tue", "wed", "thur", "fri", "sat", "sun"]
-  const months = ["Jan", "Feb", "Mar", "Apr", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
   const deadlineRows = []
   for (let i = 0; i < deadlines.length; i++){
     const cur = deadlines[i]
@@ -30,8 +28,11 @@ export default function modal({deadlines, today} : {deadlines: (Deadline | undef
   }
   return <div className="m-2">
     <DateIco date={today} showDay={false}/>
-    {deadlineRows}
-    {(deadlineRows.length == 0) && (<div>no deadlines</div>)}
+    <div className="h-[50vh] overflow-y-auto">
+      {deadlineRows}
+      {(deadlineRows.length == 0) && (<div>no deadlines</div>)}
+    </div>
+    
   </div>
 
 }
