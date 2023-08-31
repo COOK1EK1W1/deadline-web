@@ -26,9 +26,9 @@ export default function modal({deadlines, today} : {deadlines: (Deadline | undef
     }
     
   }
-  return <div className="m-2">
+  return <div className="m-2" onClick={(e)=>{e.stopPropagation()}}>
     <DateIco date={today} showDay={false}/>
-    <div className="h-[50vh] overflow-y-auto">
+    <div className="h-[53vh] overflow-y-auto">
       {deadlineRows}
       {(deadlineRows.length == 0) && (<div>no deadlines</div>)}
     </div>
