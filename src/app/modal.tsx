@@ -2,6 +2,7 @@
 import { useState } from "react"
 import DateIco from "./date"
 import { PiNotePencilBold, PiTrashBold } from "react-icons/pi"
+import {AiOutlineClose} from "react-icons/ai"
 
 export default function modal({deadlines, today} : {deadlines: (Deadline | undefined)[], today:Date}){
   const [showNewForm, setShowNewForm] = useState(false);
@@ -97,7 +98,11 @@ export default function modal({deadlines, today} : {deadlines: (Deadline | undef
     
       
         {showNewForm && <form onSubmit={handleSubmit} className="p-2 bg-slate-200 mb-2 glass">
+          <div className="float-right">
+            <AiOutlineClose className="cursor-pointer" onClick={()=>{setShowNewForm(false)}}/>
+          </div>
           <div className="flex justify-around flex-wrap">
+          
             <div className="pb-2"> 
               <label htmlFor="name">Name: </label>
               <input
