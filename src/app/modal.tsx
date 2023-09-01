@@ -4,7 +4,7 @@ import DateIco from "./date"
 import { PiNotePencilBold, PiTrashBold, PiPaperPlaneTiltBold } from "react-icons/pi"
 import {AiOutlineClose} from "react-icons/ai"
 
-export default function modal({deadlines, today} : {deadlines: (Deadline | undefined)[], today:Date}){
+export default function Modal({deadlines, today} : {deadlines: (Deadline | undefined)[], today:Date}){
   const [showNewForm, setShowNewForm] = useState(false);
   function openNewForm(){
     setShowNewForm(true);
