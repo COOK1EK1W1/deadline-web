@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+input{
+  @apply rounded;
+}
 .glass{
   background-color: rgba(0, 255, 0, 0.2);
   border-radius: 16px;

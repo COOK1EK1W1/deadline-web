@@ -1,15 +1,24 @@
 "use client"
 import { useState } from "react"
 import DateIco from "./date"
-import { PiNotePencilBold } from "react-icons/pi"
+import { PiNotePencilBold, PiTrashBold } from "react-icons/pi"
 
 export default function modal({deadlines, today} : {deadlines: (Deadline | undefined)[], today:Date}){
   const [showNewForm, setShowNewForm] = useState(false);
   function openNewForm(){
     setShowNewForm(true);
   }
+  const deleteDeadline = async (name: string, subject: string) => { 
+      const response = await fetch('/api/deadlines', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({name: name, subject: subject}),
+      });
+  }
 
-  const [formData, setFormData] = useState<Deadline>({
+  const defaultDeadline:Deadline = {
     name: '',
     subject: '',
     due: '',
@@ -18,7 +27,9 @@ export default function modal({deadlines, today} : {deadlines: (Deadline | undef
     room: '',
     url: '',
     info: '',
-  });
+  }
+
+  const [formData, setFormData] = useState<Deadline>(defaultDeadline);
 
   const handleChange = (e : React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -56,6 +67,7 @@ export default function modal({deadlines, today} : {deadlines: (Deadline | undef
     if (cur !== undefined){
     deadlineRows.push(
       <div className=" p-2 glass mb-2" key={i}>
+        <div className="float-right cursor-pointer" onClick={()=>{deleteDeadline(cur.name, cur.subject)}}><PiTrashBold></PiTrashBold></div>
 
         <span className="text-2xl">{cur.name}</span>
         <span className="w-4 inline-block"></span>
@@ -84,49 +96,57 @@ export default function modal({deadlines, today} : {deadlines: (Deadline | undef
     <div className="h-[53vh] overflow-y-auto">
     
       
-        {showNewForm && <form onSubmit={handleSubmit}>
-          <div>
-            <label htmlFor="name">Name</label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              required
-            />
+        {showNewForm && <form onSubmit={handleSubmit} className="p-2 bg-slate-200 mb-2 glass">
+          <div className="flex justify-around flex-wrap">
+            <div className="pb-2"> 
+              <label htmlFor="name">Name: </label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className="pb-2">
+              <label htmlFor="subject">Subject: </label>
+              <input
+                type="text"
+                id="subject"
+                name="subject"
+                value={formData.subject}
+                onChange={handleChange}
+                required
+                className="rounded"
+              />
+            </div>
           </div>
-          <div>
-            <label htmlFor="subject">Subject</label>
-            <input
-              type="text"
-              id="subject"
-              name="subject"
-              value={formData.subject}
-              onChange={handleChange}
-              required
-            />
+
+          <div className="flex flex-wrap justify-around">
+            <div>
+              <label htmlFor="startDate">Start Date: </label>
+              <input
+                type="datetime-local"
+                id="start"
+                name="start"
+                value={formData.start}
+                onChange={handleChange}
+              />
+            </div>
+
+            <div>
+              <label htmlFor="dueDate">Due Date: </label>
+              <input
+                type="datetime-local"
+                id="due"
+                name="due"
+                value={formData.due}
+                onChange={handleChange}
+              />
+            </div>
           </div>
-          <div>
-            <label htmlFor="startDate">Start Date</label>
-            <input
-              type="datetime-local"
-              id="start"
-              name="start"
-              value={formData.start}
-              onChange={handleChange}
-            />
-          </div>
-          <div>
-            <label htmlFor="dueDate">Due Date</label>
-            <input
-              type="datetime-local"
-              id="due"
-              name="due"
-              value={formData.due}
-              onChange={handleChange}
-            />
-          </div>
+          
           <div>
             <label htmlFor="mark">Mark</label>
             <input

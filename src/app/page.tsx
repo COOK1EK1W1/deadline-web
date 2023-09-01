@@ -53,7 +53,7 @@ export default async function Home() {
 
   // 
   // console.log(deadlines)
-  const deadlines = await fetch(`${process.env.LOCAL_ADDRESS}/api/deadlines`, {next: {revalidate: 7200}})
+  const deadlines = await fetch(`${process.env.LOCAL_ADDRESS}/api/deadlines`, {next: {revalidate: 15000, tags: ['deadlines']}})
   const stuff: DBResponse = (await deadlines.json())
   const {fields, rows} = stuff
   const deadlinesForDays = getDeadlinesForDays(rows, startDate, weeks)
