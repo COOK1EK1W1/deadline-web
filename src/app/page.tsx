@@ -1,6 +1,6 @@
 import Calendar from "./calendar"
 
-export const revalidate = 60
+export const revalidate = 15000
 export const dynamic = 'force-dynamic'
 
 function firstBeforeSecond(first: Date, second: Date) : boolean{
