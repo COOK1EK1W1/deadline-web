@@ -39,7 +39,7 @@ export default function Calendar({startDate, deadlines}: {startDate: Date, deadl
       {rows}
       <div className={`modalCover ${showModal && "active"} ${showCover&&"hidden"}`} onClick={()=>{closeModal()}} onScroll={()=>console.log("scroll")}>
         <div className="flex w-full h-full justify-center">
-          <div className="bg-white rounded-3xl modalCard">
+          <div className="bg-white dark:bg-slate-800 rounded-3xl modalCard">
             <Modal deadlines={popupDeadline.deadlines} today={popupDeadline.date}/>
             
 

@@ -1,7 +1,7 @@
 "use client"
 import { useState } from "react"
 import DateIco from "./date"
-import { PiNotePencilBold, PiTrashBold } from "react-icons/pi"
+import { PiNotePencilBold, PiTrashBold, PiPaperPlaneTiltBold } from "react-icons/pi"
 import {AiOutlineClose} from "react-icons/ai"
 
 export default function modal({deadlines, today} : {deadlines: (Deadline | undefined)[], today:Date}){
@@ -128,7 +128,7 @@ export default function modal({deadlines, today} : {deadlines: (Deadline | undef
             </div>
           </div>
 
-          <div className="flex flex-wrap justify-around">
+          <div className="flex flex-wrap justify-around pb-2">
             <div>
               <label htmlFor="startDate">Start Date: </label>
               <input
@@ -152,18 +152,32 @@ export default function modal({deadlines, today} : {deadlines: (Deadline | undef
             </div>
           </div>
           
-          <div>
-            <label htmlFor="mark">Mark</label>
-            <input
-              type="number"
-              id="mark"
-              name="mark"
-              value={formData.mark}
-              onChange={handleChange}
-            />
+          <div className="flex flex-wrap justify-around pb-2">
+            <div>
+              <label htmlFor="mark">Mark: </label>
+              <input
+                type="number"
+                id="mark"
+                name="mark"
+                value={formData.mark}
+                onChange={handleChange}
+              />
+            </div>
+            <div>
+              <label htmlFor="url">Url: </label>
+              <input
+                type="url"
+                id="url"
+                name="url"
+                value={formData.url}
+                onChange={handleChange}
+              />
+            </div>
+
           </div>
+          
           <div>
-            <label htmlFor="info">Info</label>
+            <label htmlFor="info">Info: </label>
             <textarea
               id="info"
               name="info"
@@ -171,17 +185,10 @@ export default function modal({deadlines, today} : {deadlines: (Deadline | undef
               onChange={handleChange}
             />
           </div>
-          <div>
-            <label htmlFor="url">url</label>
-            <input
-              type="url"
-              id="url"
-              name="url"
-              value={formData.url}
-              onChange={handleChange}
-            />
+          
+          <div className="flex justify-center">
+            <button type="submit" className="rounded-full bg-white p-2 hover:scale-105">Submit <PiPaperPlaneTiltBold style={{display:"inline-block"}}/></button>
           </div>
-          <button type="submit">Submit</button>
         </form>}
 
       {deadlineRows}
