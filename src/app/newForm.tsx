@@ -49,7 +49,7 @@ export default function NewForm({hide}:{hide: CallableFunction}){
     }
   };
 
-  return <form onSubmit={handleSubmit} className="p-2 bg-slate-200 mb-2 glass">
+  return <form onSubmit={handleSubmit} className="p-2 bg-slate-200 mb-2 glass" style={{backgroundColor:"rgba(0, 255, 0, 0.2)"}}>
           <div className="float-right">
             <AiOutlineClose className="cursor-pointer" onClick={()=>{hide()}}/>
           </div>

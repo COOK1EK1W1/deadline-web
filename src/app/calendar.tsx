@@ -38,14 +38,20 @@ export default function Calendar({startDate, semesterStart, weeks, deadlines}: {
   }
       
   return <div className="calendar">
+      <div className="week flex sticky top-0 pb-2 glass">
+        <div className="w-full">Mon</div>
+        <div className="w-full">Tue</div>
+        <div className="w-full">Wed</div>
+        <div className="w-full">Thur</div>
+        <div className="w-full">Fri</div>
+        <div className="w-full">Sat</div>
+          <div className="w-full">Sun</div>
+      </div>
       {rows}
       <div className={`modalCover ${showModal && "active"} ${showCover&&"hidden"}`} onClick={()=>{closeModal()}} onScroll={()=>console.log("scroll")}>
         <div className="flex w-full h-full justify-center">
           <div className="bg-white dark:bg-slate-800 rounded-3xl modalCard">
             <Modal deadlines={popupDeadline.deadlines} today={popupDeadline.date}/>
-            
-
-            
           </div>
         </div>
       </div>

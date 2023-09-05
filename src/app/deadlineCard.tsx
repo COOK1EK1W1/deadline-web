@@ -63,7 +63,7 @@ export default function DeadlineCard({data}: {data: Deadline}){
   };
 
 
-  return <div className=" p-2 glass mb-2">
+  return <div className=" p-2 glass mb-2" style={{backgroundColor:"rgba(0, 255, 0, 0.2)"}}>
       <div className="float-right cursor-pointer" onClick={()=>{deleteDeadline()}}><PiTrashBold/></div>
 
       <div className="float-right cursor-pointer" onClick={()=>{toggleEdit()}}><PiPencilBold></PiPencilBold></div>
