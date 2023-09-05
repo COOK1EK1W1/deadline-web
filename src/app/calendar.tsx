@@ -38,14 +38,11 @@ export default function Calendar({startDate, semesterStart, weeks, deadlines}: {
   }
       
   return <div className="calendar">
-      <div className="week flex sticky top-0 pb-2 glass">
-        <div className="w-full">Mon</div>
-        <div className="w-full">Tue</div>
-        <div className="w-full">Wed</div>
-        <div className="w-full">Thur</div>
-        <div className="w-full">Fri</div>
-        <div className="w-full">Sat</div>
-          <div className="w-full">Sun</div>
+      <div className="week flex sticky top-0 py-2 glass">
+        {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((day, i) => (
+          <div className="w-full text-center" key={i}>{day}</div>
+
+        ))}
       </div>
       {rows}
       <div className={`modalCover ${showModal && "active"} ${showCover&&"hidden"}`} onClick={()=>{closeModal()}} onScroll={()=>console.log("scroll")}>
