@@ -50,6 +50,22 @@ export async function DELETE(request: Request){
     return NextResponse.json({error: err}, {status: 500})
 
   }
-  
-  
+}
+
+export async function PUT(request: Request){
+  try{
+    const data = await JSON.parse(await request.text())
+    const name = data.oldName
+    const subject = data.oldSubject
+
+    console.log("query")
+    const res = await sql`UPDATE deadlines SET name = ${data.name}, subject = ${data.subject}, start=${data.start||null}, due=${data.due||null}, mark=${data.mark}, room=${data.room}, url=${data.url}, info=${data.info} WHERE name = ${name} AND subject = ${subject}`
+    revalidateTag("deadlines");
+    console.log(data)
+    return NextResponse.json({status: 200})
+
+  }catch(err){
+    return NextResponse.json({error: err}, {status: 500})
+
+  }
 }
