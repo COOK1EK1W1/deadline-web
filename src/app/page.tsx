@@ -69,7 +69,7 @@ function getDeadlinesForDays(deadlines: Deadline[], startDate: Date, weeks: numb
 export default async function Home() {
   const startDate = new Date(2023, 7, 28)
   const semesterStart = new Date(2023, 8, 11)
-  const weeks = 2
+  const weeks = 17
 
   // 
   // console.log(deadlines)
