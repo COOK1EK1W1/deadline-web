@@ -38,7 +38,7 @@ export default function Modal({deadlines, today} : {deadlines: (Deadline | undef
       </div>
       
       <div className="h-[53vh] overflow-y-auto">
-        {showNewForm && <NewForm hide={closeNewForm}/>}      
+        {showNewForm && <NewForm hide={closeNewForm} day={today}/>}      
         {deadlineRows}
         {(deadlineRows.length == 0) && !showNewForm && (
       <div className="flex justify-center p-8">No Deadlines!!</div>)}

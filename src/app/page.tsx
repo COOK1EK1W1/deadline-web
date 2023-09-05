@@ -8,22 +8,49 @@ function firstBeforeSecond(first: Date, second: Date) : boolean{
 }
 
 function getDeadlinesForDays(deadlines: Deadline[], startDate: Date, weeks: number){
-  const deadlinesOrdered: (Deadline|undefined)[][] = []
+  const deadlinesOrdered: (Deadline|null)[][] = []
   for (let i = 0; i < weeks*12; i++){
+    //start of week date
     const dateOfDay = new Date(startDate.getTime() + 24*60*60*1000 * i)
-    const day: (Deadline|undefined)[] = []
+
+    //array to hold deadlines for that day
+    let day: (Deadline|null)[] = []
+    const newDay: (Deadline|null)[] = []
+  
+    //loop through each deadline and check if its in the day
     for (let x of deadlines){
+
       //should be shown today
       if (firstBeforeSecond(dateOfDay, new Date(x.due)) && firstBeforeSecond(new Date(x.start || x.due), dateOfDay)){
-        if (i == 0){
-          day.push(x);
+        
+        //ignore yesterday positions if it is new week
+        if (i % 7 ==  0){
+          newDay.push(x);
+
         }else{
+          //find if and what the position of the deadline was yesterday
           const yesterdayPos = deadlinesOrdered[i-1].indexOf(x)
+
           if (yesterdayPos > -1){
-            day.splice(yesterdayPos, 0, x);
+            //the deadline was on yesterday
+            //check if the position yesterday is after the length of the array today
+            if (yesterdayPos > day.length){
+              //extend the array with null
+              while (yesterdayPos > (day.length)) {
+                day.push(null)
+              }
+              //add the deadline to the array
+              day.push(x)
+            }else{
+              // deadline can be inserted
+              // day[yesterdayPos] = x
+              day.splice(yesterdayPos, 1, x);
+            }
+            
           }else{
-            day.push(x)
+            // day.push(x)
             // add at next open pos
+            newDay.push(x)
             
           }
         }
@@ -31,7 +58,8 @@ function getDeadlinesForDays(deadlines: Deadline[], startDate: Date, weeks: numb
       }
 
     }
-    // console.log(deadlinesOrdered)
+    //TODO optimise insertion
+    day = day.concat(newDay);
     deadlinesOrdered.push(day)
   }
   return deadlinesOrdered
@@ -41,7 +69,7 @@ function getDeadlinesForDays(deadlines: Deadline[], startDate: Date, weeks: numb
 export default async function Home() {
   const startDate = new Date(2023, 7, 28)
   const semesterStart = new Date(2023, 8, 11)
-  const weeks = 17
+  const weeks = 2
 
   // 
   // console.log(deadlines)

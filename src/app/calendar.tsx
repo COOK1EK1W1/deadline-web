@@ -3,7 +3,7 @@ import { useState } from "react"
 import Week from "./week"
 import Modal from "./modal"
 
-export default function Calendar({startDate, semesterStart, weeks, deadlines}: {startDate: Date, semesterStart:Date, weeks: number, deadlines:(Deadline|undefined)[][]}){
+export default function Calendar({startDate, semesterStart, weeks, deadlines}: {startDate: Date, semesterStart:Date, weeks: number, deadlines:(Deadline|null)[][]}){
   const [showModal, setShowModal] = useState(false)
   const [showCover, setshowCover] = useState(false)
   const [popupDeadline, setPopupDeadline] = useState<{date: Date, deadlines :(Deadline|undefined)[]}>({date: new Date(), deadlines: []})

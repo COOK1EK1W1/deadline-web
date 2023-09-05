@@ -2,12 +2,12 @@
 import {AiOutlineClose} from "react-icons/ai"
 import { useState } from "react"
 import { PiPaperPlaneTiltBold } from "react-icons/pi";
-export default function NewForm({hide}:{hide: CallableFunction}){
+export default function NewForm({hide, day}:{hide: CallableFunction, day: Date}){
 
   const defaultDeadline:Deadline = {
     name: '',
     subject: '',
-    due: '',
+    due: day.toISOString().slice(0,11) + "12:00",
     start: '',
     mark: 0,
     room: '',

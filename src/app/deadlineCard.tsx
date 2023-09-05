@@ -5,6 +5,9 @@ export default function DeadlineCard({data}: {data: Deadline}){
 
   const [Ddata, setDData] = useState(data);
   const [showEdit, setShowEdit] = useState(false);
+  if (!data) return null;
+
+
   const deleteDeadline = async () => { 
     try {
       const response = await fetch('/api/deadlines', {
