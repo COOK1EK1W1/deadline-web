@@ -46,8 +46,9 @@ function getDeadlinesForDays(deadlines: Deadline[], startDate: Date, weeks: numb
 }
 
 export default async function Home() {
-  const startDate = new Date(2023, 7, 14)
-  const weeks = 12
+  const startDate = new Date(2023, 7, 28)
+  const semesterStart = new Date(2023, 8, 11)
+  const weeks = 17
 
   // 
   // console.log(deadlines)
@@ -60,7 +61,7 @@ export default async function Home() {
   return (
     <main className="flex flex-col items-center">
       <h1 className="py-6 text-4xl dark:text-white">Deadline o matic</h1>
-      <Calendar startDate={startDate} deadlines={deadlinesForDays}/> 
+      <Calendar startDate={startDate} semesterStart={semesterStart} weeks={weeks} deadlines={deadlinesForDays}/> 
     </main>
   )
 }

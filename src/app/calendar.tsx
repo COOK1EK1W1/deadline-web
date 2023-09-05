@@ -3,7 +3,7 @@ import { useState } from "react"
 import Week from "./week"
 import Modal from "./modal"
 
-export default function Calendar({startDate, deadlines}: {startDate: Date, deadlines:(Deadline|undefined)[][]}){
+export default function Calendar({startDate, semesterStart, weeks, deadlines}: {startDate: Date, semesterStart:Date, weeks: number, deadlines:(Deadline|undefined)[][]}){
   const [showModal, setShowModal] = useState(false)
   const [showCover, setshowCover] = useState(false)
   const [popupDeadline, setPopupDeadline] = useState<{date: Date, deadlines :(Deadline|undefined)[]}>({date: new Date(), deadlines: []})
@@ -20,15 +20,17 @@ export default function Calendar({startDate, deadlines}: {startDate: Date, deadl
     document.body.classList.remove("modalOpen")
   } 
 
-  const numWeeks = 12
   const rows = []
-  for (var i = 0; i < numWeeks; i++){
+  for (var i = 0; i < weeks; i++){
     const dateOfWeek = new Date(startDate.getTime() + 7*24*60*60*1000 * i)
-    rows.push(
-      <div key={i*2}>
-        <div className="pl-3">Week {i+1} - Beginning {dateOfWeek.getDate().toString()}/{(dateOfWeek.getMonth() + 1).toString()}</div>
-      </div>
-    )
+    if (semesterStart.getTime() <= dateOfWeek.getTime()){
+
+      rows.push(
+        <div key={i*2}>
+          <div className="pl-3">Week {+(dateOfWeek.getTime() - semesterStart.getTime()) / (7*3600*24*1000) +1} - Beginning {dateOfWeek.getDate().toString()}/{(dateOfWeek.getMonth() + 1).toString()}</div>
+        </div>
+      )
+    }
     rows.push(
       <Week startOfWeek={dateOfWeek} key={i*2+1} deadlines={deadlines.slice(0+i*7, 7+i*7)} modal={openModal}></Week>
     )
