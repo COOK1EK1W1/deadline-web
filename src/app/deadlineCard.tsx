@@ -63,7 +63,7 @@ export default function DeadlineCard({data}: {data: Deadline}){
   };
 
 
-  return <div className=" p-2 glass mb-2" style={{backgroundColor:"rgba(0, 255, 0, 0.2)"}}>
+  return <div className=" p-2 glass mb-2" style={{backgroundColor:"lch(73% 41 " + Ddata.color + ")"}}>
       <div className="float-right cursor-pointer" onClick={()=>{deleteDeadline()}}><PiTrashBold/></div>
 
       <div className="float-right cursor-pointer" onClick={()=>{toggleEdit()}}><PiPencilBold></PiPencilBold></div>
@@ -144,7 +144,7 @@ export default function DeadlineCard({data}: {data: Deadline}){
 
         </div>
         
-        <div>
+        <div className="flex flex-wrap justify-around pb-2">
           <div>
           <label htmlFor="info">Info: </label>
           <textarea
@@ -154,16 +154,16 @@ export default function DeadlineCard({data}: {data: Deadline}){
             onChange={handleChange}
           />
           </div>
-          <div>
-            <label htmlFor="color">colour: </label>
-            <input
-              id="color"
-              name="color"
-              type="color"
-              value={Ddata.color}
-              onChange={handleChange}
-            />
-          </div>
+            <div>
+              <label htmlFor="color">Color: </label>
+              <input 
+                type="range" min={1} max={360}
+                id="color"
+                name="color"
+                value={Ddata.color}
+                onChange={handleChange}>
+              </input>
+            </div>
         </div>
           <div className="flex justify-center">
             <button type="submit" className="rounded-full bg-white p-2 hover:scale-105">Submit <PiPaperPlaneTiltBold style={{display:"inline-block"}}/></button>

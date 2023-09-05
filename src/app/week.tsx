@@ -20,9 +20,9 @@ export default function Week({startOfWeek, deadlines, modal}: {startOfWeek: Date
 
               {/* deadlines */}
               {deadlines[i].map((x: any, j: number)=>(
-                <div key={j} className={`hover:h-auto overflow-y-hidden h-6 mb-1 bg-green-500 text-center 
+                <div key={j} className={`hover:h-auto overflow-y-hidden h-6 mb-1 text-center 
                                         ${(sameDay(dateOfDay, new Date(x.due))) && "rounded-r-4xl w-5/6"} 
-                                        ${(sameDay(dateOfDay, new Date(x.start || x.due))) && "rounded-l-4xl ml-2"}`} >
+                                        ${(sameDay(dateOfDay, new Date(x.start || x.due))) && "rounded-l-4xl ml-2"}`} style={{backgroundColor:"lch(73% 41 " + x.color + ")"}}>
                   {(i==0 || sameDay(dateOfDay, new Date(x.due)) || sameDay(dateOfDay, new Date(x.start|| x.due))) && x.name} &#8203;
                 </div>
               ))}

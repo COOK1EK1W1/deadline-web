@@ -35,8 +35,8 @@ export async function POST(request: Request){
     }
 
     const res = await sql`INSERT INTO deadlines
-    (name, subject, start, due, mark, room, url, info)
-    VALUES(${data.name}, ${data.subject}, ${data.start || null}, ${data.due || null}, ${data.mark}, ${data.room}, ${data.url}, ${data.info}) returning name;`
+    (name, subject, start, due, mark, room, url, info, color)
+    VALUES(${data.name}, ${data.subject}, ${data.start || null}, ${data.due || null}, ${data.mark}, ${data.room}, ${data.url}, ${data.info}, ${data.color}) returning name;`
     console.log("query")
     revalidatePath("/")
     revalidateTag("deadlines");
@@ -76,7 +76,7 @@ export async function PUT(request: Request){
     const subject = data.oldSubject
 
     console.log("query")
-    const res = await sql`UPDATE deadlines SET name = ${data.name}, subject = ${data.subject}, start=${data.start||null}, due=${data.due||null}, mark=${data.mark}, room=${data.room}, url=${data.url}, info=${data.info} WHERE name = ${name} AND subject = ${subject}`
+    const res = await sql`UPDATE deadlines SET name = ${data.name}, subject = ${data.subject}, start=${data.start||null}, due=${data.due||null}, mark=${data.mark}, room=${data.room}, url=${data.url}, info=${data.info}, color=${data.color} WHERE name = ${name} AND subject = ${subject}`
     revalidateTag("deadlines");
     console.log(data)
     return NextResponse.json({status: 200})
