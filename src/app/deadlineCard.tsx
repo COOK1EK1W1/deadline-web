@@ -12,12 +12,13 @@ export default function DeadlineCard({data}: {data: Deadline}){
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({name: data.name, subject: data.subject}),
+        body: JSON.stringify({name: data.name, subject: data.subject, password: window.prompt("enter password")}),
       });
 
       if (response.status === 200) {
         console.log('Deleted Deadline');
         window.alert("Deleted Deadline")
+        location.reload();
       } else {
         console.error('Form submission failed');
       }
@@ -46,12 +47,13 @@ export default function DeadlineCard({data}: {data: Deadline}){
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({...Ddata, oldName: data.name, oldSubject:data.subject}),
+        body: JSON.stringify({...Ddata, oldName: data.name, oldSubject:data.subject, password:window.prompt("enter the password")}),
       });
 
       if (response.status === 200) {
         console.log('Form submitted successfully');
         window.alert("Form submitted successfully")
+        location.reload();
       } else {
         console.error('Form submission failed');
       }

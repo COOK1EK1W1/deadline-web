@@ -27,18 +27,20 @@ export default function NewForm({hide}:{hide: CallableFunction}){
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+
     try {
       const response = await fetch('/api/deadlines', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({...formData, password: window.prompt("enter password")}),
       });
 
       if (response.status === 200) {
         console.log('Form submitted successfully');
         window.alert("Form submitted successfully")
+        location.reload();
       } else {
         console.error('Form submission failed');
       }
