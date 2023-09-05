@@ -1,7 +1,5 @@
 import Calendar from "./calendar"
 
-export const revalidate = 15000
-export const dynamic = 'force-dynamic'
 
 function firstBeforeSecond(first: Date, second: Date) : boolean{
   const firstTime = new Date(first.toLocaleDateString()).getTime()
@@ -53,7 +51,7 @@ export default async function Home() {
 
   // 
   // console.log(deadlines)
-  const deadlines = await fetch(`${process.env.LOCAL_ADDRESS}/api/deadlines`, {next: {revalidate: 15000, tags: ['deadlines']}})
+  const deadlines = await fetch(`${process.env.LOCAL_ADDRESS}/api/deadlines`, {next:{tags: ['deadlines'], revalidate: 15000}})
   const stuff: DBResponse = (await deadlines.json())
   const {fields, rows} = stuff
   const deadlinesForDays = getDeadlinesForDays(rows, startDate, weeks)
