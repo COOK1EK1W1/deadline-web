@@ -20,6 +20,7 @@ type DBResponse = {
     room: string;
     url: string;
     info: string;
+    color: string;
   }]
 
 }
@@ -33,4 +34,5 @@ type Deadline = {
     room: string;
     url: string;
     info: string;
+    color: string;
 }

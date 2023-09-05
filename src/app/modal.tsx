@@ -32,9 +32,9 @@ export default function Modal({deadlines, today} : {deadlines: (Deadline | undef
       <div className="flex justify-between">
         <DateIco date={today} showDay={false}/>
     
-        <button type="button" className="bg-green-300 hover:bg-blue-400 rounded-full m-1 p-1 w-40" onClick={openNewForm}>
+        {!showNewForm && <button type="button" className="bg-green-300 hover:bg-blue-400 rounded-full m-1 p-1 w-40" onClick={openNewForm}>
           <PiNotePencilBold style={{display: "inline"}} /> Create New
-        </button>
+        </button>}
       </div>
       
       <div className="h-[53vh] overflow-y-auto">

@@ -13,6 +13,7 @@ export default function NewForm({hide}:{hide: CallableFunction}){
     room: '',
     url: '',
     info: '',
+    color: '1'
   }
 
   const [formData, setFormData] = useState<Deadline>(defaultDeadline);
@@ -49,7 +50,7 @@ export default function NewForm({hide}:{hide: CallableFunction}){
     }
   };
 
-  return <form onSubmit={handleSubmit} className="p-2 bg-slate-200 mb-2 glass" style={{backgroundColor:"rgba(0, 255, 0, 0.2)"}}>
+  return <form onSubmit={handleSubmit} className="p-2 bg-slate-200 mb-2 glass" style={{backgroundColor:"lch(73% 41 " + formData.color + ")"}}>
           <div className="float-right">
             <AiOutlineClose className="cursor-pointer" onClick={()=>{hide()}}/>
           </div>
@@ -129,6 +130,7 @@ export default function NewForm({hide}:{hide: CallableFunction}){
 
           </div>
           
+          <div className="flex flex-wrap justify-around pb-2">
           <div>
             <label htmlFor="info">Info: </label>
             <textarea
@@ -138,6 +140,18 @@ export default function NewForm({hide}:{hide: CallableFunction}){
               onChange={handleChange}
             />
           </div>
+            <div>
+              <label htmlFor="color">Color: </label>
+              <input 
+                type="range" min={1} max={360}
+                id="color"
+                name="color"
+                value={formData.color}
+                onChange={handleChange}>
+              </input>
+            </div>
+          </div>
+          
           
           <div className="flex justify-center">
             <button type="submit" className="rounded-full bg-white p-2 hover:scale-105">Submit <PiPaperPlaneTiltBold style={{display:"inline-block"}}/></button>

@@ -145,6 +145,7 @@ export default function DeadlineCard({data}: {data: Deadline}){
         </div>
         
         <div>
+          <div>
           <label htmlFor="info">Info: </label>
           <textarea
             id="info"
@@ -152,6 +153,17 @@ export default function DeadlineCard({data}: {data: Deadline}){
             value={Ddata.info}
             onChange={handleChange}
           />
+          </div>
+          <div>
+            <label htmlFor="color">colour: </label>
+            <input
+              id="color"
+              name="color"
+              type="color"
+              value={Ddata.color}
+              onChange={handleChange}
+            />
+          </div>
         </div>
           <div className="flex justify-center">
             <button type="submit" className="rounded-full bg-white p-2 hover:scale-105">Submit <PiPaperPlaneTiltBold style={{display:"inline-block"}}/></button>

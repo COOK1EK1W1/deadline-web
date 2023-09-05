@@ -5,13 +5,6 @@ function firstBeforeSecond(first: Date, second: Date) : boolean{
   const firstTime = new Date(first.toLocaleDateString()).getTime()
   const secondTime = new Date(second.toLocaleDateString()).getTime()
   return firstTime <= secondTime
-
-}
-
-function sameDay(first: Date, second: Date): boolean{
-  const firstTime = first.toLocaleDateString()
-  const secondTime = second.toLocaleDateString()
-  return firstTime == secondTime
 }
 
 function getDeadlinesForDays(deadlines: Deadline[], startDate: Date, weeks: number){
