@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { PiTrashBold, PiPencilBold, PiPaperPlaneTiltBold } from "react-icons/pi"
 export default function DeadlineCard({data}: {data: Deadline}){
+  const days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
 
   const [Ddata, setDData] = useState(data);
   const [showEdit, setShowEdit] = useState(false);
@@ -182,11 +183,13 @@ export default function DeadlineCard({data}: {data: Deadline}){
         <span className="w-4 inline-block"></span>
         <span>{Ddata.subject}</span>
         <div>
-          <p>starts:</p>
-          <p>{new Date(Ddata.start).toLocaleDateString()} at {new Date(Ddata.start).toLocaleTimeString()}</p>
+          <p>Starts: {new Date(Ddata.start).toLocaleDateString()} at {new Date(Ddata.start).toLocaleTimeString()}</p>
+          <p>{days[new Date(Ddata.start).getDay()]} of week {1}</p>
         </div>
-        <p>due: {Ddata.due}</p>
-        <p>{new Date(data.start).toLocaleTimeString("eu-US")}</p>
+        <div>
+          <p>Due: {new Date(Ddata.due).toLocaleDateString()} at {new Date(Ddata.due).toLocaleTimeString()}</p>
+          <p>{days[new Date(Ddata.due).getDay()]} of week {1}</p>
+        </div>
 
       </div>}
       

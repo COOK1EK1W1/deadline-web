@@ -13,7 +13,7 @@ export default function Week({startOfWeek, deadlines, modal}: {startOfWeek: Date
   const rows = []
   for (let i = 0; i < 7; i++){
     const dateOfDay: Date = new Date(startOfWeek.getTime() + 24*60*60*1000 * i)
-    console.log(deadlines)
+    // console.log(deadlines)
     rows.push(
       <div key={i} className="w-full h-28 border cursor-pointer dark:border-slate-700 " onClick={()=>{modal({date: dateOfDay, deadlines: deadlines[i]})}}>   
               {/* dates */}
