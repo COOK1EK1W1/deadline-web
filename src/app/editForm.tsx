@@ -1,42 +1,33 @@
 "use client"
 import {AiOutlineClose} from "react-icons/ai"
-import { useState } from "react"
 import { PiPaperPlaneTiltBold } from "react-icons/pi";
-export default function NewForm({hide, day}:{hide: CallableFunction, day: Date}){
-
-  const defaultDeadline:Deadline = {
-    name: '',
-    subject: '',
-    due: day.toISOString().slice(0,11) + "12:00",
-    start: '',
-    mark: 0,
-    room: '',
-    url: '',
-    info: '',
-    color: '1'
-  }
-
-  const [formData, setFormData] = useState<Deadline>(defaultDeadline);
-  const handleChange = (e : React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
+export default function EditForm({hide, day, originalData, data, handleChange}:{hide: CallableFunction, day: Date, originalData: Deadline, data: Deadline, handleChange: any}){
+  console.log(originalData)
+  console.log(data)
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-
     try {
-      const response = await fetch('/api/deadlines', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({...formData, password: window.prompt("enter password")}),
-      });
+      let response = null
+      if (originalData.name !== "" && originalData.subject !== ""){
+        response = await fetch('/api/deadlines', {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({...data, oldName: originalData.name, oldSubject:originalData.subject, password:window.prompt("enter the password")}),
+        }); 
+
+      }else{
+        response = await fetch('/api/deadlines', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({...data, password: window.prompt("enter password")}),
+        });
+      }
 
       if (response.status === 200) {
         console.log('Form submitted successfully');
@@ -50,7 +41,7 @@ export default function NewForm({hide, day}:{hide: CallableFunction, day: Date})
     }
   };
 
-  return <form onSubmit={handleSubmit} className="p-2 bg-slate-200 mb-2 glass" style={{backgroundColor:"lch(73% 41 " + formData.color + ")"}}>
+  return <form onSubmit={handleSubmit} className="p-2 bg-slate-200 mb-2 glass" style={{backgroundColor:"lch(73% 41 " + data.color + ")"}}>
           <div className="float-right">
             <AiOutlineClose className="cursor-pointer" onClick={()=>{hide()}}/>
           </div>
@@ -62,7 +53,7 @@ export default function NewForm({hide, day}:{hide: CallableFunction, day: Date})
                 type="text"
                 id="name"
                 name="name"
-                value={formData.name}
+                value={data.name}
                 onChange={handleChange}
                 required
               />
@@ -73,7 +64,7 @@ export default function NewForm({hide, day}:{hide: CallableFunction, day: Date})
                 type="text"
                 id="subject"
                 name="subject"
-                value={formData.subject}
+                value={data.subject}
                 onChange={handleChange}
                 required
                 className="rounded"
@@ -88,7 +79,7 @@ export default function NewForm({hide, day}:{hide: CallableFunction, day: Date})
                 type="datetime-local"
                 id="start"
                 name="start"
-                value={formData.start}
+                value={data.start?.substring(0,16)}
                 onChange={handleChange}
               />
             </div>
@@ -99,7 +90,7 @@ export default function NewForm({hide, day}:{hide: CallableFunction, day: Date})
                 type="datetime-local"
                 id="due"
                 name="due"
-                value={formData.due}
+                value={data.due?.substring(0, 16)}
                 onChange={handleChange}
                 required
               />
@@ -113,7 +104,7 @@ export default function NewForm({hide, day}:{hide: CallableFunction, day: Date})
                 type="number"
                 id="mark"
                 name="mark"
-                value={formData.mark}
+                value={data.mark}
                 onChange={handleChange}
               />
             </div>
@@ -123,7 +114,7 @@ export default function NewForm({hide, day}:{hide: CallableFunction, day: Date})
                 type="url"
                 id="url"
                 name="url"
-                value={formData.url}
+                value={data.url}
                 onChange={handleChange}
               />
             </div>
@@ -136,7 +127,7 @@ export default function NewForm({hide, day}:{hide: CallableFunction, day: Date})
             <textarea
               id="info"
               name="info"
-              value={formData.info}
+              value={data.info}
               onChange={handleChange}
             />
           </div>
@@ -146,7 +137,7 @@ export default function NewForm({hide, day}:{hide: CallableFunction, day: Date})
                 type="range" min={1} max={360}
                 id="color"
                 name="color"
-                value={formData.color}
+                value={data.color}
                 onChange={handleChange}>
               </input>
             </div>

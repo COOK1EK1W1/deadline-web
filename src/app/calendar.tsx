@@ -6,10 +6,42 @@ import Modal from "./modal"
 export default function Calendar({startDate, semesterStart, weeks, deadlines}: {startDate: Date, semesterStart:Date, weeks: number, deadlines:(Deadline|null)[][]}){
   const [showModal, setShowModal] = useState(false)
   const [showCover, setshowCover] = useState(false)
-  const [popupDeadline, setPopupDeadline] = useState<{date: Date, deadlines :(Deadline|undefined)[]}>({date: new Date(), deadlines: []})
+  const [modalDeadlines, setModalDeadline] = useState<{date: Date, deadlines :(Deadline|undefined)[]}>({date: new Date(), deadlines: []})
+
+  const [showEditForm, setShowEditForm] = useState(false);
+  
+  const defaultDeadline: Deadline = {
+    name: "",
+    subject: "",
+    start: "",
+    due: "",
+    mark: 0,
+    room: "",
+    url: "",
+    info: "",
+    color: "1",
+  }
+
+  const [currentEdit, setCurrentEdit] = useState<Deadline>(defaultDeadline)
+  const [originalEdit, setOriginalEdit] = useState<Deadline>(defaultDeadline)
+
+  function handleEdit(stuff: Deadline){
+    setShowEditForm(true);
+    setCurrentEdit(stuff)
+    setOriginalEdit(stuff)
+  }
+
+  const handleChange = (e : React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setCurrentEdit({
+      ...currentEdit,
+      [name]: value,
+    });
+  };
+
 
   function openModal(d: {date: Date, deadlines: (Deadline|undefined)[]}){
-    setPopupDeadline(d)
+    setModalDeadline(d)
     setshowCover(true)
     setTimeout(()=>setShowModal(true),10);
     document.body.classList.add("modalOpen")
@@ -18,6 +50,7 @@ export default function Calendar({startDate, semesterStart, weeks, deadlines}: {
     setShowModal(false)
     setTimeout(()=>setshowCover(false),300);
     document.body.classList.remove("modalOpen")
+
   } 
 
   const rows = []
@@ -48,7 +81,7 @@ export default function Calendar({startDate, semesterStart, weeks, deadlines}: {
       <div className={`modalCover ${showModal && "active"} ${showCover&&"hidden"}`} onClick={()=>{closeModal()}} onScroll={()=>console.log("scroll")}>
         <div className="flex w-full h-full justify-center">
           <div className="bg-white dark:bg-slate-800 rounded-3xl modalCard">
-            <Modal deadlines={popupDeadline.deadlines} today={popupDeadline.date}/>
+            <Modal deadlines={modalDeadlines.deadlines} today={modalDeadlines.date} showEditForm={showEditForm} setShowEditForm={setShowEditForm}currentEdit={currentEdit} handleChange={handleChange} setEditForm={setCurrentEdit} handleEdit={handleEdit} originalEditData={originalEdit}/>
           </div>
         </div>
       </div>
