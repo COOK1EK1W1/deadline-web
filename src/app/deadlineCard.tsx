@@ -1,6 +1,7 @@
 "use client"
+import { ChangeEventHandler } from "react";
 import { PiTrashBold, PiPencilBold } from "react-icons/pi"
-export default function DeadlineCard({data, handleEdit}: {data: Deadline, handleEdit: any}){
+export default function DeadlineCard({data, handleEdit}: {data: Deadline, handleEdit: Function}) {
   const days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
 
   if (!data) return null;
@@ -33,7 +34,7 @@ export default function DeadlineCard({data, handleEdit}: {data: Deadline, handle
   return <div className=" p-2 glass mb-2" style={{backgroundColor:"lch(73% 41 " + data.color + ")"}}>
       <div className="float-right cursor-pointer" onClick={()=>{deleteDeadline()}}><PiTrashBold/></div>
 
-      <div className="float-right cursor-pointer" onClick={()=>{handleEdit(data)}}><PiPencilBold></PiPencilBold></div>
+      <div className="float-right cursor-pointer" onClick={()=>handleEdit()}><PiPencilBold></PiPencilBold></div>
 
       <div>
         <span className="text-2xl">{data.name}</span>

@@ -4,8 +4,9 @@ import { PiNotePencilBold } from "react-icons/pi"
 import DateIco from "./date"
 import DeadlineCard from "./deadlineCard"
 import EditForm from "./editForm"
+import { ChangeEventHandler } from "react"
 
-export default function Modal({deadlines, today, currentEdit, handleChange, setEditForm, showEditForm, setShowEditForm, handleEdit, originalEditData} : {deadlines: (Deadline | undefined)[], today:Date, currentEdit: Deadline, handleChange: any, setEditForm: any, showEditForm: any, setShowEditForm: any, handleEdit: any, originalEditData: Deadline}) {
+export default function Modal({deadlines, today, currentEdit, handleChange, setEditForm, showEditForm, setShowEditForm, handleEdit, originalEditData} : {deadlines: (Deadline | undefined)[], today:Date, currentEdit: Deadline, handleChange: ChangeEventHandler, setEditForm: Function, showEditForm: Boolean, setShowEditForm: Function, handleEdit: Function, originalEditData: Deadline}) {
 
 
   //add all the deadline cards to the modal
@@ -15,7 +16,7 @@ export default function Modal({deadlines, today, currentEdit, handleChange, setE
     const cur = deadlines[i]
     if (cur !== undefined){
       deadlineRows.push(
-        <DeadlineCard data={cur} key={i} handleEdit={handleEdit}></DeadlineCard>
+        <DeadlineCard data={cur} key={i} handleEdit={()=>{handleEdit(cur)}}></DeadlineCard>
       )
     }
   }
