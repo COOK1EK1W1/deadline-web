@@ -3,8 +3,6 @@ import { ChangeEventHandler } from "react";
 import {AiOutlineClose} from "react-icons/ai"
 import { PiPaperPlaneTiltBold } from "react-icons/pi";
 export default function EditForm({hide, day, originalData, data, handleChange}:{hide: Function, day: Date, originalData: Deadline, data: Deadline, handleChange: ChangeEventHandler}){
-  console.log(originalData)
-  console.log(data)
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

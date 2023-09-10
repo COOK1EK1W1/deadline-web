@@ -81,7 +81,7 @@ export default function Calendar({startDate, semesterStart, weeks, deadlines}: {
       <div className={`modalCover ${showModal && "active"} ${showCover&&"hidden"}`} onClick={()=>{closeModal()}} onScroll={()=>console.log("scroll")}>
         <div className="flex w-full h-full justify-center">
           <div className="bg-white dark:bg-slate-800 rounded-3xl modalCard">
-            <Modal deadlines={modalDeadlines.deadlines} today={modalDeadlines.date} showEditForm={showEditForm} setShowEditForm={setShowEditForm}currentEdit={currentEdit} handleChange={handleChange} setEditForm={setCurrentEdit} handleEdit={handleEdit} originalEditData={originalEdit}/>
+            <Modal semStart={semesterStart} deadlines={modalDeadlines.deadlines} today={modalDeadlines.date} showEditForm={showEditForm} setShowEditForm={setShowEditForm}currentEdit={currentEdit} handleChange={handleChange} setEditForm={setCurrentEdit} handleEdit={handleEdit} originalEditData={originalEdit}/>
           </div>
         </div>
       </div>

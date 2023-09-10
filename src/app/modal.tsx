@@ -6,17 +6,16 @@ import DeadlineCard from "./deadlineCard"
 import EditForm from "./editForm"
 import { ChangeEventHandler } from "react"
 
-export default function Modal({deadlines, today, currentEdit, handleChange, setEditForm, showEditForm, setShowEditForm, handleEdit, originalEditData} : {deadlines: (Deadline | undefined)[], today:Date, currentEdit: Deadline, handleChange: ChangeEventHandler, setEditForm: Function, showEditForm: Boolean, setShowEditForm: Function, handleEdit: Function, originalEditData: Deadline}) {
+export default function Modal({semStart, deadlines, today, currentEdit, handleChange, setEditForm, showEditForm, setShowEditForm, handleEdit, originalEditData} : {semStart: Date, deadlines: (Deadline | undefined)[], today:Date, currentEdit: Deadline, handleChange: ChangeEventHandler, setEditForm: Function, showEditForm: Boolean, setShowEditForm: Function, handleEdit: Function, originalEditData: Deadline}) {
 
 
   //add all the deadline cards to the modal
   const deadlineRows = []
-  console.log(deadlines)
   for (let i = 0; i < deadlines.length; i++){
     const cur = deadlines[i]
     if (cur !== undefined){
       deadlineRows.push(
-        <DeadlineCard data={cur} key={i} handleEdit={()=>{handleEdit(cur)}}></DeadlineCard>
+        <DeadlineCard semStart={semStart} data={cur} key={i} handleEdit={()=>{handleEdit(cur)}}></DeadlineCard>
       )
     }
   }
