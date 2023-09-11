@@ -67,8 +67,8 @@ function getDeadlinesForDays(deadlines: Deadline[], startDate: Date, weeks: numb
 }
 
 export default async function Home() {
-  const startDate = new Date(2023, 7, 28)
-  const semesterStart = new Date(2023, 8, 11)
+  const startDate = new Date(2023, 7, 28, 2,) //sneeky way to get around daylight savings
+  const semesterStart = new Date(2023, 8, 11, 2)
   const weeks = 17
 
   // 
