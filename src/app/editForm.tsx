@@ -119,17 +119,29 @@ export default function EditForm({hide, day, originalData, data, handleChange}:{
             </div>
 
           </div>
-          
           <div className="flex flex-wrap justify-around pb-2">
-          <div>
-            <label htmlFor="info">Info: </label>
-            <textarea
-              id="info"
-              name="info"
-              value={data.info}
-              onChange={handleChange}
-            />
+            <div>
+              <label htmlFor="room">Room: </label>
+              <input
+                type="text"
+                id="room"
+                name="room"
+                value={data.room}
+                onChange={handleChange}
+              />
+            </div>
+          
+            <div>
+              <label htmlFor="info">Info: </label>
+              <textarea
+                id="info"
+                name="info"
+                value={data.info}
+                onChange={handleChange}
+              />
+            </div>
           </div>
+          <div className="flex justify-center pb-2">
             <div>
               <label htmlFor="color">Color: </label>
               <input 
@@ -140,6 +152,7 @@ export default function EditForm({hide, day, originalData, data, handleChange}:{
                 onChange={handleChange}>
               </input>
             </div>
+
           </div>
           
           

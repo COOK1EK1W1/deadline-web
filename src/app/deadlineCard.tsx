@@ -1,5 +1,5 @@
 "use client"
-import { ChangeEventHandler } from "react";
+import Link from "next/link";
 import { PiTrashBold, PiPencilBold } from "react-icons/pi"
 export default function DeadlineCard({semStart, data, handleEdit}: {semStart: Date, data: Deadline, handleEdit: Function}) {
   const days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
@@ -55,10 +55,10 @@ export default function DeadlineCard({semStart, data, handleEdit}: {semStart: Da
           </div>
         </div>
         <div>
-          {!(data.info && data.room && data.url) && <p className="text-sm">More info will apear here..</p>}
-          {data.info}
-          {data.room}
-          {data.url}
+          {(!data.info && !data.room && !data.url) && <p className="text-sm">More info will apear here..</p>}
+          <p>{data.info}</p>
+          {(data.room) && <p>Location: {data.room}</p>}
+          {(data.url) && <Link href={data.url} className="underline hover:no-underline">Spec/Submission</Link>}
         </div>
         
 
