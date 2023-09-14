@@ -79,7 +79,7 @@ export default function EditForm({hide, day, originalData, data, handleChange}:{
                 type="datetime-local"
                 id="start"
                 name="start"
-                value={data.start?.toISOString()}
+                value={data.start ? data.start.toISOString().substring(0, 16) : ""}
                 onChange={handleChange}
               />
             </div>
@@ -90,7 +90,7 @@ export default function EditForm({hide, day, originalData, data, handleChange}:{
                 type="datetime-local"
                 id="due"
                 name="due"
-                value={data.due.toISOString()}
+                value={data.due.toISOString().substring(0, 16)}
                 onChange={handleChange}
                 required
               />

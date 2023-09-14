@@ -27,6 +27,7 @@ export default function Modal({semStart, deadlines, today} : {semStart: Date, de
 
 
   function handleEdit(stuff: Deadline){
+    console.log(stuff)
     setShowEditForm(true)
     setCurrentEdit(stuff)
     setOriginalEdit(stuff)
@@ -34,10 +35,24 @@ export default function Modal({semStart, deadlines, today} : {semStart: Date, de
 
   const handleChange = (e : React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
+    let current: unknown = null
+
+    if (name == "due" || name =="start"){
+      //dates
+      current = new Date(value)
+    }else if(name == "mark" || name == "color"){
+      //numbers
+      current = Number(value)
+    }else{
+      //string
+      current = value
+    }
+
     setCurrentEdit({
       ...currentEdit,
-      [name]: value,
+      [name]: current,
     });
+    
   };
 
   //add all the deadline cards to the modal
