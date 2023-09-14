@@ -2,6 +2,7 @@
 import { useState } from "react"
 import Week from "./week"
 import Modal from "./modal"
+import { Deadline } from "@prisma/client"
 
 export default function Calendar({startDate, semesterStart, weeks, deadlines}: {startDate: Date, semesterStart:Date, weeks: number, deadlines:(Deadline|null)[][]}){
   const [showModal, setShowModal] = useState(false)

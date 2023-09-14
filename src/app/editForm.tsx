@@ -2,6 +2,7 @@
 import { ChangeEventHandler } from "react";
 import {AiOutlineClose} from "react-icons/ai"
 import { PiPaperPlaneTiltBold } from "react-icons/pi";
+import { Deadline } from "@prisma/client";
 export default function EditForm({hide, day, originalData, data, handleChange}:{hide: Function, day: Date, originalData: Deadline, data: Deadline, handleChange: ChangeEventHandler}){
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -78,7 +79,7 @@ export default function EditForm({hide, day, originalData, data, handleChange}:{
                 type="datetime-local"
                 id="start"
                 name="start"
-                value={data.start?.substring(0,16)}
+                value={data.start?.toISOString()}
                 onChange={handleChange}
               />
             </div>
@@ -89,7 +90,7 @@ export default function EditForm({hide, day, originalData, data, handleChange}:{
                 type="datetime-local"
                 id="due"
                 name="due"
-                value={data.due?.substring(0, 16)}
+                value={data.due.toISOString()}
                 onChange={handleChange}
                 required
               />
@@ -103,7 +104,7 @@ export default function EditForm({hide, day, originalData, data, handleChange}:{
                 type="number"
                 id="mark"
                 name="mark"
-                value={data.mark}
+                value={data.mark || 0}
                 onChange={handleChange}
               />
             </div>
@@ -113,7 +114,7 @@ export default function EditForm({hide, day, originalData, data, handleChange}:{
                 type="url"
                 id="url"
                 name="url"
-                value={data.url}
+                value={data.url || ""}
                 onChange={handleChange}
               />
             </div>
@@ -126,7 +127,7 @@ export default function EditForm({hide, day, originalData, data, handleChange}:{
                 type="text"
                 id="room"
                 name="room"
-                value={data.room}
+                value={data.room || ""}
                 onChange={handleChange}
               />
             </div>
@@ -136,7 +137,7 @@ export default function EditForm({hide, day, originalData, data, handleChange}:{
               <textarea
                 id="info"
                 name="info"
-                value={data.info}
+                value={data.info || ""}
                 onChange={handleChange}
               />
             </div>
@@ -148,7 +149,7 @@ export default function EditForm({hide, day, originalData, data, handleChange}:{
                 type="range" min={1} max={360}
                 id="color"
                 name="color"
-                value={data.color}
+                value={data.color || 1}
                 onChange={handleChange}>
               </input>
             </div>

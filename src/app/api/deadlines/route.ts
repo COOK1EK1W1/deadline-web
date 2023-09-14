@@ -2,6 +2,7 @@ import { NextResponse } from "next/server"
 import { sql } from "@vercel/postgres"
 import { revalidatePath, revalidateTag } from "next/cache"
 import { sha256 } from "js-sha256"
+import prisma from "@/config/prisma"
 
 export const dynamic = 'force-dynamic'
 
@@ -14,9 +15,9 @@ function validatePassword(password: string){
 
 export async function GET(request: Request){
   try{
-    const deadlines = await sql`SELECT * FROM deadlines`
-    console.log("query")
-    return NextResponse.json(deadlines)
+    const data = await prisma.deadline.findMany()
+
+    return NextResponse.json(data)
   }catch(error){
     return NextResponse.json({error: error, status: 500});
   }
