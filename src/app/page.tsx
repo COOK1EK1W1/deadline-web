@@ -1,5 +1,6 @@
 import Calendar from "./calendar"
 import { Deadline } from "@prisma/client"
+import prisma from "@/config/prisma"
 
 
 function firstBeforeSecond(first: Date, second: Date) : boolean{
@@ -75,9 +76,9 @@ export default async function Home() {
 
   // 
   // console.log(deadlines)
-  const response = await fetch(`${process.env.LOCAL_ADDRESS}/api/deadlines`, {next:{tags: ['deadlines'], revalidate: 15000}})
-  const deadlines: Deadline[] = (await response.json())
-  console.log(deadlines)
+  // const response = await fetch(`${process.env.LOCAL_ADDRESS}/api/deadlines`, {next:{tags: ['deadlines'], revalidate: 15000}})
+  console.log("db query")
+  const deadlines: Deadline[] = await prisma.deadline.findMany()
   const deadlinesForDays = getDeadlinesForDays(deadlines, startDate, weeks)
 
 

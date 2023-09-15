@@ -14,16 +14,16 @@ function validatePassword(password: string){
   return sha256(password) == superSecretPassword
 }
 
-export async function GET(request: Request){
-  try{
-    const data: Deadline[] = await prisma.deadline.findMany()
+// export async function GET(request: Request){
+//   try{
+//     const data: Deadline[] = await prisma.deadline.findMany()
 
-    return NextResponse.json(data)
-  }catch(error){
-    return NextResponse.json({error: error, status: 500});
-  }
+//     return NextResponse.json(data)
+//   }catch(error){
+//     return NextResponse.json({error: error, status: 500});
+//   }
   
-}
+// }
 
 export async function POST(request: Request){
   try{
@@ -42,9 +42,9 @@ export async function POST(request: Request){
     await prisma.deadline.create({data:rest})
 
     console.log("query")
-    revalidateTag("deadlines");
+    revalidatePath("/")
     return NextResponse.json({status: 200})
-
+    
   }catch(err){
     console.log(err)
     return NextResponse.json({error: err}, {status: 500})
@@ -61,9 +61,9 @@ export async function DELETE(request: Request){
     }
     console.log(data)
     await prisma.deadline.delete({where :{name_subject: {name: data.name, subject:data.subject}}})
-    revalidateTag("deadlines");
+    revalidatePath("/")
     return NextResponse.json({status: 200})
-
+    
   }catch(err){
     console.log(err)
     return NextResponse.json({error: err}, {status: 500})
@@ -90,7 +90,7 @@ export async function PUT(request: Request){
       }
     })
 
-    revalidateTag("deadlines");
+    revalidatePath("/")
     console.log(data)
     return NextResponse.json({status: 200})
 
