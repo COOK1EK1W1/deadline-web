@@ -24,15 +24,3 @@ type DBResponse = {
   }]
 
 }
-
-type Deadline = {
-    name: string;
-    subject: string;
-    start: string;
-    due: string;
-    mark: number;
-    room: string;
-    url: string;
-    info: string;
-    color: string;
-}

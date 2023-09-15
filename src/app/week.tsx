@@ -1,4 +1,5 @@
 "use client"
+import { Deadline } from "@prisma/client"
 
 import DateIco from "./date"
 

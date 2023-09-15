@@ -5,6 +5,7 @@ import DateIco from "./date"
 import DeadlineCard from "./deadlineCard"
 import EditForm from "./editForm"
 import { useState } from "react"
+import { Deadline } from "@prisma/client"
 
 export default function Modal({semStart, deadlines, today} : {semStart: Date, deadlines: (Deadline | undefined)[], today:Date}) {
 
@@ -13,19 +14,20 @@ export default function Modal({semStart, deadlines, today} : {semStart: Date, de
   const defaultDeadline: Deadline = {
     name: "",
     subject: "",
-    start: "",
-    due: "",
+    start: null,
+    due: today,
     mark: 0,
     room: "",
     url: "",
     info: "",
-    color: "1",
+    color: 1,
   }
   const [currentEdit, setCurrentEdit] = useState<Deadline>(defaultDeadline)
   const [originalEdit, setOriginalEdit] = useState<Deadline>(defaultDeadline)
 
 
   function handleEdit(stuff: Deadline){
+    console.log(stuff)
     setShowEditForm(true)
     setCurrentEdit(stuff)
     setOriginalEdit(stuff)
@@ -33,10 +35,24 @@ export default function Modal({semStart, deadlines, today} : {semStart: Date, de
 
   const handleChange = (e : React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
+    let current: unknown = null
+
+    if (name == "due" || name =="start"){
+      //dates
+      current = new Date(value)
+    }else if(name == "mark" || name == "color"){
+      //numbers
+      current = Number(value)
+    }else{
+      //string
+      current = value
+    }
+
     setCurrentEdit({
       ...currentEdit,
-      [name]: value,
+      [name]: current,
     });
+    
   };
 
   //add all the deadline cards to the modal

@@ -1,4 +1,6 @@
 import Calendar from "./calendar"
+import { Deadline } from "@prisma/client"
+import prisma from "@/config/prisma"
 
 
 function firstBeforeSecond(first: Date, second: Date) : boolean{
@@ -9,6 +11,7 @@ function firstBeforeSecond(first: Date, second: Date) : boolean{
 
 function getDeadlinesForDays(deadlines: Deadline[], startDate: Date, weeks: number){
   const deadlinesOrdered: (Deadline|null)[][] = []
+  console.log(deadlines)
   for (let i = 0; i < weeks*12; i++){
     //start of week date
     const dateOfDay = new Date(startDate.getTime() + 24*60*60*1000 * i)
@@ -73,10 +76,10 @@ export default async function Home() {
 
   // 
   // console.log(deadlines)
-  const deadlines = await fetch(`${process.env.LOCAL_ADDRESS}/api/deadlines`, {next:{tags: ['deadlines'], revalidate: 15000}})
-  const stuff: DBResponse = (await deadlines.json())
-  const {fields, rows} = stuff
-  const deadlinesForDays = getDeadlinesForDays(rows, startDate, weeks)
+  // const response = await fetch(`${process.env.LOCAL_ADDRESS}/api/deadlines`, {next:{tags: ['deadlines'], revalidate: 15000}})
+  console.log("db query")
+  const deadlines: Deadline[] = await prisma.deadline.findMany()
+  const deadlinesForDays = getDeadlinesForDays(deadlines, startDate, weeks)
 
 
   return (

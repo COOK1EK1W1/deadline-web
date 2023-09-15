@@ -1,4 +1,5 @@
 "use client"
+import { Deadline } from "@prisma/client";
 import Link from "next/link";
 import { PiTrashBold, PiPencilBold } from "react-icons/pi"
 export default function DeadlineCard({semStart, data, handleEdit}: {semStart: Date, data: Deadline, handleEdit: Function}) {
