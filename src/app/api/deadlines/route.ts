@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server"
-import { sql } from "@vercel/postgres"
 import { revalidatePath, revalidateTag } from "next/cache"
 import { sha256 } from "js-sha256"
 import prisma from "@/config/prisma"

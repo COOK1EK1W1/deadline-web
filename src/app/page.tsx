@@ -10,6 +10,7 @@ function firstBeforeSecond(first: Date, second: Date) : boolean{
 
 function getDeadlinesForDays(deadlines: Deadline[], startDate: Date, weeks: number){
   const deadlinesOrdered: (Deadline|null)[][] = []
+  console.log(deadlines)
   for (let i = 0; i < weeks*12; i++){
     //start of week date
     const dateOfDay = new Date(startDate.getTime() + 24*60*60*1000 * i)
@@ -76,6 +77,7 @@ export default async function Home() {
   // console.log(deadlines)
   const response = await fetch(`${process.env.LOCAL_ADDRESS}/api/deadlines`, {next:{tags: ['deadlines'], revalidate: 15000}})
   const deadlines: Deadline[] = (await response.json())
+  console.log(deadlines)
   const deadlinesForDays = getDeadlinesForDays(deadlines, startDate, weeks)
 
 
