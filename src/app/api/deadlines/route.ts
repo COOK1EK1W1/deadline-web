@@ -17,7 +17,7 @@ function validatePassword(password: string){
 
 export async function GET(request: Request){
   try{
-    const data = await prisma.deadline.findMany()
+    const data: Deadline[] = await prisma.deadline.findMany()
 
     return NextResponse.json(data)
   }catch(error){
