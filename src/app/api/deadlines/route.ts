@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server"
-import { revalidatePath, revalidateTag } from "next/cache"
+import { revalidatePath } from "next/cache"
 import { sha256 } from "js-sha256"
 import prisma from "@/config/prisma"
 import { Deadline } from "@prisma/client"
@@ -10,20 +10,15 @@ export const dynamic = 'force-dynamic'
 function validatePassword(password: string){
   console.log("validating")
   //you though you could just look in the code and find the password ahaha bozo
-  const superSecretPassword = "1cf8531a22348eeb2abe9b891c939707aa5abfab759f1f6be7abc4a763968ebc"
+  const truePassword = process.env.PASSWORD
+  if (!truePassword) {
+    console.error("no password in env")
+    return false
+  }
+  const superSecretPassword = sha256(truePassword)
   return sha256(password) == superSecretPassword
 }
 
-// export async function GET(request: Request){
-//   try{
-//     const data: Deadline[] = await prisma.deadline.findMany()
-
-//     return NextResponse.json(data)
-//   }catch(error){
-//     return NextResponse.json({error: error, status: 500});
-//   }
-  
-// }
 
 export async function POST(request: Request){
   try{
