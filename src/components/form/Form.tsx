@@ -8,7 +8,7 @@ type Props<
   FormatterKey extends keyof T,
 > = {
   initialData: T;
-  color: number;
+  color?: number;
   transformers?: Partial<Record<TransformerKey, (value: string) => T[TransformerKey]>>;
   formatters?: Partial<Record<FormatterKey, (value: T[FormatterKey]) => string>>;
   onSubmit?: (formData: T, event: React.FormEvent<HTMLFormElement>) => void;

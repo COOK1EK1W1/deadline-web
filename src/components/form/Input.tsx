@@ -7,18 +7,22 @@ type Props = {
   label: string;
   type: React.HTMLInputTypeAttribute;
   required?: boolean;
+  min?: number;
+  max?: number;
+  onChange?: (data: string, event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-export default function Input({ name, label, type, required }: Props) {
+export default function Input({ name, label, type, required, min, max, onChange }: Props) {
   const id = useId();
   const { getData, setData } = useFormContext();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setData(name, event.target.value);
+    onChange?.(event.target.value, event);
   };
 
   return (
-    <div className="pb-2">
+    <div>
       <label htmlFor={id}>{label}: </label>
       <input
         type={type}
@@ -27,6 +31,8 @@ export default function Input({ name, label, type, required }: Props) {
         value={getData(name)}
         onChange={handleChange}
         required={required}
+        min={min}
+        max={max}
       />
     </div>
   );

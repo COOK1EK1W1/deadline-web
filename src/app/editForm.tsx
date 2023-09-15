@@ -1,24 +1,35 @@
 "use client";
-import { ChangeEventHandler } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { PiPaperPlaneTiltBold } from "react-icons/pi";
 import { Deadline } from "@prisma/client";
 import { Form, Input } from '@/components/form';
+import { useState } from 'react';
 
-export default function EditForm({ hide, day, originalData, data, handleChange }: { hide: Function, day: Date, originalData: Deadline, data: Deadline, handleChange: ChangeEventHandler; }) {
+const transformers = {
+  start: (value: string) => new Date(value),
+  due: (value: string) => new Date(value),
+  mark: (value: string) => Number(value) || Number(value.slice(0, -1)),
+  color: (value: string) => Number(value) || Number(value.slice(0, -1)),
+};
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+const formatters = {
+  start: (value: Date | null) => value?.toISOString().substring(0, 16) ?? '',
+  due: (value: Date | null) => value?.toISOString().substring(0, 16) ?? '',
+};
 
+export default function EditForm({ hide, initialData }: { hide: Function, initialData: Deadline; }) {
+  const [color, setColor] = useState<number>(initialData.color ?? 1);
+
+  const handleSubmit = async (formData: Deadline) => {
     try {
       let response = null;
-      if (originalData.name !== "" && originalData.subject !== "") {
+      if (initialData.name !== "" && initialData.subject !== "") {
         response = await fetch('/api/deadlines', {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ ...data, oldName: originalData.name, oldSubject: originalData.subject, password: window.prompt("enter the password") }),
+          body: JSON.stringify({ ...formData, oldName: initialData.name, oldSubject: initialData.subject, password: window.prompt("enter the password") }),
         });
 
       } else {
@@ -27,7 +38,7 @@ export default function EditForm({ hide, day, originalData, data, handleChange }
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ ...data, password: window.prompt("enter password") }),
+          body: JSON.stringify({ ...formData, password: window.prompt("enter password") }),
         });
       }
 
@@ -43,126 +54,53 @@ export default function EditForm({ hide, day, originalData, data, handleChange }
     }
   };
 
-  return <form onSubmit={handleSubmit} className="p-2 bg-slate-200 mb-2 glass" style={{ backgroundColor: "lch(73% 41 " + data.color + ")" }}>
-    <div className="float-right">
-      <AiOutlineClose className="cursor-pointer" onClick={() => { hide(); }} />
-    </div>
-    <div className="flex justify-around flex-wrap">
-
-      <div className="pb-2">
-        <label htmlFor="name">Name: </label>
-        <input
-          type="text"
-          id="name"
-          name="name"
-          value={data.name}
-          onChange={handleChange}
-          required
-        />
-      </div>
-      <div className="pb-2">
-        <label htmlFor="subject">Subject: </label>
-        <input
-          type="text"
-          id="subject"
-          name="subject"
-          value={data.subject}
-          onChange={handleChange}
-          required
-          className="rounded"
-        />
-      </div>
-    </div>
-
-    <div className="flex flex-wrap justify-around pb-2">
-      <div>
-        <label htmlFor="startDate">Start Date: </label>
-        <input
-          type="datetime-local"
-          id="start"
-          name="start"
-          value={data.start ? data.start.toISOString().substring(0, 16) : ""}
-          onChange={handleChange}
-        />
+  return (
+    <Form
+      initialData={initialData}
+      transformers={transformers}
+      formatters={formatters} color={color}
+      onSubmit={handleSubmit}
+    >
+      <div className="float-right">
+        <AiOutlineClose className="cursor-pointer" onClick={() => hide()} />
       </div>
 
-      <div>
-        <label htmlFor="dueDate">Due Date: </label>
-        <input
-          type="datetime-local"
-          id="due"
-          name="due"
-          value={data.due.toISOString().substring(0, 16)}
-          onChange={handleChange}
-          required
-        />
+      <div className='flex flex-col gap-5'>
+        <div className="flex flex-wrap justify-around">
+          <Input name='name' label='Name' type='text' required />
+          <Input name='subject' label='Subject' type='text' required />
+        </div>
+
+        <div className="flex flex-wrap justify-around">
+          <Input name='start' label='Start Date' type='datetime-local' />
+          <Input name='due' label='Due Date' type='datetime-local' />
+        </div>
+
+        <div className="flex flex-wrap justify-around">
+          <Input name='mark' label='Mark' type='number' />
+          <Input name='url' label='URL' type='url' />
+        </div>
+
+        <div className="flex flex-wrap justify-around">
+          <Input name='room' label='Room' type='text' />
+          <Input name='info' label='Info' type='text' />
+        </div>
+
+        <div className="flex flex-wrap justify-around">
+          <Input
+            name='color'
+            label='Color'
+            type='range'
+            min={1}
+            max={360}
+            onChange={(value) => setColor(Number(value))}
+          />
+        </div>
+
+        <button type="submit" className="w-min self-center flex items-center gap-1 rounded-full bg-white p-2 hover:scale-105">
+          Submit <PiPaperPlaneTiltBold />
+        </button>
       </div>
-    </div>
-
-    <div className="flex flex-wrap justify-around pb-2">
-      <div>
-        <label htmlFor="mark">Mark: </label>
-        <input
-          type="number"
-          id="mark"
-          name="mark"
-          value={data.mark || 0}
-          onChange={handleChange}
-        />
-      </div>
-      <div>
-        <label htmlFor="url">Url: </label>
-        <input
-          type="url"
-          id="url"
-          name="url"
-          value={data.url || ""}
-          onChange={handleChange}
-        />
-      </div>
-
-    </div>
-    <div className="flex flex-wrap justify-around pb-2">
-      <div>
-        <label htmlFor="room">Room: </label>
-        <input
-          type="text"
-          id="room"
-          name="room"
-          value={data.room || ""}
-          onChange={handleChange}
-        />
-      </div>
-
-      <div>
-        <label htmlFor="info">Info: </label>
-        <textarea
-          id="info"
-          name="info"
-          value={data.info || ""}
-          onChange={handleChange}
-        />
-      </div>
-    </div>
-    <div className="flex justify-center pb-2">
-      <div>
-        <label htmlFor="color">Color: </label>
-        <input
-          type="range" min={1} max={360}
-          id="color"
-          name="color"
-          value={data.color || 1}
-          onChange={handleChange}>
-        </input>
-      </div>
-
-    </div>
-
-
-    <div className="flex justify-center">
-      <button type="submit" className="rounded-full bg-white p-2 hover:scale-105">Submit <PiPaperPlaneTiltBold style={{ display: "inline-block" }} /></button>
-    </div>
-  </form>;
-
-
+    </Form>
+  );
 }
