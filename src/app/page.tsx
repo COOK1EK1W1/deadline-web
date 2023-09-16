@@ -61,9 +61,29 @@ function getDeadlinesForDays(deadlines: Deadline[], startDate: Date, weeks: numb
       }
 
     }
-    //TODO optimise insertion
-    day = day.concat(newDay);
-    deadlinesOrdered.push(day)
+    const result: (Deadline | null)[] = [];
+
+    let newDayIndex = 0;
+  
+    for (const item of day) {
+      if (item === null) {
+        if (newDayIndex < newDay.length) {
+          result.push(newDay[newDayIndex]);
+          newDayIndex++;
+        } else {
+          result.push(null);
+        }
+      } else {
+        result.push(item);
+      }
+    }
+  
+    // If there are remaining deadlines in newDay, add them to the end
+    while (newDayIndex < newDay.length) {
+      result.push(newDay[newDayIndex]);
+      newDayIndex++;
+    }
+    deadlinesOrdered.push(result)
   }
   return deadlinesOrdered
 
