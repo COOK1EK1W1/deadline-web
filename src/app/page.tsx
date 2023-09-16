@@ -63,7 +63,7 @@ function getDeadlinesForDays(deadlines: Deadline[], startDate: Date, weeks: numb
     }
     //TODO optimise insertion
     day = day.concat(newDay);
-    deadlinesOrdered.push(deadlines);
+    // deadlinesOrdered.push(deadlines);
     deadlinesOrdered.push(day);
   }
   return deadlinesOrdered;
