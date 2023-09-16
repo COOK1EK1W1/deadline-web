@@ -3,7 +3,13 @@ import React from 'react';
 import Form from '@/components/form/Form';
 import Input from '@/components/form/Input';
 
-const data = {
+type Data = {
+  email: string;
+  age: number;
+  date: Date;
+};
+
+const data: Data = {
   email: "",
   age: 9,
   date: new Date()
@@ -20,8 +26,14 @@ const formatters = {
 
 export default function Test() {
   return (
-    <Form initialData={data} color={255} onSubmit={(data, event) => { console.log(data); }} transformers={transformer} formatters={formatters}>
-      <Input name='email' label='Email' type='week' />
+    <Form
+      initialData={data}
+      color={255}
+      transformers={transformer}
+      formatters={formatters}
+      onSubmit={(data, event) => console.log(data)}
+    >
+      <Input name='email' label='Email' type='email' />
       <Input name='age' label='Age' type='range' />
       <Input name='date' label='Age' type='datetime-local' />
       <button type='submit'>Submit</button>

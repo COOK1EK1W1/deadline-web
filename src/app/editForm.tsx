@@ -5,6 +5,8 @@ import { Deadline } from "@prisma/client";
 import { Form, Input } from '@/components/form';
 import { useState } from 'react';
 
+// transformers that convert values from the inputs to the correct type,
+// keep out of component to avoid unnecessary recreation of these objects on each render
 const transformers = {
   start: (value: string) => new Date(value),
   due: (value: string) => new Date(value),
@@ -12,6 +14,8 @@ const transformers = {
   color: (value: string) => Number(value) || Number(value.slice(0, -1)),
 };
 
+// formatters that convert values from state to a value that the inputs can use,
+// keep out of component to avoid unnecessary recreation of these objects on each render
 const formatters = {
   start: (value: Date | null) => value?.toISOString().substring(0, 16) ?? '',
   due: (value: Date | null) => value?.toISOString().substring(0, 16) ?? '',
@@ -58,7 +62,8 @@ export default function EditForm({ hide, initialData }: { hide: Function, initia
     <Form
       initialData={initialData}
       transformers={transformers}
-      formatters={formatters} color={color}
+      formatters={formatters}
+      color={color}
       onSubmit={handleSubmit}
     >
       <div className="float-right">
@@ -83,6 +88,7 @@ export default function EditForm({ hide, initialData }: { hide: Function, initia
 
         <div className="flex flex-wrap justify-around">
           <Input name='room' label='Room' type='text' />
+          {/* TODO create a Textarea component and replace info Input */}
           <Input name='info' label='Info' type='text' />
         </div>
 

@@ -3,8 +3,8 @@ import { useId } from 'react';
 import { useFormContext } from './form.context';
 
 type Props = {
-  name: string;
-  label: string;
+  name: string; // Form component uses `name` to keep track of data
+  label: string; // label that gets displayed to user
   type: React.HTMLInputTypeAttribute;
   required?: boolean;
   min?: number;
@@ -13,7 +13,7 @@ type Props = {
 };
 
 export default function Input({ name, label, type, required, min, max, onChange }: Props) {
-  const id = useId();
+  const id = useId(); // react will handle IDs for us
   const { getData, setData } = useFormContext();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
