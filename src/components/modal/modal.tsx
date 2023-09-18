@@ -1,15 +1,15 @@
 "use client";
 import { PiNotePencilBold } from "react-icons/pi";
-import DateIco from "./date";
+import DateIco from "@/app/date";
 import DeadlineCard from "./deadlineCard";
-import EditForm from "./editForm";
+import EditForm from "@/app/editForm";
 import { useContext, useState } from "react";
 import { Deadline } from "@prisma/client";
-import { Context } from "./calendar";
+import { Context } from "@/app/calendar";
 
 export default function Modal({ semStart, deadlines, today }: { semStart: Date, deadlines: (Deadline | null)[], today: Date; }) {
   const [showEditForm, setShowEditForm] = useState<boolean>(false);
-  const {openModal, closeModal, showCover, showModal} = useContext(Context)
+  const { closeModal, showCover, showModal } = useContext(Context)
 
   // no longer need to keep track of oldData and newData
   // as the Form component will not alter the oldData at all

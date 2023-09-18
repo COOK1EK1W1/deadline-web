@@ -2,7 +2,7 @@
 "use client"
 import React, { useState } from "react"
 import Week from "./week"
-import Modal from "./modal"
+import Modal from "../components/modal/modal"
 import { Deadline } from "@prisma/client"
 import { addDays, differenceInCalendarWeeks } from "date-fns"
 
@@ -12,7 +12,6 @@ export default function Calendar({ startDate, semesterStart, weeks, deadlines }:
   const [showModal, setShowModal] = useState(false)
   const [showCover, setshowCover] = useState(false)
 
-
   const [modalDeadlines, setModalDeadline] = useState<{ date: Date, deadlines: (Deadline | null)[] }>({ date: new Date(), deadlines: [] })
 
 
@@ -21,13 +20,12 @@ export default function Calendar({ startDate, semesterStart, weeks, deadlines }:
     setshowCover(true)
     setTimeout(() => setShowModal(true), 10);
     document.body.classList.add("modalOpen")
-
   }
+
   function closeModal() {
     setShowModal(false);
     setTimeout(() => setshowCover(false), 300);
     document.body.classList.remove("modalOpen");
-
   }
 
 
