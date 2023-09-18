@@ -1,14 +1,9 @@
 import Calendar from "./calendar"
 import { Deadline } from "@prisma/client"
 import prisma from "@/config/prisma"
-import { addDays } from "date-fns"
+import { addDays, isBefore, startOfDay } from "date-fns"
 
 
-function firstBeforeSecond(first: Date, second: Date): boolean {
-  const firstTime = new Date(first.toLocaleDateString()).getTime()
-  const secondTime = new Date(second.toLocaleDateString()).getTime()
-  return firstTime <= secondTime
-}
 
 function getDeadlinesForDays(deadlines: Deadline[], startDate: Date, weeks: number) {
   const deadlinesOrdered: (Deadline | null)[][] = []
@@ -25,8 +20,8 @@ function getDeadlinesForDays(deadlines: Deadline[], startDate: Date, weeks: numb
 
     //find deadlines which apply for today
     const relevantDeadlines = deadlines.filter((x) =>
-      firstBeforeSecond(dateOfDay, new Date(x.due)) &&
-      firstBeforeSecond(new Date(x.start || x.due), dateOfDay)
+      !isBefore(startOfDay(x.due), startOfDay(dateOfDay)) &&
+      !isBefore(startOfDay(dateOfDay), startOfDay(x.start || x.due))
     );
 
     //loop through each deadline and check if its in the day
