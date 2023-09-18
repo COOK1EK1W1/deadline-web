@@ -6,7 +6,7 @@ import EditForm from "./editForm";
 import { useState } from "react";
 import { Deadline } from "@prisma/client";
 
-export default function Modal({ semStart, deadlines, today }: { semStart: Date, deadlines: (Deadline | undefined)[], today: Date; }) {
+export default function Modal({ semStart, deadlines, today }: { semStart: Date, deadlines: (Deadline | null)[], today: Date; }) {
   const [showEditForm, setShowEditForm] = useState<boolean>(false);
 
   // no longer need to keep track of oldData and newData
