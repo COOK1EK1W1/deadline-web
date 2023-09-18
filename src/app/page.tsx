@@ -49,6 +49,7 @@ function getDeadlinesForDays(deadlines: Deadline[], startDate: Date, weeks: numb
             // deadline can be inserted
             // day[yesterdayPos] = x
             day.splice(yesterdayPos, 1, deadline);
+
           }
 
         } else {
@@ -83,9 +84,11 @@ function getDeadlinesForDays(deadlines: Deadline[], startDate: Date, weeks: numb
       result.push(newDay[newDayIndex]);
       newDayIndex++;
     }
+
     deadlinesOrdered.push(result)
   }
   return deadlinesOrdered
+
 }
 
 
@@ -94,12 +97,13 @@ export default async function Home() {
   const semesterStart = new Date(2023, 8, 11)
   const weeks = 17
 
+
   // 
   // console.log(deadlines)
   // const response = await fetch(`${process.env.LOCAL_ADDRESS}/api/deadlines`, {next:{tags: ['deadlines'], revalidate: 15000}})
-  console.log("db query")
-  const deadlines: Deadline[] = await prisma.deadline.findMany()
-  const deadlinesForDays = getDeadlinesForDays(deadlines, startDate, weeks)
+  console.log("db query");
+  const deadlines: Deadline[] = await prisma.deadline.findMany();
+  const deadlinesForDays = getDeadlinesForDays(deadlines, startDate, weeks);
 
 
   return (
@@ -107,5 +111,5 @@ export default async function Home() {
       <h1 className="py-6 text-4xl dark:text-white">Deadline o matic</h1>
       <Calendar startDate={startDate} semesterStart={semesterStart} weeks={weeks} deadlines={deadlinesForDays} />
     </main>
-  )
+  );
 }
