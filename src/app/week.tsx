@@ -13,7 +13,7 @@ function sameDay(first: Date, second: Date): boolean{
 }
 
 export default function Week({startOfWeek, deadlines}: {startOfWeek: Date, deadlines: (Deadline|null)[][]}){
-  const [openModal, closeModal] = useContext(Context)
+  const { openModal } = useContext(Context)
   // console.log(deadlines)
   const rows = []
   for (let i = 0; i < 7; i++){

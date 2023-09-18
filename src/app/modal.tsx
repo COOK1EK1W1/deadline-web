@@ -3,11 +3,13 @@ import { PiNotePencilBold } from "react-icons/pi";
 import DateIco from "./date";
 import DeadlineCard from "./deadlineCard";
 import EditForm from "./editForm";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Deadline } from "@prisma/client";
+import { Context } from "./calendar";
 
 export default function Modal({ semStart, deadlines, today }: { semStart: Date, deadlines: (Deadline | null)[], today: Date; }) {
   const [showEditForm, setShowEditForm] = useState<boolean>(false);
+  const {openModal, closeModal, showCover, showModal} = useContext(Context)
 
   // no longer need to keep track of oldData and newData
   // as the Form component will not alter the oldData at all
@@ -38,35 +40,41 @@ export default function Modal({ semStart, deadlines, today }: { semStart: Date, 
   }
 
   return (
-    <div className="m-2" onClick={(e) => e.stopPropagation()}>
-      <div className="flex justify-between">
-        <DateIco date={today} showDay={false} />
+    <div className={`modalCover ${showModal && "active"} ${showCover && "hidden"}`} onClick={() => { closeModal(); }}>
+      <div className="flex w-full h-full justify-center">
+        <div className="bg-white dark:bg-slate-800 rounded-3xl modalCard">
+          <div className="m-2" onClick={(e) => e.stopPropagation()}>
+            <div className="flex justify-between">
+              <DateIco date={today} showDay={false} />
 
-        {!showEditForm && <button type="button" className="bg-green-300 hover:bg-blue-400 rounded-full m-1 p-1 w-40" onClick={handleClickCreate}>
-          <PiNotePencilBold style={{ display: "inline" }} /> Create New
-        </button>}
-      </div>
+              {!showEditForm && <button type="button" className="bg-green-300 hover:bg-blue-400 rounded-full m-1 p-1 w-40" onClick={handleClickCreate}>
+                <PiNotePencilBold style={{ display: "inline" }} /> Create New
+              </button>}
+            </div>
 
-      <div className="h-[53vh] overflow-y-auto">
-        {showEditForm && <EditForm hide={() => setShowEditForm(false)} initialData={deadline} />}
+            <div className="h-[53vh] overflow-y-auto">
+              {showEditForm && <EditForm hide={() => setShowEditForm(false)} initialData={deadline} />}
 
-        {deadlines
-          .filter((deadline): deadline is Deadline => !!deadline) // filter out all deadlines which are null
-          .map((deadline) => (
-            <DeadlineCard
-              key={`${deadline.name}-${deadline.subject}`}
-              data={deadline}
-              semStart={semStart}
-              handleEdit={() => handleClickEdit(deadline)}
-            />
-          ))}
+              {deadlines
+                .filter((deadline): deadline is Deadline => !!deadline) // filter out all deadlines which are null
+                .map((deadline) => (
+                  <DeadlineCard
+                    key={`${deadline.name}-${deadline.subject}`}
+                    data={deadline}
+                    semStart={semStart}
+                    handleEdit={() => handleClickEdit(deadline)}
+                  />
+                ))}
 
-        {(deadlines
-          .filter((deadline): deadline is Deadline => !!deadline)
-          .length == 0
-        ) && !showEditForm && (
-            <div className="flex justify-center p-8">No Deadlines!!</div>
-          )}
+              {(deadlines
+                .filter((deadline): deadline is Deadline => !!deadline)
+                .length == 0
+              ) && !showEditForm && (
+                  <div className="flex justify-center p-8">No Deadlines!!</div>
+                )}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
