@@ -2,6 +2,7 @@
 import { Deadline } from "@prisma/client"
 
 import DateIco from "./date"
+import { addDays } from "date-fns"
 
 function sameDay(first: Date, second: Date): boolean{
   const firstTime = first.toLocaleDateString()
@@ -13,7 +14,7 @@ export default function Week({startOfWeek, deadlines, modal}: {startOfWeek: Date
   // console.log(deadlines)
   const rows = []
   for (let i = 0; i < 7; i++){
-    const dateOfDay: Date = new Date(startOfWeek.getTime() + 24*60*60*1000 * i)
+    const dateOfDay: Date = addDays(startOfWeek, i)
     // console.log(deadlines)
     rows.push(
       <div key={i} className="w-full h-28 border cursor-pointer dark:border-slate-700 " onClick={()=>{modal({date: dateOfDay, deadlines: deadlines[i]})}}>   
