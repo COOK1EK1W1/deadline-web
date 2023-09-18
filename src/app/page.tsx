@@ -11,11 +11,11 @@ function getDeadlinesForDays(deadlines: Deadline[], startDate: Date, weeks: numb
   for (let i = 0; i < weeks * 7; i++) {
     //start of week date
 
-    //TODO implement so is timezone compliant
     const dateOfDay = addDays(startDate, i)
 
-    //array to hold deadlines for that day
+    //array to hold deadlines for that day, in correct position from yesterday
     let day: (Deadline | null)[] = []
+    //deadlines which have not been in the calendar before today
     const newDay: (Deadline | null)[] = []
 
     //find deadlines which apply for today
@@ -59,10 +59,12 @@ function getDeadlinesForDays(deadlines: Deadline[], startDate: Date, weeks: numb
         }
       }
     }
-    const result: (Deadline | null)[] = [];
 
+    //merge the newDay Deadlines, and the day deadlines
+    const result: (Deadline | null)[] = [];
     let newDayIndex = 0;
 
+    //loop through the day, and fill in undefined spots with newDay deadlines
     for (const item of day) {
       if (item === null) {
         if (newDayIndex < newDay.length) {
