@@ -3,7 +3,7 @@ import { Deadline } from "@prisma/client"
 
 import DateIco from "./date"
 import { addDays } from "date-fns"
-import { Context } from "@/components/modal/modalProvider"
+import { ContextMutator } from "@/components/modal/modalProvider"
 import { useContext } from "react"
 
 function sameDay(first: Date, second: Date): boolean{
@@ -13,12 +13,12 @@ function sameDay(first: Date, second: Date): boolean{
 }
 
 export default function Week({startOfWeek, deadlines}: {startOfWeek: Date, deadlines: (Deadline|null)[][]}){
-  const { openModal } = useContext(Context)
+  const { openModal } = useContext(ContextMutator)
   // console.log(deadlines)
   const rows = []
   for (let i = 0; i < 7; i++){
     const dateOfDay: Date = addDays(startOfWeek, i)
-    // console.log("render")
+    console.log("render")
     // console.log(deadlines)
     rows.push(
       <div key={i} className="w-full h-28 border cursor-pointer dark:border-slate-700 " onClick={()=>{openModal({date: dateOfDay, deadlines: deadlines[i]})}}>   

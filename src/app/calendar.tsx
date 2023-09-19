@@ -34,10 +34,11 @@ export default function Calendar({ startDate, semesterStart, weeks, deadlines }:
 
         ))}
       </div>
-      <ModalProvider>
+      <ModalProvider modal={(
+          <Modal semStart={semesterStart}/>
+        )}>
         {rows}
 
-        <Modal semStart={semesterStart}/>
       </ModalProvider>
     </div>
   </>

@@ -2,17 +2,21 @@ import { Deadline } from "@prisma/client"
 import React, { ReactNode } from "react"
 import { useState } from "react"
 
-type ModalContext = {
-  openModal: (d: { date: Date, deadlines: (Deadline | null)[]}) => void, 
-  closeModal: () => void, 
+type ModalDataContext = {
   showCover: boolean, 
   showModal: boolean, 
   modalDeadlines: {date: Date, deadlines: ( Deadline|null)[]}, 
 }
 
-export const Context = React.createContext<ModalContext>(undefined as any)
+type ModalMutatorContext2 = {
+  openModal: (d: { date: Date, deadlines: (Deadline | null)[]}) => void, 
+  closeModal: () => void, 
+}
 
-export function ModalProvider({children}:{children:ReactNode}) {
+export const ContextData = React.createContext<ModalDataContext>(undefined as any)
+export const ContextMutator = React.createContext<ModalMutatorContext2>(undefined as any)
+
+export function ModalProvider({children, modal}:{children:ReactNode, modal: ReactNode}) {
 
   const [modalDeadlines, setModalDeadlines] = useState<{ date: Date, deadlines: (Deadline | null)[] }>({ date: new Date(), deadlines: [] })
 
@@ -33,8 +37,11 @@ export function ModalProvider({children}:{children:ReactNode}) {
   }
 
   return (
-    <Context.Provider value={{ openModal, closeModal, showCover, showModal, modalDeadlines }}>
+    <ContextMutator.Provider value={{openModal, closeModal}}>
       {children}
-    </Context.Provider>
+      <ContextData.Provider value={{ showCover, showModal, modalDeadlines }}>
+        {modal}
+      </ContextData.Provider>
+    </ContextMutator.Provider>
   )
 }

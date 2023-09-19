@@ -5,11 +5,12 @@ import DeadlineCard from "./deadlineCard";
 import EditForm from "@/app/editForm";
 import { useContext, useState } from "react";
 import { Deadline } from "@prisma/client";
-import { Context } from "./modalProvider";
+import { ContextData, ContextMutator } from "./modalProvider";
 
 export default function Modal({ semStart }: { semStart: Date }) {
   const [showEditForm, setShowEditForm] = useState<boolean>(false);
-  const { closeModal, showCover, showModal, modalDeadlines } = useContext(Context)
+  const {showCover, showModal, modalDeadlines } = useContext(ContextData)
+  const { closeModal } = useContext(ContextMutator)
 
   // no longer need to keep track of oldData and newData
   // as the Form component will not alter the oldData at all
