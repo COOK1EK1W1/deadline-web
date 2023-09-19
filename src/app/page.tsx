@@ -93,16 +93,18 @@ function getDeadlinesForDays(deadlines: Deadline[], startDate: Date, weeks: numb
 
 
 export default async function Home() {
+  //check if env variables exist
   if (!process.env.START_DATE || !process.env.SEMESTER_START || !process.env.TOTAL_WEEKS) {
     throw new Error("env variables missing")
   }
+
+  //the start of the calendar
   const startDate = parseISO(process.env.START_DATE)
+  //the start of the numbered weeks
   const semesterStart = parseISO(process.env.SEMESTER_START)
   const weeks = Number(process.env.TOTAL_WEEKS)
 
-  // 
-  // console.log(deadlines)
-  // const response = await fetch(`${process.env.LOCAL_ADDRESS}/api/deadlines`, {next:{tags: ['deadlines'], revalidate: 15000}})
+  //retrieve deadlines from database
   console.log("db query");
   const deadlines: Deadline[] = await prisma.deadline.findMany();
   const deadlinesForDays = getDeadlinesForDays(deadlines, startDate, weeks);
