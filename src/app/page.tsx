@@ -7,7 +7,7 @@ import { addDays, isBefore, startOfDay } from "date-fns"
 
 function getDeadlinesForDays(deadlines: Deadline[], startDate: Date, weeks: number) {
   const deadlinesOrdered: (Deadline | null)[][] = []
-  console.log(deadlines)
+  // console.log(deadlines)
   for (let i = 0; i < weeks * 7; i++) {
     //start of week date
 
