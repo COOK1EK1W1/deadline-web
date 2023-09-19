@@ -5,11 +5,11 @@ import DeadlineCard from "./deadlineCard";
 import EditForm from "@/app/editForm";
 import { useContext, useState } from "react";
 import { Deadline } from "@prisma/client";
-import { Context } from "@/app/calendar";
+import { Context } from "./modalProvider";
 
-export default function Modal({ semStart, deadlines, today }: { semStart: Date, deadlines: (Deadline | null)[], today: Date; }) {
+export default function Modal({ semStart }: { semStart: Date }) {
   const [showEditForm, setShowEditForm] = useState<boolean>(false);
-  const { closeModal, showCover, showModal } = useContext(Context)
+  const { closeModal, showCover, showModal, modalDeadlines } = useContext(Context)
 
   // no longer need to keep track of oldData and newData
   // as the Form component will not alter the oldData at all
@@ -23,7 +23,7 @@ export default function Modal({ semStart, deadlines, today }: { semStart: Date, 
       name: "",
       subject: "",
       start: null,
-      due: today,
+      due: modalDeadlines.date,
       mark: 0,
       room: "",
       url: "",
@@ -45,7 +45,7 @@ export default function Modal({ semStart, deadlines, today }: { semStart: Date, 
         <div className="bg-white dark:bg-slate-800 rounded-3xl modalCard">
           <div className="m-2" onClick={(e) => e.stopPropagation()}>
             <div className="flex justify-between">
-              <DateIco date={today} showDay={false} />
+              <DateIco date={modalDeadlines.date} showDay={false} />
 
               {!showEditForm && <button type="button" className="bg-green-300 hover:bg-blue-400 rounded-full m-1 p-1 w-40" onClick={handleClickCreate}>
                 <PiNotePencilBold style={{ display: "inline" }} /> Create New
@@ -55,7 +55,7 @@ export default function Modal({ semStart, deadlines, today }: { semStart: Date, 
             <div className="h-[53vh] overflow-y-auto">
               {showEditForm && <EditForm hide={() => setShowEditForm(false)} initialData={deadline} />}
 
-              {deadlines
+              {modalDeadlines.deadlines
                 .filter((deadline): deadline is Deadline => !!deadline) // filter out all deadlines which are null
                 .map((deadline) => (
                   <DeadlineCard
@@ -66,7 +66,7 @@ export default function Modal({ semStart, deadlines, today }: { semStart: Date, 
                   />
                 ))}
 
-              {(deadlines
+              {(modalDeadlines.deadlines
                 .filter((deadline): deadline is Deadline => !!deadline)
                 .length == 0
               ) && !showEditForm && (
