@@ -2,7 +2,7 @@
 import { PiNotePencilBold } from "react-icons/pi";
 import DateIco from "@/app/date";
 import DeadlineCard from "./deadlineCard";
-import EditForm from "@/app/editForm";
+import EditForm from "./editForm";
 import { useContext, useState } from "react";
 import { Deadline } from "@prisma/client";
 import { ContextData, ContextMutator } from "./modalProvider";
