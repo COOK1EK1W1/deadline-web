@@ -1,5 +1,5 @@
 "use client";
-import { useState, useCallback } from 'react';
+import { useState, useCallback, FormEvent } from 'react';
 import { FormContext } from './form.context';
 
 // TODO typing for transformers and formatters does not work correctly
@@ -48,6 +48,7 @@ type Props<
    * alongside the original event if needed
    */
   onSubmit?: (formData: T, event: React.FormEvent<HTMLFormElement>) => void;
+  onChange?: (formData: T, event: React.FormEvent<HTMLFormElement>) => void;
   children: React.ReactNode;
 };
 
@@ -56,7 +57,7 @@ export default function Form<
   TransformerKey extends keyof T,
   FormatterKey extends keyof T,
 >(
-  { initialData, color, transformers, formatters, onSubmit, children }: Props<T, TransformerKey, FormatterKey>
+  { initialData, color, transformers, formatters, onSubmit, onChange, children }: Props<T, TransformerKey, FormatterKey>
 ) {
   // initialise form data using initialData
   // initialData will not be used after this point, nor will it ever change
@@ -65,8 +66,9 @@ export default function Form<
   const setData = useCallback((key: TransformerKey, value: string) => {
     // transform the `string` data from the input to the correct type before storing in state
     // this is done using the correspoding transformer function
-    const transformedValue = (transformers && transformers[key]?.(value)) ?? value;;
+    const transformedValue = (transformers && transformers[key]?.(value)) ?? value;
     setFormData((prev) => ({ ...prev, [key]: transformedValue }));
+    // onChange?.({ [key]: transformedValue });
   }, [transformers, setFormData]);
 
   const getData = useCallback((key: FormatterKey): string => {
@@ -80,11 +82,23 @@ export default function Form<
     onSubmit?.(formData, event);
   };
 
+  const handleChange = (event: React.FormEvent<HTMLFormElement>) => {
+    if ("name" in event.target && "value" in event.target) {
+      const key = event.target.name as keyof T;
+      const value = event.target.value as string;
+      const transformedValue = (transformers && transformers[key]?.(value)) ?? value;
+      onChange?.({ ...formData, [key]: transformedValue }, event);
+    } else {
+      onChange?.(formData, event);
+    }
+  };
+
   return (
     // when the children use the `useFormContext` hook, they will receive an object: { getData, setData }
     <FormContext.Provider value={{ getData: getData as any, setData: setData as any }}>
       <form
         onSubmit={handleSubmit}
+        onChange={handleChange}
         className="p-2 bg-slate-200 mb-2 glass"
         style={{ backgroundColor: `lch(73% 41 ${color})` }}
       >
