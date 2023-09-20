@@ -7,10 +7,10 @@ import { useContext, useState } from "react";
 import { Deadline } from "@prisma/client";
 import { ContextData, ContextMutator } from "./modalProvider";
 
-export default function Modal({ semStart }: { semStart: Date }) {
+export default function Modal({ semStart }: { semStart: Date; }) {
   const [showEditForm, setShowEditForm] = useState<boolean>(false);
-  const {showCover, showModal, modalDeadlines } = useContext(ContextData)
-  const { closeModal } = useContext(ContextMutator)
+  const { showCover, showModal, modalDeadlines } = useContext(ContextData);
+  const { closeModal } = useContext(ContextMutator);
 
   // no longer need to keep track of oldData and newData
   // as the Form component will not alter the oldData at all
@@ -40,8 +40,13 @@ export default function Modal({ semStart }: { semStart: Date }) {
     setShowEditForm(true);
   }
 
+  function handleCloseModal() {
+    closeModal();
+    setShowEditForm(false);
+  }
+
   return (
-    <div className={`modalCover ${showModal && "active"} ${showCover && "hidden"}`} onClick={() => { closeModal(); }}>
+    <div className={`modalCover ${showModal && "active"} ${showCover && "hidden"}`} onClick={handleCloseModal}>
       <div className="flex w-full h-full justify-center">
         <div className="bg-white dark:bg-slate-800 rounded-3xl modalCard">
           <div className="m-2" onClick={(e) => e.stopPropagation()}>
