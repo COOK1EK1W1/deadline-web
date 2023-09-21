@@ -1,3 +1,4 @@
+import { Analytics } from '@vercel/analytics/react'
 import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
@@ -16,7 +17,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} bg-white dark:bg-slate-800 dark:text-white`}>{children}</body>
+      <body className={`${inter.className} bg-white dark:bg-slate-800 dark:text-white`}>
+        {children}
+        <Analytics />
+      </body>
     </html>
   )
 }
