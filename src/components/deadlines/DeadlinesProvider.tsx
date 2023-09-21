@@ -2,7 +2,7 @@
 // import prisma from '@/config/prisma';
 import { DeadlinesContext } from './deadlines.context';
 import { getDeadlinesForDays } from './deadlines.util';
-import { parseISO } from "date-fns";
+// import { parseISO } from "date-fns";
 import { useMemo } from 'react';
 
 type Props = {
@@ -14,6 +14,7 @@ type Props = {
 
 export default function DeadlinesProvider({ children, deadlines, startDate, weeks }: Props) {
   const deadlinesValue = useMemo(() => {
+    console.log("render DeadlinesProvider @ getDeadlinesForDays");
     return getDeadlinesForDays(deadlines, startDate, weeks);
   }, [deadlines, startDate, weeks]);
 

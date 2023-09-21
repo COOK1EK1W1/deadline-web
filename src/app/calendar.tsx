@@ -7,8 +7,8 @@ import { addDays, differenceInCalendarWeeks, format } from "date-fns";
 import { ModalProvider } from "@/components/modal/modalProvider";
 import { useDeadlinesContext } from '@/components/deadlines';
 
-export default function Calendar({ startDate, semesterStart, weeks, deadlines }: { startDate: Date, semesterStart: Date, weeks: number, deadlines: (Deadline | null)[][]; }) {
-  const deadlines2 = useDeadlinesContext();
+export default function Calendar({ startDate, semesterStart, weeks }: { startDate: Date, semesterStart: Date, weeks: number; }) {
+  const deadlines = useDeadlinesContext();
 
   const rows = [];
   for (var i = 0; i < weeks; i++) {
@@ -23,7 +23,7 @@ export default function Calendar({ startDate, semesterStart, weeks, deadlines }:
       );
     }
     rows.push(
-      <Week startOfWeek={dateOfWeek} key={i * 2 + 1} deadlines={deadlines2.slice(0 + i * 7, 7 + i * 7)}></Week>
+      <Week startOfWeek={dateOfWeek} key={i * 2 + 1} deadlines={deadlines.slice(0 + i * 7, 7 + i * 7)}></Week>
     );
   }
 
