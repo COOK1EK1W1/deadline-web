@@ -5,6 +5,12 @@ import { Deadline } from "@prisma/client";
 import { Form, Input } from '@/components/form';
 import { useState } from 'react';
 
+type Props = {
+  initialData: Deadline;
+  onClose: () => void;
+  onChange: () => void;
+};
+
 // transformers that convert values from the inputs to the correct type,
 // keep out of component to avoid unnecessary recreation of these objects on each render
 const transformers = {
@@ -21,7 +27,7 @@ const formatters = {
   due: (value: Date | null) => value?.toISOString().substring(0, 16) ?? '',
 };
 
-export default function EditForm({ hide, initialData }: { hide: Function, initialData: Deadline; }) {
+export default function EditForm({ onClose, onChange, initialData }: Props) {
   const [color, setColor] = useState<number>(initialData.color ?? 1);
 
   const handleSubmit = async (formData: Deadline) => {
@@ -65,9 +71,10 @@ export default function EditForm({ hide, initialData }: { hide: Function, initia
       formatters={formatters}
       color={color}
       onSubmit={handleSubmit}
+      onChange={() => onChange()}
     >
       <div className="float-right">
-        <AiOutlineClose className="cursor-pointer" onClick={() => hide()} />
+        <AiOutlineClose className="cursor-pointer" onClick={() => onClose()} />
       </div>
 
       <div className='flex flex-col gap-5'>
