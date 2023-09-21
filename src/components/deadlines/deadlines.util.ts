@@ -1,22 +1,22 @@
-import Calendar from "./calendar"
-import { Deadline } from "@prisma/client"
-import prisma from "@/config/prisma"
-import { addDays, isBefore, startOfDay, parseISO } from "date-fns"
+import { Deadline } from '@prisma/client';
+import { addDays, isBefore, startOfDay, parseISO } from "date-fns";
 
-
-
-function getDeadlinesForDays(deadlines: Deadline[], startDate: Date, weeks: number) {
-  const deadlinesOrdered: (Deadline | null)[][] = []
+export function getDeadlinesForDays(
+  deadlines: Deadline[],
+  startDate: Date,
+  weeks: number,
+): (Deadline | null)[][] {
+  const deadlinesOrdered: (Deadline | null)[][] = [];
   // console.log(deadlines)
   for (let i = 0; i < weeks * 7; i++) {
     //start of week date
 
-    const dateOfDay = addDays(startDate, i)
+    const dateOfDay = addDays(startDate, i);
 
     //array to hold deadlines for that day, in correct position from yesterday
-    let day: (Deadline | null)[] = []
+    let day: (Deadline | null)[] = [];
     //deadlines which have not been in the calendar before today
-    const newDay: (Deadline | null)[] = []
+    const newDay: (Deadline | null)[] = [];
 
     //find deadlines which apply for today
     const relevantDeadlines = deadlines.filter((x) =>
@@ -33,7 +33,7 @@ function getDeadlinesForDays(deadlines: Deadline[], startDate: Date, weeks: numb
 
       } else {
         //find if and what the position of the deadline was yesterday
-        const yesterdayPos = deadlinesOrdered[i - 1].indexOf(deadline)
+        const yesterdayPos = deadlinesOrdered[i - 1].indexOf(deadline);
 
         if (yesterdayPos > -1) {
           //the deadline was on yesterday
@@ -41,10 +41,10 @@ function getDeadlinesForDays(deadlines: Deadline[], startDate: Date, weeks: numb
           if (yesterdayPos > day.length) {
             //extend the array with null
             while (yesterdayPos > (day.length)) {
-              day.push(null)
+              day.push(null);
             }
             //add the deadline to the array
-            day.push(deadline)
+            day.push(deadline);
           } else {
             // deadline can be inserted
             // day[yesterdayPos] = x
@@ -55,7 +55,7 @@ function getDeadlinesForDays(deadlines: Deadline[], startDate: Date, weeks: numb
         } else {
           // day.push(x)
           // add at next open pos
-          newDay.push(deadline)
+          newDay.push(deadline);
 
         }
       }
@@ -85,35 +85,8 @@ function getDeadlinesForDays(deadlines: Deadline[], startDate: Date, weeks: numb
       newDayIndex++;
     }
 
-    deadlinesOrdered.push(result)
-  }
-  return deadlinesOrdered
-
-}
-
-
-export default async function Home() {
-  //check if env variables exist
-  if (!process.env.START_DATE || !process.env.SEMESTER_START || !process.env.TOTAL_WEEKS) {
-    throw new Error("env variables missing")
+    deadlinesOrdered.push(result);
   }
 
-  //the start of the calendar
-  const startDate = parseISO(process.env.START_DATE)
-  //the start of the numbered weeks
-  const semesterStart = parseISO(process.env.SEMESTER_START)
-  const weeks = Number(process.env.TOTAL_WEEKS)
-
-  //retrieve deadlines from database
-  console.log("db query");
-  const deadlines: Deadline[] = await prisma.deadline.findMany();
-  const deadlinesForDays: (Deadline | null)[][] = getDeadlinesForDays(deadlines, startDate, weeks);
-
-
-  return (
-    <main className="flex flex-col items-center">
-      <h1 className="py-6 text-4xl dark:text-white">Deadline o matic</h1>
-      <Calendar startDate={startDate} semesterStart={semesterStart} weeks={weeks} deadlines={deadlinesForDays} />
-    </main>
-  );
+  return deadlinesOrdered;
 }
