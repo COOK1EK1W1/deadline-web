@@ -1,17 +1,18 @@
+"use client";
+import React from "react";
+import Week from "./week";
+import Modal from "../components/modal/modal";
+import { Deadline } from "@prisma/client";
+import { addDays, differenceInCalendarWeeks, format } from "date-fns";
+import { ModalProvider } from "@/components/modal/modalProvider";
+import { useDeadlinesContext } from '@/components/deadlines';
 
-"use client"
-import React from "react"
-import Week from "./week"
-import Modal from "../components/modal/modal"
-import { Deadline } from "@prisma/client"
-import { addDays, differenceInCalendarWeeks, format } from "date-fns"
-import { ModalProvider } from "@/components/modal/modalProvider"
+export default function Calendar({ startDate, semesterStart, weeks, deadlines }: { startDate: Date, semesterStart: Date, weeks: number, deadlines: (Deadline | null)[][]; }) {
+  const deadlines2 = useDeadlinesContext();
 
-export default function Calendar({ startDate, semesterStart, weeks, deadlines }: { startDate: Date, semesterStart: Date, weeks: number, deadlines: (Deadline | null)[][] }) {
-  
-  const rows = []
+  const rows = [];
   for (var i = 0; i < weeks; i++) {
-    const dateOfWeek = addDays(startDate, 7 * i)
+    const dateOfWeek = addDays(startDate, 7 * i);
     if (semesterStart.getTime() <= dateOfWeek.getTime()) {
 
       rows.push(
@@ -22,7 +23,7 @@ export default function Calendar({ startDate, semesterStart, weeks, deadlines }:
       );
     }
     rows.push(
-      <Week startOfWeek={dateOfWeek} key={i * 2 + 1} deadlines={deadlines.slice(0 + i * 7, 7 + i * 7)}></Week>
+      <Week startOfWeek={dateOfWeek} key={i * 2 + 1} deadlines={deadlines2.slice(0 + i * 7, 7 + i * 7)}></Week>
     );
   }
 
@@ -35,12 +36,12 @@ export default function Calendar({ startDate, semesterStart, weeks, deadlines }:
         ))}
       </div>
       <ModalProvider modal={(
-          <Modal semStart={semesterStart}/>
-        )}>
+        <Modal semStart={semesterStart} />
+      )}>
         {rows}
 
       </ModalProvider>
     </div>
-  </>
+  </>;
 
 }

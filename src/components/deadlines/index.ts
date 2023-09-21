@@ -1,2 +1,2 @@
-export { default as DeadlineProvider } from "./DeadlinesProvider";
+export { default as DeadlinesProvider } from "./DeadlinesProvider";
 export { useDeadlinesContext } from "./deadlines.context";

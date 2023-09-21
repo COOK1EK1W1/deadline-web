@@ -1,28 +1,24 @@
-import prisma from '@/config/prisma';
+"use client";
+// import prisma from '@/config/prisma';
 import { DeadlinesContext } from './deadlines.context';
 import { getDeadlinesForDays } from './deadlines.util';
 import { parseISO } from "date-fns";
 import { useMemo } from 'react';
 
-// TODO replace with config file that contains constants and env variables
-if (!process.env.START_DATE || !process.env.SEMESTER_START || !process.env.TOTAL_WEEKS) {
-  throw new Error("env variables missing");
-}
-const startDate = parseISO(process.env.START_DATE);
-const weeks = Number(process.env.TOTAL_WEEKS);
-
 type Props = {
   children: React.ReactNode;
+  deadlines: any;
+  startDate: any;
+  weeks: any;
 };
 
-export default async function DeadlinesProvider({ children }: Props) {
-  const deadlines = await useMemo(async () => {
-    const prismaDeadlines = await prisma.deadline.findMany();
-    return getDeadlinesForDays(prismaDeadlines, startDate, weeks);
-  }, []);
+export default function DeadlinesProvider({ children, deadlines, startDate, weeks }: Props) {
+  const deadlinesValue = useMemo(() => {
+    return getDeadlinesForDays(deadlines, startDate, weeks);
+  }, [deadlines, startDate, weeks]);
 
   return (
-    <DeadlinesContext.Provider value={deadlines}>
+    <DeadlinesContext.Provider value={deadlinesValue}>
       {children}
     </DeadlinesContext.Provider>
   );
