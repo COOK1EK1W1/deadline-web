@@ -1,10 +1,10 @@
 "use client"
 import { Deadline } from "@prisma/client";
+import { differenceInWeeks, format } from "date-fns";
 import Link from "next/link";
 import { PiTrashBold, PiPencilBold } from "react-icons/pi"
 
 export default function DeadlineCard({ semStart, data, handleEdit }: { semStart: Date, data: Deadline, handleEdit: Function }) {
-  const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 
   if (!data) return null;
 
@@ -46,16 +46,19 @@ export default function DeadlineCard({ semStart, data, handleEdit }: { semStart:
         <span>{data.mark}%</span>
 
       </div>
+
       <div className="flex flex-wrap justify-start pb-2">
         {data.start && <div className="pr-4 pb-4">
-          <p>Starts: {new Date(data.start).toLocaleDateString()} at {new Date(data.start).toLocaleTimeString()}</p>
-          <p>{days[new Date(data.start).getDay()]} of week {Math.floor((new Date(data.due).getTime() - semStart.getTime()) / (24 * 60 * 60 * 7 * 1000)) + 1}</p>
+          <p>Starts: { format(data.start, "Pp")}</p>
+          <p>{`${format(data.start, 'EEEE')} of week ${differenceInWeeks(data.start, semStart) + 1}`}
+        </p>
         </div>}
         <div>
           <p>Due: {new Date(data.due).toLocaleDateString()} at {new Date(data.due).toLocaleTimeString()}</p>
-          <p>{days[new Date(data.due).getDay()]} of week {Math.floor((new Date(data.due).getTime() - semStart.getTime()) / (24 * 60 * 60 * 7 * 1000)) + 1}</p>
+          <p>{format(data.due, 'EEEE')} of week {differenceInWeeks(data.due, semStart) + 1}</p>
         </div>
       </div>
+
       <div>
         {(!data.info && !data.room && !data.url) && <p className="text-sm">More info will apear here..</p>}
         <p>{data.info}</p>

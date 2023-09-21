@@ -4,7 +4,7 @@ import React from "react"
 import Week from "./week"
 import Modal from "../components/modal/modal"
 import { Deadline } from "@prisma/client"
-import { addDays, differenceInCalendarWeeks } from "date-fns"
+import { addDays, differenceInCalendarWeeks, format } from "date-fns"
 import { ModalProvider } from "@/components/modal/modalProvider"
 
 export default function Calendar({ startDate, semesterStart, weeks, deadlines }: { startDate: Date, semesterStart: Date, weeks: number, deadlines: (Deadline | null)[][] }) {
@@ -16,7 +16,7 @@ export default function Calendar({ startDate, semesterStart, weeks, deadlines }:
 
       rows.push(
         <div key={i * 2}>
-          <div className="pl-3">Week {differenceInCalendarWeeks(dateOfWeek, semesterStart) + 1} - Beginning {dateOfWeek.getDate().toString()}/{(dateOfWeek.getMonth() + 1).toString()}</div>
+          <div className="pl-3">Week {differenceInCalendarWeeks(dateOfWeek, semesterStart) + 1} - Beginning {format(dateOfWeek, 'd/M')}</div>
 
         </div>
       );
