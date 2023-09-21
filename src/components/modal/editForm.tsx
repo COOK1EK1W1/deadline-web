@@ -3,9 +3,10 @@ import { AiOutlineClose } from "react-icons/ai";
 import { PiPaperPlaneTiltBold } from "react-icons/pi";
 import { Deadline } from "@prisma/client";
 import { Form, Input } from '@/components/form';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { createAction, editAction } from "../form/formAction";
 import { useTransition } from "react";
+import { ContextMutator } from "./modalProvider";
 
 type Props = {
   initialData: Deadline;
@@ -30,6 +31,7 @@ const formatters = {
 };
 
 export default function EditForm({ onClose, onChange, initialData }: Props) {
+  const { closeModal } = useContext(ContextMutator);
 
   const [isPending, startTransition] = useTransition();
 
@@ -41,14 +43,13 @@ export default function EditForm({ onClose, onChange, initialData }: Props) {
       startTransition(() => {
         editAction(formData, "" + window.prompt("enter the password"), initialData.name, initialData.subject)
       })
-
+    } else {
       startTransition(() => {
         createAction(formData, String(window.prompt("Enter the password")))
       })
-      response = { status: 200 }
-
-    };
-  }
+    }
+    closeModal()
+  };
 
   return (
     <Form

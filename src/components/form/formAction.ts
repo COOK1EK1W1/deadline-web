@@ -57,4 +57,6 @@ export async function editAction(formData: Deadline, password: string, oldName: 
       }
     }
   })
+
+  revalidatePath("/")
 }
