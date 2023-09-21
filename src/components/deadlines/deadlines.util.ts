@@ -1,17 +1,16 @@
 import { Deadline } from '@prisma/client';
-import { addDays, isBefore, startOfDay, parseISO } from "date-fns";
+import { addDays, isBefore, startOfDay } from "date-fns";
+import { env } from '@/config/env/client';
 
 export function getDeadlinesForDays(
-  deadlines: Deadline[],
-  startDate: Date,
-  weeks: number,
+  deadlines: Deadline[]
 ): (Deadline | null)[][] {
   const deadlinesOrdered: (Deadline | null)[][] = [];
   // console.log(deadlines)
-  for (let i = 0; i < weeks * 7; i++) {
+  for (let i = 0; i < env.NEXT_PUBLIC_TOTAL_WEEKS * 7; i++) {
     //start of week date
 
-    const dateOfDay = addDays(startDate, i);
+    const dateOfDay = addDays(env.NEXT_PUBLIC_START_DATE, i);
 
     //array to hold deadlines for that day, in correct position from yesterday
     let day: (Deadline | null)[] = [];

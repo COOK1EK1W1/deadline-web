@@ -8,7 +8,7 @@ export function useDeadlinesContext() {
   const context = useContext(DeadlinesContext);
 
   if (context === undefined) {
-    throw new Error('No context provided');
+    throw new Error('No deadlines context provided');
   }
 
   return context;
