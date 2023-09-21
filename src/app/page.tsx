@@ -3,6 +3,7 @@ import { Deadline } from "@prisma/client";
 import prisma from "@/config/prisma";
 import { parseISO } from "date-fns";
 import { DeadlinesProvider } from '@/components/deadlines';
+import "@/config/config";
 
 export default async function Home() {
   //check if env variables exist
