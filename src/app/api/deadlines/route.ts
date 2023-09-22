@@ -3,14 +3,14 @@ import { revalidatePath } from "next/cache"
 import { sha256 } from "js-sha256"
 import prisma from "@/config/prisma"
 import { Deadline } from "@prisma/client"
+import { env } from '@/config/env/server';
 
 export const dynamic = 'force-dynamic'
 
 
 function validatePassword(password: string){
   console.log("validating")
-  //you though you could just look in the code and find the password ahaha bozo
-  const truePassword = process.env.PASSWORD
+  const truePassword = env.PASSWORD
   if (!truePassword) {
     console.error("no password in env")
     return false

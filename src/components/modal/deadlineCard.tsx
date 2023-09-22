@@ -3,11 +3,10 @@ import { Deadline } from "@prisma/client";
 import { differenceInWeeks, format } from "date-fns";
 import Link from "next/link";
 import { PiTrashBold, PiPencilBold } from "react-icons/pi"
+import { env } from '@/config/env/client';
 
-export default function DeadlineCard({ semStart, data, handleEdit }: { semStart: Date, data: Deadline, handleEdit: Function }) {
-
+export default function DeadlineCard({ data, handleEdit }: { data: Deadline, handleEdit: Function }) {
   if (!data) return null;
-
 
   const deleteDeadline = async () => {
     try {
@@ -50,12 +49,12 @@ export default function DeadlineCard({ semStart, data, handleEdit }: { semStart:
       <div className="flex flex-wrap justify-start pb-2">
         {data.start && <div className="pr-4 pb-4">
           <p>Starts: { format(data.start, "Pp")}</p>
-          <p>{`${format(data.start, 'EEEE')} of week ${differenceInWeeks(data.start, semStart) + 1}`}
+          <p>{`${format(data.start, 'EEEE')} of week ${differenceInWeeks(data.start, env.NEXT_PUBLIC_SEMESTER_START) + 1}`}
         </p>
         </div>}
         <div>
           <p>Due: {new Date(data.due).toLocaleDateString()} at {new Date(data.due).toLocaleTimeString()}</p>
-          <p>{format(data.due, 'EEEE')} of week {differenceInWeeks(data.due, semStart) + 1}</p>
+          <p>{format(data.due, 'EEEE')} of week {differenceInWeeks(data.due, env.NEXT_PUBLIC_SEMESTER_START) + 1}</p>
         </div>
       </div>
 
@@ -70,5 +69,4 @@ export default function DeadlineCard({ semStart, data, handleEdit }: { semStart:
     </div>
 
   </div>
-
 }
