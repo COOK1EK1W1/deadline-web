@@ -7,7 +7,7 @@ import { useContext, useState } from "react";
 import { Deadline } from "@prisma/client";
 import { ContextData, ContextMutator } from "./modalProvider";
 
-export default function Modal({ semStart }: { semStart: Date; }) {
+export default function Modal() {
   const [isEditFormChanged, setIsEditFormChanged] = useState<boolean>(false);
   const [showEditForm, setShowEditForm] = useState<boolean>(false);
   const { showCover, showModal, modalDeadlines } = useContext(ContextData);
@@ -86,7 +86,6 @@ export default function Modal({ semStart }: { semStart: Date; }) {
                   <DeadlineCard
                     key={`${deadline.name}-${deadline.subject}`}
                     data={deadline}
-                    semStart={semStart}
                     handleEdit={() => handleOpenFormForEdit(deadline)}
                   />
                 ))}
