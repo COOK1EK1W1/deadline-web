@@ -3,31 +3,23 @@ import { Deadline } from "@prisma/client";
 import { differenceInWeeks, format } from "date-fns";
 import Link from "next/link";
 import { PiTrashBold, PiPencilBold } from "react-icons/pi"
+import { useTransition } from "react";
+import { deleteAction } from "./formAction";
+
+
 import { env } from '@/config/env/client';
 
 export default function DeadlineCard({ data, handleEdit }: { data: Deadline, handleEdit: Function }) {
+  const [isPending, startTransition] = useTransition();
   if (!data) return null;
 
   const deleteDeadline = async () => {
-    try {
-      const response = await fetch('/api/deadlines', {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ name: data.name, subject: data.subject, password: window.prompt("enter password") }),
-      });
-
-      if (response.status === 200) {
-        console.log('Deleted Deadline');
-        window.alert("Deleted Deadline")
-        location.reload();
-      } else {
-        console.error('Form submission failed');
+    startTransition(async ()=>{
+      const response = await deleteAction(String(window.prompt("enter the password")), data.name, data.subject)
+      if (!response){
+        window.alert("there was an error")
       }
-    } catch (error) {
-      console.error('Error submitting form:', error);
-    }
+    })
   }
 
 

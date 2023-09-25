@@ -3,7 +3,10 @@ import { AiOutlineClose } from "react-icons/ai";
 import { PiPaperPlaneTiltBold } from "react-icons/pi";
 import { Deadline } from "@prisma/client";
 import { Form, Input } from '@/components/form';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import { createAction, editAction } from "./formAction";
+import { useTransition } from "react";
+import { ContextMutator } from "./modalProvider";
 
 type Props = {
   initialData: Deadline;
@@ -28,40 +31,33 @@ const formatters = {
 };
 
 export default function EditForm({ onClose, onChange, initialData }: Props) {
+  const { closeModal } = useContext(ContextMutator);
+
+  const [isPending, startTransition] = useTransition();
+
   const [color, setColor] = useState<number>(initialData.color ?? 1);
 
   const handleSubmit = async (formData: Deadline) => {
-    try {
-      let response = null;
-      if (initialData.name !== "" && initialData.subject !== "") {
-        response = await fetch('/api/deadlines', {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ ...formData, oldName: initialData.name, oldSubject: initialData.subject, password: window.prompt("enter the password") }),
-        });
-
-      } else {
-        response = await fetch('/api/deadlines', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ ...formData, password: window.prompt("enter password") }),
-        });
-      }
-
-      if (response.status === 200) {
-        console.log('Form submitted successfully');
-        window.alert("Form submitted successfully");
-        location.reload();
-      } else {
-        console.error('Form submission failed');
-      }
-    } catch (error) {
-      console.error('Error submitting form:', error);
+    if (initialData.name !== "" && initialData.subject !== "") {
+      startTransition(async () => {
+        const response = await editAction(formData, String(window.prompt("enter the password")), initialData.name, initialData.subject)
+        if (response){
+          closeModal()
+        }else{
+          window.alert("there was an error")
+        }
+      })
+    } else {
+      startTransition(async () => {
+        const response = await createAction(formData, String(window.prompt("Enter the password")))
+        if (response){
+          closeModal()
+        }else{
+          window.alert("there was an error")
+        }
+      })
     }
+    
   };
 
   return (
