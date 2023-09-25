@@ -1,4 +1,6 @@
 import { PrismaClient } from '@prisma/client'
+// stolen from
+// https://www.prisma.io/docs/guides/other/troubleshooting-orm/help-articles/nextjs-prisma-client-dev-practices
 
 const prismaClientSingleton = () => {
   return new PrismaClient()
