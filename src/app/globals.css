@@ -74,3 +74,8 @@ div.week > div:last-child{
 .modalCover.active>div>.modalCard{
   margin-top: 40vh;
 }
+
+.hbg{
+  @apply bg-slate-300;
+  @apply dark:bg-slate-600
+}

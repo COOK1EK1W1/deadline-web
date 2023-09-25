@@ -16,7 +16,7 @@ const config: Config = {
       },
       borderRadius: {
         "4xl": "12px",
-      }
+      },
     },
   },
   plugins: [],
