@@ -21,24 +21,26 @@ export async function createAction(formData: Deadline, password: string) {
   // validate password
   if (!validatePassword(password)) {
     console.log("password invalid")
-    return
+    return false
   }
 
   //add deadline
   console.log("query")
   await prisma.deadline.create({ data: formData })
   revalidatePath("/")
+  return true
 }
 
 export async function deleteAction(password: string, oldName: string, oldSubject: string) {
 
   if (!validatePassword(password)) {
     console.log("password invalid")
-    return
+    return false
   }
 
   await prisma.deadline.delete({ where: { name_subject: { name: oldName, subject: oldSubject } } })
   revalidatePath("/")
+  return true
 
 }
 
@@ -46,7 +48,7 @@ export async function editAction(formData: Deadline, password: string, oldName: 
   // validate password
   if (!validatePassword(password)) {
     console.log("password invalid")
-    return
+    return false
   }
 
   await prisma.deadline.update(
@@ -58,5 +60,8 @@ export async function editAction(formData: Deadline, password: string, oldName: 
     }
   })
 
+
+
   revalidatePath("/")
+  return true
 }

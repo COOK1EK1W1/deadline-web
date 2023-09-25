@@ -4,7 +4,7 @@ import { differenceInWeeks, format } from "date-fns";
 import Link from "next/link";
 import { PiTrashBold, PiPencilBold } from "react-icons/pi"
 import { useTransition } from "react";
-import { deleteAction } from "../form/formAction";
+import { deleteAction } from "./formAction";
 
 export default function DeadlineCard({ semStart, data, handleEdit }: { semStart: Date, data: Deadline, handleEdit: Function }) {
   const [isPending, startTransition] = useTransition();
@@ -13,8 +13,11 @@ export default function DeadlineCard({ semStart, data, handleEdit }: { semStart:
 
 
   const deleteDeadline = async () => {
-    startTransition(()=>{
-      deleteAction(""+window.prompt("enter the password"), data.name, data.subject)
+    startTransition(async ()=>{
+      const response = await deleteAction(String(window.prompt("enter the password")), data.name, data.subject)
+      if (!response){
+        window.alert("there was an error")
+      }
     })
   }
 

@@ -4,7 +4,7 @@ import { PiPaperPlaneTiltBold } from "react-icons/pi";
 import { Deadline } from "@prisma/client";
 import { Form, Input } from '@/components/form';
 import { useContext, useState } from 'react';
-import { createAction, editAction } from "../form/formAction";
+import { createAction, editAction } from "./formAction";
 import { useTransition } from "react";
 import { ContextMutator } from "./modalProvider";
 
@@ -38,17 +38,26 @@ export default function EditForm({ onClose, onChange, initialData }: Props) {
   const [color, setColor] = useState<number>(initialData.color ?? 1);
 
   const handleSubmit = async (formData: Deadline) => {
-    let response = null;
     if (initialData.name !== "" && initialData.subject !== "") {
-      startTransition(() => {
-        editAction(formData, "" + window.prompt("enter the password"), initialData.name, initialData.subject)
+      startTransition(async () => {
+        const response = await editAction(formData, String(window.prompt("enter the password")), initialData.name, initialData.subject)
+        if (response){
+          closeModal()
+        }else{
+          window.alert("there was an error")
+        }
       })
     } else {
-      startTransition(() => {
-        createAction(formData, String(window.prompt("Enter the password")))
+      startTransition(async () => {
+        const response = await createAction(formData, String(window.prompt("Enter the password")))
+        if (response){
+          closeModal()
+        }else{
+          window.alert("there was an error")
+        }
       })
     }
-    closeModal()
+    
   };
 
   return (
