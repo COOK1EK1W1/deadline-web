@@ -21,7 +21,7 @@ export default async function RootLayout({ children, }: { children: React.ReactN
   const deadlines: Deadline[] = await prisma.deadline.findMany();
 
   const cookieStore = cookies()
-  const dark = cookieStore.get("darkMode")
+  const dark = cookieStore.get("theme")
 
   return (
     <html lang="en" className={`${dark?.value}`}>
