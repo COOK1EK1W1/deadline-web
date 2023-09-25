@@ -4,16 +4,10 @@ import prisma from "@/config/prisma"
 import { Deadline } from "@prisma/client"
 import { sha256 } from "js-sha256"
 import { revalidatePath } from "next/cache"
+import { env } from "@/config/env/server"
 
 function validatePassword(password: string) {
-  console.log("validating")
-  //you though you could just look in the code and find the password ahaha bozo
-  const truePassword = process.env.PASSWORD
-  if (!truePassword) {
-    console.error("no password in env")
-    return false
-  }
-  const superSecretPassword = sha256(truePassword)
+  const superSecretPassword = sha256(env.PASSWORD)
   return sha256(password) == superSecretPassword
 }
 
