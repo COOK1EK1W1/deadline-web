@@ -7,6 +7,8 @@ import prisma from "@/config/prisma";
 import { DeadlinesProvider } from '@/components/deadlines';
 import "@/config/env/server";
 import "@/config/env/client";
+import { cookies } from "next/headers"
+import  TopBar  from '@/components/topBar/TopBar'
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -18,9 +20,13 @@ export const metadata: Metadata = {
 export default async function RootLayout({ children, }: { children: React.ReactNode; }) {
   const deadlines: Deadline[] = await prisma.deadline.findMany();
 
+  const cookieStore = cookies()
+  const dark = cookieStore.get("darkMode")
+
   return (
-    <html lang="en">
+    <html lang="en" className={`${dark?.value}`}>
       <body className={`${inter.className} bg-white dark:bg-slate-800 dark:text-white`}>
+        <TopBar/>
         <DeadlinesProvider deadlines={deadlines}>
           {children}
         </DeadlinesProvider>
