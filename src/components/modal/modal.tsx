@@ -7,7 +7,7 @@ import { useContext, useState } from "react";
 import { Deadline } from "@prisma/client";
 import { ContextData, ContextMutator } from "./modalProvider";
 
-export default function Modal({ semStart }: { semStart: Date; }) {
+export default function Modal() {
   const [isEditFormChanged, setIsEditFormChanged] = useState<boolean>(false);
   const [showEditForm, setShowEditForm] = useState<boolean>(false);
   const { showCover, showModal, modalDeadlines } = useContext(ContextData);
@@ -72,7 +72,7 @@ export default function Modal({ semStart }: { semStart: Date; }) {
             <div className="flex justify-between">
               <DateIco date={modalDeadlines.date} showDay={false} />
 
-              {!showEditForm && <button type="button" className="bg-green-300 hover:bg-blue-400 rounded-full m-1 p-1 w-40" onClick={handleOpenFormForCreate}>
+              {!showEditForm && <button type="button" className="bg-green-300 hover:bg-blue-400 dark:bg-green-600 rounded-full m-1 p-1 w-40" onClick={handleOpenFormForCreate}>
                 <PiNotePencilBold style={{ display: "inline" }} /> Create New
               </button>}
             </div>
@@ -86,7 +86,6 @@ export default function Modal({ semStart }: { semStart: Date; }) {
                   <DeadlineCard
                     key={`${deadline.name}-${deadline.subject}`}
                     data={deadline}
-                    semStart={semStart}
                     handleEdit={() => handleOpenFormForEdit(deadline)}
                   />
                 ))}
