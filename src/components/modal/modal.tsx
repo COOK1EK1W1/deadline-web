@@ -72,7 +72,7 @@ export default function Modal() {
             <div className="flex justify-between">
               <DateIco date={modalDeadlines.date} showDay={false} />
 
-              {!showEditForm && <button type="button" className="bg-green-300 hover:bg-blue-400 rounded-full m-1 p-1 w-40" onClick={handleOpenFormForCreate}>
+              {!showEditForm && <button type="button" className="bg-green-300 hover:bg-blue-400 dark:bg-green-600 rounded-full m-1 p-1 w-40" onClick={handleOpenFormForCreate}>
                 <PiNotePencilBold style={{ display: "inline" }} /> Create New
               </button>}
             </div>
