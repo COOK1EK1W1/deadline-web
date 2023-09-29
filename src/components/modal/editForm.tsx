@@ -3,11 +3,11 @@ import { AiOutlineClose } from "react-icons/ai";
 import { PiPaperPlaneTiltBold } from "react-icons/pi";
 import { Deadline } from "@prisma/client";
 import { Form, Input } from '@/components/form';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { createAction, editAction } from "./formAction";
 import { useTransition } from "react";
-import { ContextMutator } from "./modalProvider";
 import Spinner from '@/components/spinner/Spinner';
+import { useModalMutators } from './modalProvider';
 
 type Props = {
   initialData: Deadline;
@@ -32,7 +32,7 @@ const formatters = {
 };
 
 export default function EditForm({ onClose, onChange, initialData }: Props) {
-  const { closeModal } = useContext(ContextMutator);
+  const { closeModal } = useModalMutators();
 
   const [isPending, startTransition] = useTransition();
 

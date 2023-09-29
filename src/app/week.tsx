@@ -3,8 +3,7 @@ import { Deadline } from "@prisma/client"
 
 import DateIco from "./date"
 import { addDays } from "date-fns"
-import { ContextMutator } from "@/components/modal/modalProvider"
-import { useContext } from "react"
+import { useModalMutators } from '@/components/modal/modalProvider'
 
 function sameDay(first: Date, second: Date): boolean{
   const firstTime = first.toLocaleDateString()
@@ -13,7 +12,7 @@ function sameDay(first: Date, second: Date): boolean{
 }
 
 export default function Week({startOfWeek, deadlines}: {startOfWeek: Date, deadlines: (Deadline|null)[][]}){
-  const { openModal } = useContext(ContextMutator)
+  const { openModal } = useModalMutators()
   // console.log(deadlines)
   const rows = []
   for (let i = 0; i < 7; i++){

@@ -1,5 +1,5 @@
 import { Deadline } from "@prisma/client"
-import React, { ReactNode, useCallback, useMemo } from "react"
+import React, { ReactNode, useCallback, useContext, useMemo } from "react"
 import { useState } from "react"
 
 type DeadlineDate = {
@@ -13,7 +13,7 @@ type ModalDataContext = {
   modalDeadlines: DeadlineDate,
 }
 
-type ModalMutatorContext2 = {
+type ModalMutatorContext = {
   openModal: (d: DeadlineDate) => void,
   closeModal: () => void,
 }
@@ -21,7 +21,23 @@ type ModalMutatorContext2 = {
 export const ContextData = React.createContext<ModalDataContext>(
   { showCover: false, showModal: false, modalDeadlines: { date: new Date(), deadlines: [] } }
 )
-export const ContextMutator = React.createContext<ModalMutatorContext2>({ openModal: () => { }, closeModal: () => { } })
+
+export function useModalData() {
+  const context = useContext(ContextData);
+  if (context === undefined) throw new Error('No modal context provided');
+  return context;
+}
+
+export const ContextMutator = React.createContext<ModalMutatorContext>({ 
+  openModal: () => { }, 
+  closeModal: () => { } 
+})
+
+export function useModalMutators() {
+  const context = useContext(ContextMutator);
+  if (context === undefined) throw new Error('No modal context provided');
+  return context;
+}
 
 export function ModalProvider({ children, modal }: { children: ReactNode, modal: ReactNode }) {
 
@@ -29,8 +45,6 @@ export function ModalProvider({ children, modal }: { children: ReactNode, modal:
 
   const [showModal, setShowModal] = useState(false)
   const [showCover, setshowCover] = useState(false)
-
-  // console.log("modal provider render");
 
   const openModal = useCallback((d: DeadlineDate) => {
     setModalDeadlines(d);
