@@ -20,13 +20,13 @@ export default function Week({startOfWeek, deadlines}: {startOfWeek: Date, deadl
     // console.log("render")
     // console.log(deadlines)
     rows.push(
-      <div key={i} className="w-full h-28 border cursor-pointer dark:border-slate-700 " onClick={()=>{openModal({date: dateOfDay, deadlines: deadlines[i]})}}>   
+      <div key={i} className="w-full min-h-[7rem] border cursor-pointer dark:border-slate-700 pb-1" onClick={()=>{openModal({date: dateOfDay, deadlines: deadlines[i]})}}>   
               {/* dates */}
               <DateIco date={dateOfDay} showDay={true}/>
 
               {/* deadlines */}
               {deadlines[i].map((x: Deadline|null, j: number)=>(
-                <span key={j}>{x && <div className={`hover:h-auto overflow-y-hidden h-6 mb-1 text-center 
+                <span key={j}>{x && <div className={`hover:h-auto overflow-y-hidden h-6 mb-1 px-1 text-ellipsis text-center overflow-hidden
                                         ${(sameDay(dateOfDay, new Date(x.due))) && "rounded-r-4xl w-5/6"} 
                                         ${(sameDay(dateOfDay, new Date(x.start || x.due))) && "rounded-l-4xl ml-2"}`} style={{backgroundColor:"lch(73% 41 " + x.color + ")"}}>
                   {(i==0 || sameDay(dateOfDay, new Date(x.due)) || sameDay(dateOfDay, new Date(x.start|| x.due))) && x.name} &#8203;
