@@ -43,6 +43,12 @@ export default function Modal() {
     setIsEditFormChanged(false);
   }
 
+  function handleSubmitEditForm() {
+    setShowEditForm(false);
+    setIsEditFormChanged(false);
+    closeModal();
+  }
+
   function shouldCloseEditForm() {
     return !isEditFormChanged || window.confirm("Disregard changes?");
   }
@@ -78,7 +84,15 @@ export default function Modal() {
             </div>
 
             <div className="h-[53vh] overflow-y-auto">
-              {showEditForm && <EditForm onClose={handleCloseEditForm} onChange={() => setIsEditFormChanged(true)} initialData={deadline} />}
+              {showEditForm && (
+                <EditForm
+                  onClose={handleCloseEditForm}
+                  onChange={() => setIsEditFormChanged(true)}
+                  onSubmit={handleSubmitEditForm}
+                  initialData={deadline}
+                />
+              )
+              }
 
               {modalDeadlines.deadlines
                 .filter((deadline): deadline is Deadline => !!deadline) // filter out all deadlines which are null

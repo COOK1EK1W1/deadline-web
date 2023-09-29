@@ -7,12 +7,12 @@ import { useState } from 'react';
 import { createAction, editAction } from "./formAction";
 import { useTransition } from "react";
 import Spinner from '@/components/spinner/Spinner';
-import { useModalMutators } from './modalProvider';
 
 type Props = {
   initialData: Deadline;
   onClose: () => void;
   onChange: () => void;
+  onSubmit: () => void;
 };
 
 // transformers that convert values from the inputs to the correct type,
@@ -31,11 +31,8 @@ const formatters = {
   due: (value: Date | null) => value?.toISOString().substring(0, 16) ?? '',
 };
 
-export default function EditForm({ onClose, onChange, initialData }: Props) {
-  const { closeModal } = useModalMutators();
-
+export default function EditForm({ onClose, onChange, onSubmit, initialData }: Props) {
   const [isPending, startTransition] = useTransition();
-
   const [color, setColor] = useState<number>(initialData.color ?? 1);
 
   const handleSubmit = async (formData: Deadline) => {
@@ -45,7 +42,7 @@ export default function EditForm({ onClose, onChange, initialData }: Props) {
         : await createAction(formData, String(window.prompt("Enter the password")));
 
       if (response) {
-        closeModal();
+        onSubmit();
       } else {
         window.alert("there was an error");
       }
