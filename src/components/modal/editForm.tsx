@@ -39,26 +39,17 @@ export default function EditForm({ onClose, onChange, initialData }: Props) {
   const [color, setColor] = useState<number>(initialData.color ?? 1);
 
   const handleSubmit = async (formData: Deadline) => {
-    if (initialData.name !== "" && initialData.subject !== "") {
-      startTransition(async () => {
-        const response = await editAction(formData, String(window.prompt("enter the password")), initialData.name, initialData.subject);
-        if (response) {
-          closeModal();
-        } else {
-          window.alert("there was an error");
-        }
-      });
-    } else {
-      startTransition(async () => {
-        const response = await createAction(formData, String(window.prompt("Enter the password")));
-        if (response) {
-          closeModal();
-        } else {
-          window.alert("there was an error");
-        }
-      });
-    }
+    startTransition(async () => {
+      const response = initialData.name !== "" && initialData.subject !== ""
+        ? await editAction(formData, String(window.prompt("enter the password")), initialData.name, initialData.subject)
+        : await createAction(formData, String(window.prompt("Enter the password")));
 
+      if (response) {
+        closeModal();
+      } else {
+        window.alert("there was an error");
+      }
+    });
   };
 
   return (
