@@ -7,6 +7,7 @@ import { useContext, useState } from 'react';
 import { createAction, editAction } from "./formAction";
 import { useTransition } from "react";
 import { ContextMutator } from "./modalProvider";
+import Spinner from '@/components/spinner/Spinner';
 
 type Props = {
   initialData: Deadline;
@@ -40,24 +41,24 @@ export default function EditForm({ onClose, onChange, initialData }: Props) {
   const handleSubmit = async (formData: Deadline) => {
     if (initialData.name !== "" && initialData.subject !== "") {
       startTransition(async () => {
-        const response = await editAction(formData, String(window.prompt("enter the password")), initialData.name, initialData.subject)
-        if (response){
-          closeModal()
-        }else{
-          window.alert("there was an error")
+        const response = await editAction(formData, String(window.prompt("enter the password")), initialData.name, initialData.subject);
+        if (response) {
+          closeModal();
+        } else {
+          window.alert("there was an error");
         }
-      })
+      });
     } else {
       startTransition(async () => {
-        const response = await createAction(formData, String(window.prompt("Enter the password")))
-        if (response){
-          closeModal()
-        }else{
-          window.alert("there was an error")
+        const response = await createAction(formData, String(window.prompt("Enter the password")));
+        if (response) {
+          closeModal();
+        } else {
+          window.alert("there was an error");
         }
-      })
+      });
     }
-    
+
   };
 
   return (
@@ -107,7 +108,8 @@ export default function EditForm({ onClose, onChange, initialData }: Props) {
         </div>
 
         <button type="submit" className="w-min self-center flex items-center gap-1 rounded-full bg-white p-2 hover:scale-105">
-          Submit <PiPaperPlaneTiltBold />
+          Submit
+          {isPending ? <Spinner size={20} /> : <PiPaperPlaneTiltBold />}
         </button>
       </div>
     </Form>
