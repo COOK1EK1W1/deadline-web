@@ -3,15 +3,16 @@ import { AiOutlineClose } from "react-icons/ai";
 import { PiPaperPlaneTiltBold } from "react-icons/pi";
 import { Deadline } from "@prisma/client";
 import { Form, Input } from '@/components/form';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { createAction, editAction } from "./formAction";
 import { useTransition } from "react";
-import { ContextMutator } from "./modalProvider";
+import Spinner from '@/components/spinner/Spinner';
 
 type Props = {
   initialData: Deadline;
   onClose: () => void;
   onChange: () => void;
+  onSubmit: () => void;
 };
 
 // transformers that convert values from the inputs to the correct type,
@@ -30,34 +31,22 @@ const formatters = {
   due: (value: Date | null) => value?.toISOString().substring(0, 16) ?? '',
 };
 
-export default function EditForm({ onClose, onChange, initialData }: Props) {
-  const { closeModal } = useContext(ContextMutator);
-
+export default function EditForm({ onClose, onChange, onSubmit, initialData }: Props) {
   const [isPending, startTransition] = useTransition();
-
   const [color, setColor] = useState<number>(initialData.color ?? 1);
 
   const handleSubmit = async (formData: Deadline) => {
-    if (initialData.name !== "" && initialData.subject !== "") {
-      startTransition(async () => {
-        const response = await editAction(formData, String(window.prompt("enter the password")), initialData.name, initialData.subject)
-        if (response){
-          closeModal()
-        }else{
-          window.alert("there was an error")
-        }
-      })
-    } else {
-      startTransition(async () => {
-        const response = await createAction(formData, String(window.prompt("Enter the password")))
-        if (response){
-          closeModal()
-        }else{
-          window.alert("there was an error")
-        }
-      })
-    }
-    
+    startTransition(async () => {
+      const response = initialData.name !== "" && initialData.subject !== ""
+        ? await editAction(formData, String(window.prompt("enter the password")), initialData.name, initialData.subject)
+        : await createAction(formData, String(window.prompt("Enter the password")));
+
+      if (response) {
+        onSubmit();
+      } else {
+        window.alert("there was an error");
+      }
+    });
   };
 
   return (
@@ -107,7 +96,8 @@ export default function EditForm({ onClose, onChange, initialData }: Props) {
         </div>
 
         <button type="submit" className="w-min self-center flex items-center gap-1 rounded-full bg-white p-2 hover:scale-105">
-          Submit <PiPaperPlaneTiltBold />
+          Submit
+          {isPending ? <Spinner size={20} /> : <PiPaperPlaneTiltBold />}
         </button>
       </div>
     </Form>

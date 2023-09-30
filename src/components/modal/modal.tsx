@@ -3,15 +3,15 @@ import { PiNotePencilBold } from "react-icons/pi";
 import DateIco from "@/app/date";
 import DeadlineCard from "./deadlineCard";
 import EditForm from "./editForm";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { Deadline } from "@prisma/client";
-import { ContextData, ContextMutator } from "./modalProvider";
+import { useModalData, useModalMutators } from './modalProvider';
 
 export default function Modal() {
   const [isEditFormChanged, setIsEditFormChanged] = useState<boolean>(false);
   const [showEditForm, setShowEditForm] = useState<boolean>(false);
-  const { showCover, showModal, modalDeadlines } = useContext(ContextData);
-  const { closeModal } = useContext(ContextMutator);
+  const { showCover, showModal, modalDeadlines } = useModalData();
+  const { closeModal } = useModalMutators();
 
   // no longer need to keep track of oldData and newData
   // as the Form component will not alter the oldData at all
@@ -41,6 +41,12 @@ export default function Modal() {
     setDeadline(data);
     setShowEditForm(true);
     setIsEditFormChanged(false);
+  }
+
+  function handleSubmitEditForm() {
+    setShowEditForm(false);
+    setIsEditFormChanged(false);
+    closeModal();
   }
 
   function shouldCloseEditForm() {
@@ -78,7 +84,15 @@ export default function Modal() {
             </div>
 
             <div className="h-[53vh] overflow-y-auto">
-              {showEditForm && <EditForm onClose={handleCloseEditForm} onChange={() => setIsEditFormChanged(true)} initialData={deadline} />}
+              {showEditForm && (
+                <EditForm
+                  onClose={handleCloseEditForm}
+                  onChange={() => setIsEditFormChanged(true)}
+                  onSubmit={handleSubmitEditForm}
+                  initialData={deadline}
+                />
+              )
+              }
 
               {modalDeadlines.deadlines
                 .filter((deadline): deadline is Deadline => !!deadline) // filter out all deadlines which are null

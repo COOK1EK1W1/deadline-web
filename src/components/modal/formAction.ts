@@ -18,15 +18,18 @@ export async function createAction(formData: Deadline, password: string) {
     return false
   }
 
-  //add deadline
-  console.log("query")
-  await prisma.deadline.create({ data: formData })
+  // add deadline
+  try {
+    await prisma.deadline.create({ data: formData })
+  } catch (error: unknown) {
+    return false;
+  }
+
   revalidatePath("/")
   return true
 }
 
 export async function deleteAction(password: string, oldName: string, oldSubject: string) {
-
   if (!validatePassword(password)) {
     console.log("password invalid")
     return false
@@ -35,7 +38,6 @@ export async function deleteAction(password: string, oldName: string, oldSubject
   await prisma.deadline.delete({ where: { name_subject: { name: oldName, subject: oldSubject } } })
   revalidatePath("/")
   return true
-
 }
 
 export async function editAction(formData: Deadline, password: string, oldName: string, oldSubject: string){
@@ -53,8 +55,6 @@ export async function editAction(formData: Deadline, password: string, oldName: 
       }
     }
   })
-
-
 
   revalidatePath("/")
   return true
