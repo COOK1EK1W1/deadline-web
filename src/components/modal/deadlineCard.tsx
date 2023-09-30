@@ -27,7 +27,7 @@ export default function DeadlineCard({ data, handleEdit }: { data: Deadline, han
   }
 
 
-  return <div className=" p-2 glass mb-2" style={{ backgroundColor: "lch(73% 41 " + data.color + ")" }}>
+  return <div className=" p-2 glass mb-2" style={{ backgroundColor: `lch(64% 50 ${data.color} / .7) ` }}>
     <div className="float-right cursor-pointer" onClick={() => { deleteDeadline() }}><PiTrashBold /></div>
 
     <div className="float-right cursor-pointer" onClick={() => handleEdit()}><PiPencilBold></PiPencilBold></div>

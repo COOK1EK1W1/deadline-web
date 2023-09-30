@@ -100,7 +100,7 @@ export default function Form<
         onSubmit={handleSubmit}
         onChange={handleChange}
         className="p-2 bg-slate-200 mb-2 glass"
-        style={{ backgroundColor: `lch(73% 41 ${color})` }}
+        style={{ backgroundColor: `lch(73% 50 ${color} / .7)` }}
       >
         {children}
       </form>
