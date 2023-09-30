@@ -12,6 +12,14 @@ export default function Modal() {
   const [showEditForm, setShowEditForm] = useState<boolean>(false);
   const { showCover, showModal, modalDeadlines } = useModalData();
   const { closeModal } = useModalMutators();
+  
+  if (document){
+    document.addEventListener('keydown', (event)=>{
+      if (event.key == 'Escape'){
+        closeModal()
+      }
+    })
+  }
 
   // no longer need to keep track of oldData and newData
   // as the Form component will not alter the oldData at all
