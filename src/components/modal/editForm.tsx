@@ -95,7 +95,7 @@ export default function EditForm({ onClose, onChange, onSubmit, initialData }: P
           />
         </div>
 
-        <button type="submit" className="w-min self-center flex items-center gap-1 rounded-full bg-white p-2 hover:scale-105">
+        <button type="submit" className="w-min self-center flex items-center gap-1 rounded-full bg-white dark:bg-slate-800 p-2 px-4 hover:scale-105">
           Submit
           {isPending ? <Spinner size={20} /> : <PiPaperPlaneTiltBold />}
         </button>
