@@ -32,13 +32,14 @@ const formatters = {
 };
 
 export default function EditForm({ onClose, onChange, onSubmit, initialData }: Props) {
+  console.log(initialData.id)
   const [isPending, startTransition] = useTransition();
   const [color, setColor] = useState<number>(initialData.color ?? 1);
 
   const handleSubmit = async (formData: Deadline) => {
     startTransition(async () => {
-      const response = initialData.name !== "" && initialData.subject !== ""
-        ? await editAction(formData, String(window.prompt("enter the password")), initialData.name, initialData.subject)
+      const response = initialData.id != -1
+        ? await editAction(formData, String(window.prompt("enter the password")))
         : await createAction(formData, String(window.prompt("Enter the password")));
 
       if (response) {
