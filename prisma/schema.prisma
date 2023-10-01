@@ -19,6 +19,4 @@ model Deadline {
   info    String?
   color   Int?
   id      Int       @id @default(autoincrement())
-
-  @@unique([name, subject], map: "unique_name_subject")
 }
