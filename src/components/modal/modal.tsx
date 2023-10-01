@@ -39,6 +39,7 @@ export default function Modal() {
       url: "",
       info: "",
       color: 1,
+      id: -1
     });
     setShowEditForm(true);
     setIsEditFormChanged(false);
