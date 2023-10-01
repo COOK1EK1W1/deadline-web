@@ -17,7 +17,7 @@ export default function DeadlineCard({ data, handleEdit }: { data: Deadline, han
 
   const deleteDeadline = async () => {
     startTransition(async ()=>{
-      const response = await deleteAction(String(window.prompt("enter the password")), data.name, data.subject)
+      const response = await deleteAction(String(window.prompt("enter the password")), data.id)
       if (!response){
         window.alert("there was an error")
       }else{

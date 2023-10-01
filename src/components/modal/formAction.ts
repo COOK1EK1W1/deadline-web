@@ -20,7 +20,8 @@ export async function createAction(formData: Deadline, password: string) {
 
   // add deadline
   try {
-    await prisma.deadline.create({ data: formData })
+    const { id, ...data } = formData
+    await prisma.deadline.create({ data: data})
   } catch (error: unknown) {
     return false;
   }
@@ -29,18 +30,18 @@ export async function createAction(formData: Deadline, password: string) {
   return true
 }
 
-export async function deleteAction(password: string, oldName: string, oldSubject: string) {
+export async function deleteAction(password: string, id: number) {
   if (!validatePassword(password)) {
     console.log("password invalid")
     return false
   }
 
-  await prisma.deadline.delete({ where: { name_subject: { name: oldName, subject: oldSubject } } })
+  await prisma.deadline.delete({ where: { id: id} })
   revalidatePath("/")
   return true
 }
 
-export async function editAction(formData: Deadline, password: string, oldName: string, oldSubject: string){
+export async function editAction(formData: Deadline, password: string){
   // validate password
   if (!validatePassword(password)) {
     console.log("password invalid")
@@ -49,12 +50,9 @@ export async function editAction(formData: Deadline, password: string, oldName: 
 
   await prisma.deadline.update(
     {data:formData, 
-    where:{
-      name_subject:{
-        name:oldName, subject:oldSubject
-      }
+      where:{ id : formData.id}
     }
-  })
+  )
 
   revalidatePath("/")
   return true
