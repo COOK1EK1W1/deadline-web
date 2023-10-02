@@ -8,6 +8,7 @@ import { DeadlinesProvider } from '@/components/deadlines';
 import "@/config/env/server";
 import "@/config/env/client";
 import  TopBar  from '@/components/topBar/TopBar'
+import Providers from '@/components/topBar/ThemeProvider';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -22,11 +23,13 @@ export default async function RootLayout({ children, }: { children: React.ReactN
   return (
     <html lang="en">
       <body className={`${inter.className} bg-white dark:bg-slate-800 dark:text-white`}>
-        <TopBar/>
-        <DeadlinesProvider deadlines={deadlines}>
-          {children}
-        </DeadlinesProvider>
+        <Providers>
+          <TopBar/>
+          <DeadlinesProvider deadlines={deadlines}>
+            {children}
+          </DeadlinesProvider>
         <Analytics />
+        </Providers>
       </body>
     </html>
   );
