@@ -5,25 +5,29 @@ import Link from "next/link";
 import { PiTrashBold, PiPencilBold } from "react-icons/pi"
 import { useTransition } from "react";
 import { deleteAction } from "./formAction";
-
+import { useModalMutators } from "./modalProvider";
 
 import { env } from '@/config/env/client';
 
 export default function DeadlineCard({ data, handleEdit }: { data: Deadline, handleEdit: Function }) {
   const [isPending, startTransition] = useTransition();
+  const { closeModal } = useModalMutators();
+
   if (!data) return null;
 
   const deleteDeadline = async () => {
     startTransition(async ()=>{
-      const response = await deleteAction(String(window.prompt("enter the password")), data.name, data.subject)
+      const response = await deleteAction(String(window.prompt("enter the password")), data.id)
       if (!response){
         window.alert("there was an error")
+      }else{
+        closeModal()
       }
     })
   }
 
 
-  return <div className=" p-2 glass mb-2" style={{ backgroundColor: "lch(73% 41 " + data.color + ")" }}>
+  return <div className=" p-2 glass mb-2" style={{ backgroundColor: `lch(64% 50 ${data.color} / .7) ` }}>
     <div className="float-right cursor-pointer" onClick={() => { deleteDeadline() }}><PiTrashBold /></div>
 
     <div className="float-right cursor-pointer" onClick={() => handleEdit()}><PiPencilBold></PiPencilBold></div>

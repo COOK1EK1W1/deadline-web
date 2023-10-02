@@ -79,3 +79,8 @@ div.week > div:last-child{
   @apply bg-slate-300;
   @apply dark:bg-slate-600
 }
+
+input{
+  @apply p-1;
+  @apply dark:bg-slate-800
+}

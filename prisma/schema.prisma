@@ -8,16 +8,15 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model Deadline{
-  name String 
+model Deadline {
+  name    String
   subject String
-  start DateTime?
-  due DateTime
-  mark Float?
-  room String?
-  url String?
-  info String?
-  color Int?
-  
-  @@id([name, subject])
+  start   DateTime?
+  due     DateTime
+  mark    Float?
+  room    String?
+  url     String?
+  info    String?
+  color   Int?
+  id      Int       @id @default(autoincrement())
 }
