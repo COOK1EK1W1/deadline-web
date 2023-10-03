@@ -112,9 +112,7 @@ export default function Modal() {
                   />
                 ))}
 
-              {modalDeadlines.deadlines.filter(
-                (deadline): deadline is number| null => !!deadline
-              ).length == 0 &&
+              {modalDeadlines.deadlines.filter((deadline): deadline is number => !!deadline).length == 0 &&
                 !showEditForm && (
                   <div className="flex justify-center p-8">No Deadlines!!</div>
                 )}

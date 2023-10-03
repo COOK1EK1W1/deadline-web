@@ -29,7 +29,7 @@ export default function Day({ day, week }: Props) {
 
       {/* deadlines */}
       {deadlines.map((id, index) => (
-        <Pill key={index} id={id} dateOfDay={dateOfDay} />
+        <Pill key={index} deadlineId={id} dateOfDay={dateOfDay} />
       ))}
     </div>
   );

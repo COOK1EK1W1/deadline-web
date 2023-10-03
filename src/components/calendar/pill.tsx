@@ -3,14 +3,14 @@ import { useDeadlines } from '../deadlines/deadlines.context';
 import cn from '@/util/cn';
 
 type Props = {
-  id: number | null,
+  deadlineId: number | null,
   dateOfDay: Date;
 };
 
-export default function Pill({ id, dateOfDay }: Props) {
+export default function Pill({ deadlineId, dateOfDay }: Props) {
   const { getDeadlineById } = useDeadlines();
 
-  if (!id) {
+  if (!deadlineId) {
     return (
       <span>
         <div className="h-6 mb-1">&#8203;</div>
@@ -18,7 +18,7 @@ export default function Pill({ id, dateOfDay }: Props) {
     );
   }
 
-  const deadline = getDeadlineById(id);
+  const deadline = getDeadlineById(deadlineId);
   const isDeadlineStart = isSameDay(dateOfDay, new Date(deadline.start || deadline.due));
   const isDeadlineEnd = isSameDay(dateOfDay, new Date(deadline.due));
 

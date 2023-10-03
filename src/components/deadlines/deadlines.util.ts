@@ -92,7 +92,7 @@ export function getDeadlinesForAllDays(
 
 export function transformDeadlinesToObject(deadlines: Deadline[]) {
   // convert array of deadlines to array of tuples [deadline.id, deadline]
-  // then create an object from this array of tuples where keys are deadline.id
+  // then convert array of tuples to object {deadline.id: deadline}
   return Object.fromEntries(
     deadlines.map((deadline) => [deadline.id, deadline])
   );
