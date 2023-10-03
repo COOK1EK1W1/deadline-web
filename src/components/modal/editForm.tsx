@@ -44,8 +44,18 @@ export default function EditForm({
   const [isPending, startTransition] = useTransition();
 
   const {deadlines} = useContext(DeadlinesContext)
-  const initialData = deadlines.find((e)=>e.id == id)
-  if (id === null || initialData === undefined) return
+  let initialData = deadlines.find((e)=>e.id == id) || {
+      name: "",
+      subject:"",
+      start: null,
+      due: new Date(),
+      room: "",
+      url: "",
+      color: 1,
+      mark: 0,
+      info: "",
+      id: -1
+    }
 
   const [color, setColor] = useState<number>(initialData.color ?? 1);
 

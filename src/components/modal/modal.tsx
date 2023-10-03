@@ -7,7 +7,6 @@ import { useModalData, useModalMutators } from "./modalProvider";
 
 import { PiNotePencilBold } from "react-icons/pi";
 import { useState } from "react";
-import { Deadline } from "@prisma/client";
 
 export default function Modal() {
   const [isEditFormChanged, setIsEditFormChanged] = useState<boolean>(false);

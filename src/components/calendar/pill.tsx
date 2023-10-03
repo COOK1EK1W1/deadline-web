@@ -11,18 +11,12 @@ export default function Pill({deadline, dateOfDay} : {deadline: number | null, d
     return <span>
         <div
           className={`hover:h-auto overflow-y-hidden h-6 mb-1 px-1 text-ellipsis text-center overflow-hidden
-                                  ${
-                                    isSameDay(
-                                      dateOfDay,
-                                      new Date(deadlineObj.due)
-                                    ) && "rounded-r-4xl w-5/6"
-                                  } 
-                                  ${
-                                    isSameDay(
-                                      dateOfDay,
-                                      new Date(deadlineObj.start || deadlineObj.due)
-                                    ) && "rounded-l-4xl ml-2"
-                                  }`}
+                      ${
+                        isSameDay(dateOfDay, new Date(deadlineObj.due)) && "rounded-r-4xl w-5/6"
+                      } 
+                      ${
+                        isSameDay(dateOfDay, new Date(deadlineObj.start || deadlineObj.due)) && "rounded-l-4xl ml-2"
+                      }`}
           style={{
             backgroundColor: `lch(64% ${isPast(deadlineObj.due) ? "10" : "50"} ${
               deadlineObj.color
