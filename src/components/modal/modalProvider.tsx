@@ -4,7 +4,7 @@ import { useState } from "react"
 
 type DeadlineDate = {
   date: Date,
-  deadlines: (Deadline | null)[]
+  deadlines: (number | null)[]
 }
 
 type ModalDataContext = {

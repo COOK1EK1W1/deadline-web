@@ -4,8 +4,8 @@ import { env } from '@/config/env/client';
 
 export function getDeadlinesForDays(
   deadlines: Deadline[]
-): (Deadline | null)[][] {
-  const deadlinesOrdered: (Deadline | null)[][] = [];
+): (number | null)[][] {
+  const deadlinesOrdered: (number | null)[][] = [];
   // console.log(deadlines)
   for (let i = 0; i < env.NEXT_PUBLIC_TOTAL_WEEKS * 7; i++) {
     //start of week date
@@ -13,9 +13,9 @@ export function getDeadlinesForDays(
     const dateOfDay = addDays(env.NEXT_PUBLIC_START_DATE, i);
 
     //array to hold deadlines for that day, in correct position from yesterday
-    let day: (Deadline | null)[] = [];
+    let day: (number | null)[] = [];
     //deadlines which have not been in the calendar before today
-    const newDay: (Deadline | null)[] = [];
+    const newDay: (number | null)[] = [];
 
     //find deadlines which apply for today
     const relevantDeadlines = deadlines.filter((x) =>
@@ -28,11 +28,11 @@ export function getDeadlinesForDays(
 
       //ignore yesterday positions if it is new week
       if (i % 7 == 0) {
-        newDay.push(deadline);
+        newDay.push(deadline.id);
 
       } else {
         //find if and what the position of the deadline was yesterday
-        const yesterdayPos = deadlinesOrdered[i - 1].indexOf(deadline);
+        const yesterdayPos = deadlinesOrdered[i - 1].indexOf(deadline.id);
 
         if (yesterdayPos > -1) {
           //the deadline was on yesterday
@@ -43,25 +43,25 @@ export function getDeadlinesForDays(
               day.push(null);
             }
             //add the deadline to the array
-            day.push(deadline);
+            day.push(deadline.id);
           } else {
             // deadline can be inserted
             // day[yesterdayPos] = x
-            day.splice(yesterdayPos, 1, deadline);
+            day.splice(yesterdayPos, 1, deadline.id);
 
           }
 
         } else {
           // day.push(x)
           // add at next open pos
-          newDay.push(deadline);
+          newDay.push(deadline.id);
 
         }
       }
     }
 
     //merge the newDay Deadlines, and the day deadlines
-    const result: (Deadline | null)[] = [];
+    const result: (number | null)[] = [];
     let newDayIndex = 0;
 
     //loop through the day, and fill in undefined spots with newDay deadlines
