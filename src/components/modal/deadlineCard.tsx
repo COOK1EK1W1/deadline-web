@@ -30,6 +30,8 @@ export default function DeadlineCard({ id, handleEdit }: Props) {
     });
   };
 
+  if (!deadline) return;
+
   return <div className=" p-2 glass mb-2" style={{ backgroundColor: `lch(64% 50 ${deadline.color} / .7) ` }}>
     <div className="float-right cursor-pointer" onClick={() => { deleteDeadline(); }}><PiTrashBold /></div>
     <div className="float-right cursor-pointer" onClick={() => handleEdit()}><PiPencilBold></PiPencilBold></div>
