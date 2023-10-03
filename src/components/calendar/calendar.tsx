@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import Week from "./week";
-import Modal from "../components/modal/modal";
+import Modal from "../modal/modal";
 import { addDays, differenceInCalendarWeeks, format } from "date-fns";
 import { ModalProvider } from "@/components/modal/modalProvider";
 import { useDeadlinesContext } from '@/components/deadlines';

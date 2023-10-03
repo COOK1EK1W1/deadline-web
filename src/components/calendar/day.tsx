@@ -1,28 +1,14 @@
-"use client";
+
 
 import DateIco from "@/components/date";
 import { useModalMutators } from "@/components/modal/modalProvider";
 
 import { Deadline } from "@prisma/client";
-import { addDays, isSameDay, isPast } from "date-fns";
+import { isSameDay, isPast } from "date-fns";
 
-export default function Week({
-  startOfWeek,
-  deadlines,
-}: {
-  startOfWeek: Date;
-  deadlines: (Deadline | null)[][];
-}) {
+export default function Day({dateOfDay, i, deadlines}: {dateOfDay: Date, i: number, deadlines: (Deadline | null)[][]}){
   const { openModal } = useModalMutators();
-  // console.log(deadlines)
-  const rows = [];
-  for (let i = 0; i < 7; i++) {
-    const dateOfDay: Date = addDays(startOfWeek, i);
-    // console.log("render")
-    // console.log(deadlines)
-    rows.push(
-      <div
-        key={i}
+  return <div
         className="w-full min-h-[7rem] border cursor-pointer dark:border-slate-700 pb-1"
         onClick={() => {
           openModal({ date: dateOfDay, deadlines: deadlines[i] });
@@ -66,7 +52,4 @@ export default function Week({
           </span>
         ))}
       </div>
-    );
-  }
-  return <div className="week flex pb-4">{rows}</div>;
 }
