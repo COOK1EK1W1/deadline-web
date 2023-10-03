@@ -17,8 +17,8 @@ export default function Day({dateOfDay, week, day}: {dateOfDay: Date, i: number,
         <DateIco date={dateOfDay} showDay={true} />
 
         {/* deadlines */}
-        {deadlinesForDays[week*7 + day].map((x: number | null) => (
-          <Pill deadline={x} dateOfDay={dateOfDay}/> 
+        {deadlinesForDays[week*7 + day].map((x: number | null, i: number) => (
+          <Pill key={i} deadline={x} dateOfDay={dateOfDay}/> 
         ))}
       </div>
 }
