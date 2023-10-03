@@ -1,8 +1,5 @@
-
-
 import DateIco from "@/components/date";
 import { useModalMutators } from "@/components/modal/modalProvider";
-
 import { useContext } from "react";
 import { DeadlinesContext } from "@/components/deadlines/deadlines.context";
 import Pill from "./pill";

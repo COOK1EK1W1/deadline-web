@@ -28,29 +28,18 @@ export default function Modal() {
   // as the Form component will not alter the oldData at all
   // and internally keeps track of the newData which can then be accessed
   // in its submit handler
-  const [deadline, setDeadline] = useState<Deadline>({} as Deadline);
+  const [deadline, setDeadline] = useState<number|null>(null);
 
   // set deadline to default values before opening editForm for CREATING a new deadline
   function handleOpenFormForCreate() {
-    setDeadline({
-      name: "",
-      subject: "",
-      start: null,
-      due: modalDeadlines.date,
-      mark: 0,
-      room: "",
-      url: "",
-      info: "",
-      color: 1,
-      id: -1,
-    });
+    setDeadline(null);
     setShowEditForm(true);
     setIsEditFormChanged(false);
   }
 
   // set deadline to existing data before opening editForm for EDITING existing deadline
-  function handleOpenFormForEdit(data: Deadline) {
-    setDeadline(data);
+  function handleOpenFormForEdit(id: number) {
+    setDeadline(id);
     setShowEditForm(true);
     setIsEditFormChanged(false);
   }
@@ -110,22 +99,22 @@ export default function Modal() {
                   onClose={handleCloseEditForm}
                   onChange={() => setIsEditFormChanged(true)}
                   onSubmit={handleSubmitEditForm}
-                  initialData={deadline}
+                  id={deadline}
                 />
               )}
 
               {modalDeadlines.deadlines
-                .filter((deadline): deadline is Deadline => !!deadline) // filter out all deadlines which are null
-                .map((deadline) => (
+                .filter((deadlineId): deadlineId is number => deadlineId !== null) // filter out all deadlines which are null
+                .map((deadlineId) => (
                   <DeadlineCard
-                    key={`${deadline.name}-${deadline.subject}`}
-                    data={deadline}
-                    handleEdit={() => handleOpenFormForEdit(deadline)}
+                    key={deadlineId}
+                    id={deadlineId}
+                    handleEdit={() => handleOpenFormForEdit(deadlineId)}
                   />
                 ))}
 
               {modalDeadlines.deadlines.filter(
-                (deadline): deadline is Deadline => !!deadline
+                (deadline): deadline is number| null => !!deadline
               ).length == 0 &&
                 !showEditForm && (
                   <div className="flex justify-center p-8">No Deadlines!!</div>

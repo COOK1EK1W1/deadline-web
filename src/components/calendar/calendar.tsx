@@ -4,7 +4,6 @@ import Week from "./week";
 import Modal from "../modal/modal";
 import { addDays, differenceInCalendarWeeks, format } from "date-fns";
 import { ModalProvider } from "@/components/modal/modalProvider";
-import { useDeadlinesContext } from '@/components/deadlines';
 import { env } from '@/config/env/client';
 
 export default function Calendar() {

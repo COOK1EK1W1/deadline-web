@@ -3,21 +3,24 @@ import { Deadline } from "@prisma/client";
 import { differenceInWeeks, format } from "date-fns";
 import Link from "next/link";
 import { PiTrashBold, PiPencilBold } from "react-icons/pi"
-import { useTransition } from "react";
+import { useContext, useTransition } from "react";
 import { deleteAction } from "./formAction";
 import { useModalMutators } from "./modalProvider";
 
 import { env } from '@/config/env/client';
+import { DeadlinesContext } from "../deadlines/deadlines.context";
 
-export default function DeadlineCard({ data, handleEdit }: { data: Deadline, handleEdit: Function }) {
+export default function DeadlineCard({ id, handleEdit }: { id: number, handleEdit: Function }) {
   const [isPending, startTransition] = useTransition();
   const { closeModal } = useModalMutators();
-
-  if (!data) return null;
+  
+  const {deadlines} = useContext(DeadlinesContext)
+  const deadlineObj = deadlines.find((e)=>e.id == id)
+  if (deadlineObj == undefined) return
 
   const deleteDeadline = async () => {
     startTransition(async ()=>{
-      const response = await deleteAction(String(window.prompt("enter the password")), data.id)
+      const response = await deleteAction(String(window.prompt("enter the password")), id)
       if (!response){
         window.alert("there was an error")
       }else{
@@ -27,38 +30,38 @@ export default function DeadlineCard({ data, handleEdit }: { data: Deadline, han
   }
 
 
-  return <div className=" p-2 glass mb-2" style={{ backgroundColor: `lch(64% 50 ${data.color} / .7) ` }}>
+  return <div className=" p-2 glass mb-2" style={{ backgroundColor: `lch(64% 50 ${deadlineObj.color} / .7) ` }}>
     <div className="float-right cursor-pointer" onClick={() => { deleteDeadline() }}><PiTrashBold /></div>
 
     <div className="float-right cursor-pointer" onClick={() => handleEdit()}><PiPencilBold></PiPencilBold></div>
 
     <div>
       <div className="pb-2">
-        <span className="text-2xl">{data.name}</span>
+        <span className="text-2xl">{deadlineObj.name}</span>
         <span className="w-4 inline-block"></span>
-        <span>{data.subject}</span>
+        <span>{deadlineObj.subject}</span>
         <span className="w-4 inline-block"></span>
-        <span>{data.mark}%</span>
+        <span>{deadlineObj.mark}%</span>
 
       </div>
 
       <div className="flex flex-wrap justify-start pb-2">
-        {data.start && <div className="pr-4 pb-4">
-          <p>Starts: { format(data.start, "Pp")}</p>
-          <p>{`${format(data.start, 'EEEE')} of week ${differenceInWeeks(data.start, env.NEXT_PUBLIC_SEMESTER_START) + 1}`}
+        {deadlineObj.start && <div className="pr-4 pb-4">
+          <p>Starts: { format(deadlineObj.start, "Pp")}</p>
+          <p>{`${format(deadlineObj.start, 'EEEE')} of week ${differenceInWeeks(deadlineObj.start, env.NEXT_PUBLIC_SEMESTER_START) + 1}`}
         </p>
         </div>}
         <div>
-          <p>Due: {new Date(data.due).toLocaleDateString()} at {new Date(data.due).toLocaleTimeString()}</p>
-          <p>{format(data.due, 'EEEE')} of week {differenceInWeeks(data.due, env.NEXT_PUBLIC_SEMESTER_START) + 1}</p>
+          <p>Due: {new Date(deadlineObj.due).toLocaleDateString()} at {new Date(deadlineObj.due).toLocaleTimeString()}</p>
+          <p>{format(deadlineObj.due, 'EEEE')} of week {differenceInWeeks(deadlineObj.due, env.NEXT_PUBLIC_SEMESTER_START) + 1}</p>
         </div>
       </div>
 
       <div>
-        {(!data.info && !data.room && !data.url) && <p className="text-sm">More info will apear here..</p>}
-        <p>{data.info}</p>
-        {(data.room) && <p>Location: {data.room}</p>}
-        {(data.url) && <Link href={data.url} className="underline hover:no-underline">Spec/Submission</Link>}
+        {(!deadlineObj.info && !deadlineObj.room && !deadlineObj.url) && <p className="text-sm">More info will apear here..</p>}
+        <p>{deadlineObj.info}</p>
+        {(deadlineObj.room) && <p>Location: {deadlineObj.room}</p>}
+        {(deadlineObj.url) && <Link href={deadlineObj.url} className="underline hover:no-underline">Spec/Submission</Link>}
       </div>
 
 

@@ -3,14 +3,15 @@ import { AiOutlineClose } from "react-icons/ai";
 import { PiPaperPlaneTiltBold } from "react-icons/pi";
 import { Deadline } from "@prisma/client";
 import { Form, Input } from "@/components/form";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { createAction, editAction } from "./formAction";
 import { useTransition } from "react";
 import Spinner from "@/components/spinner/Spinner";
 import { format } from "date-fns";
+import { DeadlinesContext } from "../deadlines/deadlines.context";
 
 type Props = {
-  initialData: Deadline;
+  id: number| null;
   onClose: () => void;
   onChange: () => void;
   onSubmit: () => void;
@@ -38,9 +39,14 @@ export default function EditForm({
   onClose,
   onChange,
   onSubmit,
-  initialData,
+  id,
 }: Props) {
   const [isPending, startTransition] = useTransition();
+
+  const {deadlines} = useContext(DeadlinesContext)
+  const initialData = deadlines.find((e)=>e.id == id)
+  if (id === null || initialData === undefined) return
+
   const [color, setColor] = useState<number>(initialData.color ?? 1);
 
   const handleSubmit = async (formData: Deadline) => {
