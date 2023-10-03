@@ -23,7 +23,7 @@ export default function Calendar() {
       );
     }
     rows.push(
-      <Week startOfWeek={dateOfWeek} key={i * 2 + 1} deadlines={deadlines.slice(0 + i * 7, 7 + i * 7)}></Week>
+      <Week startOfWeek={dateOfWeek} key={i * 2 + 1} week={i}></Week>
     );
   }
 
