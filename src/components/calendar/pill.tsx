@@ -1,6 +1,4 @@
 import { isPast, isSameDay } from "date-fns";
-import { DeadlinesContext } from "../deadlines/deadlines.context";
-import { useContext } from "react";
 import { useDeadlines } from '../deadlines/deadlines.context';
 import cn from '@/util/cn';
 

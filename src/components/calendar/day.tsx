@@ -1,15 +1,23 @@
 "use client";
 import DateIco from "@/components/date";
 import { useModalMutators } from "@/components/modal/modalProvider";
-import { useContext } from "react";
-import { DeadlinesContext } from "@/components/deadlines/deadlines.context";
 import Pill from "./pill";
 import { useDeadlines } from '@/components/deadlines/deadlines.context';
+import { env } from '@/config/env/client';
+import { addDays } from "date-fns";
 
-export default function Day({ dateOfDay, week, day }: { dateOfDay: Date, i: number, week: number, day: number; }) {
+type Props = {
+  day: number;
+  week: number,
+};
+
+const START_DATE = env.NEXT_PUBLIC_START_DATE;
+
+export default function Day({ day, week }: Props) {
   const { openModal } = useModalMutators();
   const { getDeadlinesForDay } = useDeadlines();
   const deadlines = getDeadlinesForDay({ week, day });
+  const dateOfDay = addDays(START_DATE, (week * 7) + day);
 
   return (
     <div
