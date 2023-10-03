@@ -1,6 +1,6 @@
-"use client";
+import { env } from '@/config/env/client';
 
-import { addDays } from "date-fns";
+import { addDays, differenceInCalendarWeeks, format } from "date-fns";
 import Day from "./day";
 
 export default function Week({
@@ -18,5 +18,18 @@ export default function Week({
       <Day dateOfDay={dateOfDay} i={i} key={i} week={week} day={i}></Day>
     );
   }
-  return <div className="week flex pb-4">{rows}</div>;
+  return <div>
+    {env.NEXT_PUBLIC_SEMESTER_START.getTime() <= startOfWeek.getTime() &&
+      <div>
+        <div className="pl-3">
+          Week {differenceInCalendarWeeks(startOfWeek, env.NEXT_PUBLIC_SEMESTER_START) + 1} - Beginning {format(startOfWeek, 'd/M')}
+        </div>
+
+      </div>
+    }
+    <div className="week flex pb-4">
+      {rows}
+    </div>
+  </div>
+    
 }

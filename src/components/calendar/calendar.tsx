@@ -1,26 +1,17 @@
-"use client";
 import React from "react";
 import Week from "./week";
 import Modal from "../modal/modal";
-import { addDays, differenceInCalendarWeeks, format } from "date-fns";
+import { addDays } from "date-fns";
 import { ModalProvider } from "@/components/modal/modalProvider";
 import { env } from '@/config/env/client';
 
 export default function Calendar() {
   const rows = [];
   for (var i = 0; i < env.NEXT_PUBLIC_TOTAL_WEEKS; i++) {
-    const dateOfWeek = addDays(env.NEXT_PUBLIC_START_DATE, 7 * i);
-    if (env.NEXT_PUBLIC_SEMESTER_START.getTime() <= dateOfWeek.getTime()) {
-
-      rows.push(
-        <div key={i * 2}>
-          <div className="pl-3">Week {differenceInCalendarWeeks(dateOfWeek, env.NEXT_PUBLIC_SEMESTER_START) + 1} - Beginning {format(dateOfWeek, 'd/M')}</div>
-
-        </div>
-      );
-    }
+    const startOfWeek = addDays(env.NEXT_PUBLIC_START_DATE, 7 * i);
+    
     rows.push(
-      <Week startOfWeek={dateOfWeek} key={i * 2 + 1} week={i}></Week>
+      <Week startOfWeek={startOfWeek} key={i} week={i}></Week>
     );
   }
 

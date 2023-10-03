@@ -1,3 +1,4 @@
+"use client"
 import DateIco from "@/components/date";
 import { useModalMutators } from "@/components/modal/modalProvider";
 import { useContext } from "react";
@@ -20,5 +21,5 @@ export default function Day({dateOfDay, week, day}: {dateOfDay: Date, i: number,
         {deadlinesForDays[week*7 + day].map((x: number | null, i: number) => (
           <Pill key={i} deadline={x} dateOfDay={dateOfDay}/> 
         ))}
-      </div>
+  </div>
 }

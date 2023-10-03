@@ -1,4 +1,4 @@
-import { Deadline } from "@prisma/client"
+"use client"
 import React, { ReactNode, useCallback, useContext, useMemo } from "react"
 import { useState } from "react"
 
