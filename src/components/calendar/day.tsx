@@ -4,11 +4,11 @@ import { useModalMutators } from "@/components/modal/modalProvider";
 import { useContext } from "react";
 import { DeadlinesContext } from "@/components/deadlines/deadlines.context";
 import Pill from "./pill";
-import { useDeadlinesContext } from '@/components/deadlines/deadlines.context';
+import { useDeadlines } from '@/components/deadlines/deadlines.context';
 
 export default function Day({ dateOfDay, week, day }: { dateOfDay: Date, i: number, week: number, day: number; }) {
   const { openModal } = useModalMutators();
-  const { getDeadlinesForDay } = useDeadlinesContext();
+  const { getDeadlinesForDay } = useDeadlines();
   const deadlines = getDeadlinesForDay({ week, day });
 
   return (

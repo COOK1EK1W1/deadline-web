@@ -1,7 +1,7 @@
 import { isPast, isSameDay } from "date-fns";
 import { DeadlinesContext } from "../deadlines/deadlines.context";
 import { useContext } from "react";
-import { useDeadlinesContext } from '../deadlines/deadlines.context';
+import { useDeadlines } from '../deadlines/deadlines.context';
 import cn from '@/util/cn';
 
 type Props = {
@@ -10,7 +10,7 @@ type Props = {
 };
 
 export default function Pill({ id, dateOfDay }: Props) {
-  const { getDeadlineById } = useDeadlinesContext();
+  const { getDeadlineById } = useDeadlines();
 
   if (!id) {
     return (

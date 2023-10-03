@@ -10,7 +10,7 @@ type DeadlinesContextValue = {
 
 export const DeadlinesContext = createContext<DeadlinesContextValue>(undefined as any);
 
-export function useDeadlinesContext() {
+export function useDeadlines() {
   const context = useContext(DeadlinesContext);
 
   if (context === undefined) {
