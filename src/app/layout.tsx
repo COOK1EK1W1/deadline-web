@@ -4,11 +4,11 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { Deadline } from "@prisma/client";
 import prisma from "@/config/prisma";
-import { DeadlinesProvider } from '@/components/deadlines';
 import "@/config/env/server";
 import "@/config/env/client";
-import  TopBar  from '@/components/topBar/TopBar'
-import ThemeProviders from '@/components/topBar/ThemeProvider';
+import TopBar from '@/components/topBar/TopBar';
+import Providers from '@/components/Providers';
+import Modal from '@/components/modal/modal';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -23,13 +23,12 @@ export default async function RootLayout({ children, }: { children: React.ReactN
   return (
     <html lang="en">
       <body className={`${inter.className} bg-white dark:bg-slate-800 dark:text-white`}>
-        <ThemeProviders>
-          <TopBar/>
-          <DeadlinesProvider deadlines={deadlines}>
-            {children}
-          </DeadlinesProvider>
-        <Analytics />
-        </ThemeProviders>
+        <Providers deadlines={deadlines}>
+          <TopBar />
+          {children}
+          <Modal />
+          <Analytics />
+        </Providers>
       </body>
     </html>
   );

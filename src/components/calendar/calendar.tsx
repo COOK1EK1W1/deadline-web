@@ -1,7 +1,5 @@
 import React from "react";
 import Week from "./week";
-import Modal from "../modal/modal";
-import { ModalProvider } from "@/components/modal/modalProvider";
 import { env } from '@/config/env/client';
 
 const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"] as const;
@@ -17,11 +15,9 @@ export default function Calendar() {
         ))}
       </div>
 
-      <ModalProvider modal={<Modal />}>
-        {totalWeeksIndexes.map((numWeek) => (
-          <Week key={numWeek} week={numWeek} />
-        ))}
-      </ModalProvider>
+      {totalWeeksIndexes.map((numWeek) => (
+        <Week key={numWeek} week={numWeek} />
+      ))}
     </div>
   );
 }

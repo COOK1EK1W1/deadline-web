@@ -27,7 +27,6 @@ export default function Input({
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setData(name, event.target.value);
     onChange?.(event.target.value, event);
-    console.log(event.target.value);
   };
 
   return (

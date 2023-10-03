@@ -102,8 +102,6 @@ export default function EditForm({
           <Input name="subject" label="Subject" type="text" required />
         </div>
 
-        <input type="datetime-local" />
-
         <div className="flex flex-wrap justify-around">
           <Input name="start" label="Start Date" type="datetime-local" />
           <Input name="due" label="Due Date" type="datetime-local" />
