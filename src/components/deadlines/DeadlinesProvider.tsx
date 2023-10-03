@@ -23,7 +23,8 @@ export default function DeadlinesProvider({ children, deadlines }: Props) {
   }, [deadlinesObject]);
 
   const values = useMemo(() => ({
-    getDeadlinesForDay, getDeadlineById
+    getDeadlinesForDay,
+    getDeadlineById
   }), [getDeadlinesForDay, getDeadlineById]);
 
   return (

@@ -12,6 +12,7 @@ import { useDeadlines } from '../deadlines/deadlines.context';
 
 type Props = {
   id: number | null;
+  dateOfDay: Date;
   onClose: () => void;
   onChange: () => void;
   onSubmit: () => void;
@@ -40,6 +41,7 @@ export default function EditForm({
   onChange,
   onSubmit,
   id,
+  dateOfDay
 }: Props) {
   const [isPending, startTransition] = useTransition();
   const { getDeadlineById } = useDeadlines();
@@ -49,7 +51,7 @@ export default function EditForm({
     name: "",
     subject: "",
     start: null,
-    due: new Date(),
+    due: dateOfDay,
     room: "",
     url: "",
     color: 1,
@@ -99,6 +101,8 @@ export default function EditForm({
           <Input name="name" label="Name" type="text" required />
           <Input name="subject" label="Subject" type="text" required />
         </div>
+
+        <input type="datetime-local" />
 
         <div className="flex flex-wrap justify-around">
           <Input name="start" label="Start Date" type="datetime-local" />
