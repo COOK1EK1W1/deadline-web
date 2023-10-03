@@ -8,8 +8,6 @@ import { useDeadlinesContext } from '@/components/deadlines';
 import { env } from '@/config/env/client';
 
 export default function Calendar() {
-  const deadlines = useDeadlinesContext();
-
   const rows = [];
   for (var i = 0; i < env.NEXT_PUBLIC_TOTAL_WEEKS; i++) {
     const dateOfWeek = addDays(env.NEXT_PUBLIC_START_DATE, 7 * i);

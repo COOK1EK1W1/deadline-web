@@ -2,7 +2,7 @@
 import { createContext, useContext } from 'react';
 import { Deadline } from '@prisma/client';
 
-export const DeadlinesContext = createContext<(Deadline | null)[][]>(undefined as any);
+export const DeadlinesContext = createContext<{ deadlinesForDays: (Deadline | null)[][], deadlines: Deadline[] }>(undefined as any);
 
 export function useDeadlinesContext() {
   const context = useContext(DeadlinesContext);

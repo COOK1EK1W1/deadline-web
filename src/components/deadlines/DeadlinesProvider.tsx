@@ -10,10 +10,10 @@ type Props = {
 };
 
 export default function DeadlinesProvider({ children, deadlines }: Props) {
-  const deadlinesValue = useMemo(() => getDeadlinesForDays(deadlines), [deadlines]);
+  const deadlinesForDays = useMemo(() => getDeadlinesForDays(deadlines), [deadlines]);
 
   return (
-    <DeadlinesContext.Provider value={deadlinesValue}>
+    <DeadlinesContext.Provider value={{deadlinesForDays, deadlines}}>
       {children}
     </DeadlinesContext.Provider>
   );
