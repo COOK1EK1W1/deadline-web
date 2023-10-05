@@ -2,7 +2,7 @@ import { Deadline } from '@prisma/client';
 import { addDays, isBefore, startOfDay } from "date-fns";
 import { env } from '@/config/env/client';
 
-export function getDeadlinesForDays(
+export function getDeadlinesForAllDays(
   deadlines: Deadline[]
 ): (number | null)[][] {
   const deadlinesOrdered: (number | null)[][] = [];
@@ -88,4 +88,12 @@ export function getDeadlinesForDays(
   }
 
   return deadlinesOrdered;
+}
+
+export function transformDeadlinesToObject(deadlines: Deadline[]) {
+  // convert array of deadlines to array of tuples [deadline.id, deadline]
+  // then convert array of tuples to object {deadline.id: deadline}
+  return Object.fromEntries(
+    deadlines.map((deadline) => [deadline.id, deadline])
+  );
 }

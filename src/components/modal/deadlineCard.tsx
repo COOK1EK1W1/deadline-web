@@ -1,71 +1,68 @@
-"use client"
-import { Deadline } from "@prisma/client";
+"use client";
 import { differenceInWeeks, format } from "date-fns";
 import Link from "next/link";
-import { PiTrashBold, PiPencilBold } from "react-icons/pi"
-import { useContext, useTransition } from "react";
+import { PiTrashBold, PiPencilBold } from "react-icons/pi";
+import { useTransition } from "react";
 import { deleteAction } from "./formAction";
 import { useModalMutators } from "./modalProvider";
-
+import { useDeadlines } from '../deadlines/deadlines.context';
 import { env } from '@/config/env/client';
-import { DeadlinesContext } from "../deadlines/deadlines.context";
 
-export default function DeadlineCard({ id, handleEdit }: { id: number, handleEdit: Function }) {
+type Props = {
+  id: number;
+  handleEdit: () => void;
+};
+
+export default function DeadlineCard({ id, handleEdit }: Props) {
   const [isPending, startTransition] = useTransition();
   const { closeModal } = useModalMutators();
-  
-  const {deadlines} = useContext(DeadlinesContext)
-  const deadlineObj = deadlines.find((e)=>e.id == id)
-  if (deadlineObj == undefined) return
+  const { getDeadlineById } = useDeadlines();
+  const deadline = getDeadlineById(id);
 
   const deleteDeadline = async () => {
-    startTransition(async ()=>{
-      const response = await deleteAction(String(window.prompt("enter the password")), id)
-      if (!response){
-        window.alert("there was an error")
-      }else{
-        closeModal()
+    startTransition(async () => {
+      const response = await deleteAction(String(window.prompt("enter the password")), id);
+      if (!response) {
+        window.alert("there was an error");
+      } else {
+        closeModal();
       }
-    })
-  }
+    });
+  };
 
+  if (!deadline) return;
 
-  return <div className=" p-2 glass mb-2" style={{ backgroundColor: `lch(64% 50 ${deadlineObj.color} / .7) ` }}>
-    <div className="float-right cursor-pointer" onClick={() => { deleteDeadline() }}><PiTrashBold /></div>
-
+  return <div className=" p-2 glass mb-2" style={{ backgroundColor: `lch(64% 50 ${deadline.color} / .7) ` }}>
+    <div className="float-right cursor-pointer" onClick={() => { deleteDeadline(); }}><PiTrashBold /></div>
     <div className="float-right cursor-pointer" onClick={() => handleEdit()}><PiPencilBold></PiPencilBold></div>
 
     <div>
       <div className="pb-2">
-        <span className="text-2xl">{deadlineObj.name}</span>
+        <span className="text-2xl">{deadline.name}</span>
         <span className="w-4 inline-block"></span>
-        <span>{deadlineObj.subject}</span>
+        <span>{deadline.subject}</span>
         <span className="w-4 inline-block"></span>
-        <span>{deadlineObj.mark}%</span>
-
+        <span>{deadline.mark}%</span>
       </div>
 
       <div className="flex flex-wrap justify-start pb-2">
-        {deadlineObj.start && <div className="pr-4 pb-4">
-          <p>Starts: { format(deadlineObj.start, "Pp")}</p>
-          <p>{`${format(deadlineObj.start, 'EEEE')} of week ${differenceInWeeks(deadlineObj.start, env.NEXT_PUBLIC_SEMESTER_START) + 1}`}
-        </p>
+        {deadline.start && <div className="pr-4 pb-4">
+          <p>Starts: {format(deadline.start, "Pp")}</p>
+          <p>{`${format(deadline.start, 'EEEE')} of week ${differenceInWeeks(deadline.start, env.NEXT_PUBLIC_SEMESTER_START) + 1}`}
+          </p>
         </div>}
         <div>
-          <p>Due: {new Date(deadlineObj.due).toLocaleDateString()} at {new Date(deadlineObj.due).toLocaleTimeString()}</p>
-          <p>{format(deadlineObj.due, 'EEEE')} of week {differenceInWeeks(deadlineObj.due, env.NEXT_PUBLIC_SEMESTER_START) + 1}</p>
+          <p>Due: {new Date(deadline.due).toLocaleDateString()} at {new Date(deadline.due).toLocaleTimeString()}</p>
+          <p>{format(deadline.due, 'EEEE')} of week {differenceInWeeks(deadline.due, env.NEXT_PUBLIC_SEMESTER_START) + 1}</p>
         </div>
       </div>
 
       <div>
-        {(!deadlineObj.info && !deadlineObj.room && !deadlineObj.url) && <p className="text-sm">More info will apear here..</p>}
-        <p>{deadlineObj.info}</p>
-        {(deadlineObj.room) && <p>Location: {deadlineObj.room}</p>}
-        {(deadlineObj.url) && <Link href={deadlineObj.url} className="underline hover:no-underline">Spec/Submission</Link>}
+        {(!deadline.info && !deadline.room && !deadline.url) && <p className="text-sm">More info will apear here..</p>}
+        <p>{deadline.info}</p>
+        {(deadline.room) && <p>Location: {deadline.room}</p>}
+        {(deadline.url) && <Link href={deadline.url} className="underline hover:no-underline">Spec/Submission</Link>}
       </div>
-
-
     </div>
-
-  </div>
+  </div>;
 }

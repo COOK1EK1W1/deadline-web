@@ -1,35 +1,38 @@
 import { env } from '@/config/env/client';
-
 import { addDays, differenceInCalendarWeeks, format } from "date-fns";
 import Day from "./day";
 
-export default function Week({
-  startOfWeek,
-  week,
-}: {
-  startOfWeek: Date;
-  week: number
-}) {
+type Props = {
+  week: number;
+};
 
-  const rows = [];
-  for (let i = 0; i < 7; i++) {
-    const dateOfDay: Date = addDays(startOfWeek, i);
-    rows.push(
-      <Day dateOfDay={dateOfDay} i={i} key={i} week={week} day={i}></Day>
-    );
-  }
-  return <div>
-    {env.NEXT_PUBLIC_SEMESTER_START.getTime() <= startOfWeek.getTime() &&
-      <div>
+const START_DATE = env.NEXT_PUBLIC_START_DATE;
+const SEMESTER_START = env.NEXT_PUBLIC_SEMESTER_START;
+const NUM_DAYS = 7;
+const numDaysIndexes = Array.from(Array(NUM_DAYS).keys());
+
+export default function Week({ week }: Props) {
+  const startOfWeek = addDays(START_DATE, 7 * week);
+  const isWeekInSemester = SEMESTER_START.getTime() <= startOfWeek.getTime();
+  const weekNumberInSemester = differenceInCalendarWeeks(startOfWeek, SEMESTER_START) + 1;
+
+  return (
+    <div>
+      {isWeekInSemester && (
         <div className="pl-3">
-          Week {differenceInCalendarWeeks(startOfWeek, env.NEXT_PUBLIC_SEMESTER_START) + 1} - Beginning {format(startOfWeek, 'd/M')}
+          Week {weekNumberInSemester} - Beginning {format(startOfWeek, 'd/M')}
         </div>
+      )}
 
+      <div className="week flex pb-4">
+        {numDaysIndexes.map((numDay) => (
+          <Day
+            key={numDay}
+            day={numDay}
+            week={week}
+          />
+        ))}
       </div>
-    }
-    <div className="week flex pb-4">
-      {rows}
     </div>
-  </div>
-    
+  );
 }

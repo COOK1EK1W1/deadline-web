@@ -27,7 +27,7 @@ export default function Modal() {
   // as the Form component will not alter the oldData at all
   // and internally keeps track of the newData which can then be accessed
   // in its submit handler
-  const [deadline, setDeadline] = useState<number|null>(null);
+  const [deadline, setDeadline] = useState<number | null>(null);
 
   // set deadline to default values before opening editForm for CREATING a new deadline
   function handleOpenFormForCreate() {
@@ -99,6 +99,7 @@ export default function Modal() {
                   onChange={() => setIsEditFormChanged(true)}
                   onSubmit={handleSubmitEditForm}
                   id={deadline}
+                  dateOfDay={modalDeadlines.date}
                 />
               )}
 
@@ -112,9 +113,7 @@ export default function Modal() {
                   />
                 ))}
 
-              {modalDeadlines.deadlines.filter(
-                (deadline): deadline is number| null => !!deadline
-              ).length == 0 &&
+              {modalDeadlines.deadlines.filter((deadline): deadline is number => !!deadline).length == 0 &&
                 !showEditForm && (
                   <div className="flex justify-center p-8">No Deadlines!!</div>
                 )}
