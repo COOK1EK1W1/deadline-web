@@ -8,9 +8,11 @@ import { createAction, editAction } from "./formAction";
 import { useTransition } from "react";
 import Spinner from "@/components/spinner/Spinner";
 import { format } from "date-fns";
+import { useDeadlines } from '../deadlines/deadlines.context';
 
 type Props = {
-  initialData: Deadline;
+  id: number | null;
+  dateOfDay: Date;
   onClose: () => void;
   onChange: () => void;
   onSubmit: () => void;
@@ -38,9 +40,26 @@ export default function EditForm({
   onClose,
   onChange,
   onSubmit,
-  initialData,
+  id,
+  dateOfDay
 }: Props) {
   const [isPending, startTransition] = useTransition();
+  const { getDeadlineById } = useDeadlines();
+
+  const currentDeadline = id ? getDeadlineById(id) : null;
+  const initialData = currentDeadline || {
+    name: "",
+    subject: "",
+    start: null,
+    due: dateOfDay,
+    room: "",
+    url: "",
+    color: 1,
+    mark: 0,
+    info: "",
+    id: -1
+  };
+
   const [color, setColor] = useState<number>(initialData.color ?? 1);
 
   const handleSubmit = async (formData: Deadline) => {
@@ -48,13 +67,13 @@ export default function EditForm({
       const response =
         initialData.id != -1
           ? await editAction(
-              formData,
-              String(window.prompt("enter the password"))
-            )
+            formData,
+            String(window.prompt("enter the password"))
+          )
           : await createAction(
-              formData,
-              String(window.prompt("Enter the password"))
-            );
+            formData,
+            String(window.prompt("Enter the password"))
+          );
 
       if (response) {
         onSubmit();

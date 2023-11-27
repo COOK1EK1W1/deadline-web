@@ -1,26 +1,26 @@
-import { Deadline } from "@prisma/client"
-import React, { ReactNode, useCallback, useContext, useMemo } from "react"
-import { useState } from "react"
+"use client";
+import React, { ReactNode, useCallback, useContext, useMemo } from "react";
+import { useState } from "react";
 
 type DeadlineDate = {
   date: Date,
-  deadlines: (Deadline | null)[]
-}
+  deadlines: (number | null)[];
+};
 
 type ModalDataContext = {
   showCover: boolean,
   showModal: boolean,
   modalDeadlines: DeadlineDate,
-}
+};
 
 type ModalMutatorContext = {
   openModal: (d: DeadlineDate) => void,
   closeModal: () => void,
-}
+};
 
 export const ContextData = React.createContext<ModalDataContext>(
   { showCover: false, showModal: false, modalDeadlines: { date: new Date(), deadlines: [] } }
-)
+);
 
 export function useModalData() {
   const context = useContext(ContextData);
@@ -28,10 +28,10 @@ export function useModalData() {
   return context;
 }
 
-export const ContextMutator = React.createContext<ModalMutatorContext>({ 
-  openModal: () => { }, 
-  closeModal: () => { } 
-})
+export const ContextMutator = React.createContext<ModalMutatorContext>({
+  openModal: () => { },
+  closeModal: () => { }
+});
 
 export function useModalMutators() {
   const context = useContext(ContextMutator);
@@ -39,12 +39,12 @@ export function useModalMutators() {
   return context;
 }
 
-export function ModalProvider({ children, modal }: { children: ReactNode, modal: ReactNode }) {
+export function ModalProvider({ children }: { children: ReactNode; }) {
 
-  const [modalDeadlines, setModalDeadlines] = useState<DeadlineDate>({ date: new Date(), deadlines: [] })
+  const [modalDeadlines, setModalDeadlines] = useState<DeadlineDate>({ date: new Date(), deadlines: [] });
 
-  const [showModal, setShowModal] = useState(false)
-  const [showCover, setshowCover] = useState(false)
+  const [showModal, setShowModal] = useState(false);
+  const [showCover, setshowCover] = useState(false);
 
   const openModal = useCallback((d: DeadlineDate) => {
     setModalDeadlines(d);
@@ -65,10 +65,9 @@ export function ModalProvider({ children, modal }: { children: ReactNode, modal:
 
   return (
     <ContextMutator.Provider value={values}>
-      {children}
       <ContextData.Provider value={{ showCover, showModal, modalDeadlines }}>
-        {modal}
+        {children}
       </ContextData.Provider>
     </ContextMutator.Provider>
-  )
+  );
 }
