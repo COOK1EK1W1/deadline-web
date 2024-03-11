@@ -27,6 +27,7 @@ export async function createAction(formData: Deadline, password: string) {
   }
 
   revalidatePath("/")
+  revalidatePath("/api")
   return true
 }
 
@@ -37,6 +38,7 @@ export async function deleteAction(password: string, id: number) {
   }
 
   await prisma.deadline.delete({ where: { id: id} })
+  revalidatePath("/api")
   revalidatePath("/")
   return true
 }
@@ -55,5 +57,6 @@ export async function editAction(formData: Deadline, password: string){
   )
 
   revalidatePath("/")
+  revalidatePath("/api")
   return true
 }
