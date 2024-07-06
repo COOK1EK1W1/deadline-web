@@ -1,11 +1,11 @@
 "use client";
 import { createContext, useContext } from 'react';
-import { Deadline } from '@prisma/client';
+import { Course, Deadline } from '@prisma/client';
 import { WeekDay } from "./types";
 
 type DeadlinesContextValue = {
   getDeadlinesForDay: ({ week, day }: WeekDay) => (number | null)[];
-  getDeadlineById: (id: number) => Deadline;
+  getDeadlineById: (id: number) => Deadline & Course;
 };
 
 export const DeadlinesContext = createContext<DeadlinesContextValue>(undefined as any);

@@ -2,12 +2,12 @@
 import { DeadlinesContext } from './deadlines.context';
 import { getDeadlinesForAllDays, transformDeadlinesToObject } from './deadlines.util';
 import { useMemo, useCallback } from 'react';
-import { Deadline } from '@prisma/client';
 import { WeekDay } from "./types";
+import { ProgrammeDeadlines } from '@/types/programmeDeadline';
 
 type Props = {
   children: React.ReactNode;
-  deadlines: Deadline[];
+  deadlines: ProgrammeDeadlines;
 };
 
 export default function DeadlinesProvider({ children, deadlines }: Props) {

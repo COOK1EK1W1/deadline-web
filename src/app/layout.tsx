@@ -1,14 +1,10 @@
-import { Analytics } from '@vercel/analytics/react';
 import './globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import { Deadline } from "@prisma/client";
-import prisma from "@/config/prisma";
 import "@/config/env/server";
 import "@/config/env/client";
 import TopBar from '@/components/topBar/TopBar';
-import Providers from '@/components/Providers';
-import Modal from '@/components/modal/modal';
+import ThemeProviders from '@/components/topBar/ThemeProvider';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -18,18 +14,18 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children, }: { children: React.ReactNode; }) {
-  const deadlines: Deadline[] = await prisma.deadline.findMany();
 
   return (
     <html lang="en">
+      <ThemeProviders>
       <body className={`${inter.className} bg-white dark:bg-slate-800 dark:text-white`}>
-        <Providers deadlines={deadlines}>
-          <TopBar />
+      <TopBar />
+        <main className="flex flex-col items-center">
+          <h1 className="pt-2 pb-6 text-4xl dark:text-white">Deadline o matic</h1>
           {children}
-          <Modal />
-          <Analytics />
-        </Providers>
+        </main>
       </body>
+        </ThemeProviders>
     </html>
   );
 }

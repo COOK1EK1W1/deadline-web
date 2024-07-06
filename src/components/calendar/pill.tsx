@@ -19,6 +19,7 @@ export default function Pill({ deadlineId, dateOfDay }: Props) {
   }
 
   const deadline = getDeadlineById(deadlineId);
+  if (!deadline.due)return
   const isDeadlineStart = isSameDay(dateOfDay, new Date(deadline.start || deadline.due));
   const isDeadlineEnd = isSameDay(dateOfDay, new Date(deadline.due));
 

@@ -30,7 +30,7 @@ export default function DeadlineCard({ id, handleEdit }: Props) {
     });
   };
 
-  if (!deadline) return;
+  if (!deadline || !deadline.due) return;
 
   return <div className=" p-2 glass mb-2" style={{ backgroundColor: `lch(64% 50 ${deadline.color} / .7) ` }}>
     <div className="float-right cursor-pointer" onClick={() => { deleteDeadline(); }}><PiTrashBold /></div>
@@ -40,7 +40,7 @@ export default function DeadlineCard({ id, handleEdit }: Props) {
       <div className="pb-2">
         <span className="text-2xl">{deadline.name}</span>
         <span className="w-4 inline-block"></span>
-        <span>{deadline.subject}</span>
+        <span>{deadline.courseCode}</span>
         <span className="w-4 inline-block"></span>
         <span>{deadline.mark}%</span>
       </div>

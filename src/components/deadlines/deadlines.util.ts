@@ -1,9 +1,10 @@
-import { Deadline } from '@prisma/client';
+import { Course, Deadline } from '@prisma/client';
 import { addDays, isBefore, startOfDay } from "date-fns";
 import { env } from '@/config/env/client';
+import { ProgrammeDeadlines } from '@/types/programmeDeadline';
 
 export function getDeadlinesForAllDays(
-  deadlines: Deadline[]
+  programmeDeadlines: ProgrammeDeadlines
 ): (number | null)[][] {
   const deadlinesOrdered: (number | null)[][] = [];
   // console.log(deadlines)
@@ -17,8 +18,21 @@ export function getDeadlinesForAllDays(
     //deadlines which have not been in the calendar before today
     const newDay: (number | null)[] = [];
 
+
+    const deadlines: (Deadline & Course)[]= []
+    programmeDeadlines?.courses.map((course) =>{
+      course.deadlines.map((deadline)=>{
+        const {deadlines, ...rest} = course
+        deadlines.push({...deadline, ...rest})
+      })
+    })
+
+
+
+
     //find deadlines which apply for today
     const relevantDeadlines = deadlines.filter((x) =>
+      x.due &&
       !isBefore(startOfDay(x.due), startOfDay(dateOfDay)) &&
       !isBefore(startOfDay(dateOfDay), startOfDay(x.start || x.due))
     );
@@ -90,9 +104,17 @@ export function getDeadlinesForAllDays(
   return deadlinesOrdered;
 }
 
-export function transformDeadlinesToObject(deadlines: Deadline[]) {
+export function transformDeadlinesToObject(programmeDeadlines: ProgrammeDeadlines) {
   // convert array of deadlines to array of tuples [deadline.id, deadline]
   // then convert array of tuples to object {deadline.id: deadline}
+    const deadlines: (Deadline & Course)[]= []
+    programmeDeadlines?.courses.map((course) =>{
+      course.deadlines.map((deadline)=>{
+        const {deadlines, ...rest} = course
+        deadlines.push({...deadline, ...rest})
+      })
+    })
+  //
   return Object.fromEntries(
     deadlines.map((deadline) => [deadline.id, deadline])
   );
