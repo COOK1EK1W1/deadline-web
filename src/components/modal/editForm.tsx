@@ -2,7 +2,7 @@
 import { AiOutlineClose } from "react-icons/ai";
 import { PiPaperPlaneTiltBold } from "react-icons/pi";
 import { Deadline } from "@prisma/client";
-import { Form, Input } from "@/components/form";
+import { Form, Input, Select } from "@/components/form";
 import { useState } from "react";
 import { createAction, editAction } from "./formAction";
 import { useTransition } from "react";
@@ -44,12 +44,12 @@ export default function EditForm({
   dateOfDay
 }: Props) {
   const [isPending, startTransition] = useTransition();
-  const { getDeadlineById } = useDeadlines();
+  const { getDeadlineById, programme} = useDeadlines();
 
   const currentDeadline = id ? getDeadlineById(id) : null;
   const initialData: Deadline = currentDeadline || {
     name: "",
-    courseCode: "",
+    courseCode: programme?.courses[0].code || "",
     start: null,
     due: dateOfDay,
     room: "",
@@ -60,6 +60,7 @@ export default function EditForm({
   };
 
   const handleSubmit = async (formData: Deadline) => {
+    console.log(formData)
     startTransition(async () => {
       const response =
         initialData.id != -1
@@ -96,7 +97,7 @@ export default function EditForm({
       <div className="flex flex-col gap-5">
         <div className="flex flex-wrap justify-around">
           <Input name="name" label="Name" type="text" required />
-          <Input name="subject" label="Subject" type="text" required />
+          <Select name="courseCode" label="Course" options={programme?.courses.map((x) => x.code) || []}/>
         </div>
 
         <div className="flex flex-wrap justify-around">

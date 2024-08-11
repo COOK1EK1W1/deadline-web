@@ -11,7 +11,7 @@ async function validatePassword(courseCode: string, password: string) {
     where:{code: courseCode},
     include: {programme: true}
   })
-  return sha256(password) == course?.programme.password
+  return password == course?.programme.password
 }
 
 export async function createAction(formData: Deadline, password: string) {

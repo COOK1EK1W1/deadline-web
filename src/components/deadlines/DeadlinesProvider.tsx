@@ -1,6 +1,6 @@
 "use client";
 import { DeadlinesContext } from './deadlines.context';
-import { extractDeadlines, getDeadlinesForAllDays, transformDeadlinesToObject } from './deadlines.util';
+import { getDeadlinesForAllDays, transformDeadlinesToObject } from './deadlines.util';
 import { useMemo, useCallback } from 'react';
 import { WeekDay } from "./types";
 import { ProgrammeDeadlines } from '@/types/programmeDeadline';
