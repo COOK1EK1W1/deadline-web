@@ -6,14 +6,17 @@ import { sha256 } from "js-sha256"
 import { revalidatePath } from "next/cache"
 import { env } from "@/config/env/server"
 
-function validatePassword(password: string) {
-  const superSecretPassword = sha256(env.PASSWORD)
-  return sha256(password) == superSecretPassword
+async function validatePassword(courseCode: string, password: string) {
+  const course = await prisma.course.findUnique({
+    where:{code: courseCode},
+    include: {programme: true}
+  })
+  return sha256(password) == course?.programme.password
 }
 
 export async function createAction(formData: Deadline, password: string) {
   // validate password
-  if (!validatePassword(password)) {
+  if (!validatePassword(formData.courseCode, password)) {
     console.log("password invalid")
     return false
   }
@@ -31,8 +34,8 @@ export async function createAction(formData: Deadline, password: string) {
   return true
 }
 
-export async function deleteAction(password: string, id: number) {
-  if (!validatePassword(password)) {
+export async function deleteAction(courseCode: string, password: string, id: number) {
+  if (!validatePassword(courseCode, password)) {
     console.log("password invalid")
     return false
   }
@@ -45,7 +48,7 @@ export async function deleteAction(password: string, id: number) {
 
 export async function editAction(formData: Deadline, password: string){
   // validate password
-  if (!validatePassword(password)) {
+  if (!validatePassword(formData.courseCode, password)) {
     console.log("password invalid")
     return false
   }

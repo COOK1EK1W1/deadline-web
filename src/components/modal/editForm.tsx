@@ -47,20 +47,17 @@ export default function EditForm({
   const { getDeadlineById } = useDeadlines();
 
   const currentDeadline = id ? getDeadlineById(id) : null;
-  const initialData = currentDeadline || {
+  const initialData: Deadline = currentDeadline || {
     name: "",
-    subject: "",
+    courseCode: "",
     start: null,
     due: dateOfDay,
     room: "",
     url: "",
-    color: 1,
     mark: 0,
     info: "",
     id: -1
   };
-
-  const [color, setColor] = useState<number>(initialData.color ?? 1);
 
   const handleSubmit = async (formData: Deadline) => {
     startTransition(async () => {
@@ -88,7 +85,7 @@ export default function EditForm({
       initialData={initialData}
       transformers={transformers}
       formatters={formatters}
-      color={color}
+      color={100}
       onSubmit={handleSubmit}
       onChange={() => onChange()}
     >
@@ -118,16 +115,6 @@ export default function EditForm({
           <Input name="info" label="Info" type="text" />
         </div>
 
-        <div className="flex flex-wrap justify-around">
-          <Input
-            name="color"
-            label="Color"
-            type="range"
-            min={1}
-            max={360}
-            onChange={(value) => setColor(Number(value))}
-          />
-        </div>
 
         <button
           type="submit"

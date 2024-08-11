@@ -1,12 +1,12 @@
 import { env } from '@/config/env/client';
-import { addDays, differenceInCalendarWeeks, format } from "date-fns";
+import { subDays, addDays, differenceInCalendarWeeks, format } from "date-fns";
 import Day from "./day";
 
 type Props = {
   week: number;
 };
 
-const START_DATE = env.NEXT_PUBLIC_START_DATE;
+const START_DATE = subDays(env.NEXT_PUBLIC_SEMESTER_START, 14);
 const SEMESTER_START = env.NEXT_PUBLIC_SEMESTER_START;
 const NUM_DAYS = 7;
 const numDaysIndexes = Array.from(Array(NUM_DAYS).keys());

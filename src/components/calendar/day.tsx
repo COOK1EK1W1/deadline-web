@@ -4,14 +4,14 @@ import { useModalMutators } from "@/components/modal/modalProvider";
 import Pill from "./pill";
 import { useDeadlines } from '@/components/deadlines/deadlines.context';
 import { env } from '@/config/env/client';
-import { addDays } from "date-fns";
+import { addDays, subDays } from "date-fns";
 
 type Props = {
   day: number;
   week: number,
 };
 
-const START_DATE = env.NEXT_PUBLIC_START_DATE;
+const START_DATE = subDays(env.NEXT_PUBLIC_SEMESTER_START, 14)
 
 export default function Day({ day, week }: Props) {
   const { openModal } = useModalMutators();
@@ -28,9 +28,10 @@ export default function Day({ day, week }: Props) {
       <DateIco date={dateOfDay} showDay={true} />
 
       {/* deadlines */}
-      {deadlines.map((id, index) => (
-        <Pill key={index} deadlineId={id} dateOfDay={dateOfDay} />
-      ))}
+      {deadlines.map((id, index) => {
+        console.log(id)
+        return <Pill key={index} deadlineId={id} dateOfDay={dateOfDay} />
+      })}
     </div>
   );
 }

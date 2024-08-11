@@ -8,15 +8,19 @@ import prisma from "@/config/prisma";
 import { ProgrammeDeadlines } from '@/types/programmeDeadline';
 
 
-export default async function Home({params}: {params: {slug: string}}) {
-  console.log(params.slug)
+export default async function Home({params}: {params: {programme: string}}) {
 
   const deadlines: ProgrammeDeadlines = await prisma.programme.findFirst({
-    where: {code: params.slug},
-    include: {courses: {
-      include: {deadlines: true}
-    }}
+    where: {code: params.programme},
+    select: {
+      code: true,
+      title: true,
+      year: true,
+      courses: {include: {deadlines: true}},
+      password: false,
+    }
   });
+
 
   return (
     <Providers deadlines={deadlines}>

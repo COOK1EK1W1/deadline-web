@@ -2,8 +2,10 @@
 import { createContext, useContext } from 'react';
 import { Course, Deadline } from '@prisma/client';
 import { WeekDay } from "./types";
+import { ProgrammeDeadlines } from '@/types/programmeDeadline';
 
 type DeadlinesContextValue = {
+  programme: ProgrammeDeadlines
   getDeadlinesForDay: ({ week, day }: WeekDay) => (number | null)[];
   getDeadlineById: (id: number) => Deadline & Course;
 };

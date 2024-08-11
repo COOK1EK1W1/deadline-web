@@ -1,34 +1,45 @@
 import { Course, Deadline } from '@prisma/client';
-import { addDays, isBefore, startOfDay } from "date-fns";
+import { addDays, isBefore, startOfDay, subDays } from "date-fns";
 import { env } from '@/config/env/client';
 import { ProgrammeDeadlines } from '@/types/programmeDeadline';
 
-export function getDeadlinesForAllDays(
-  programmeDeadlines: ProgrammeDeadlines
-): (number | null)[][] {
-  const deadlinesOrdered: (number | null)[][] = [];
-  // console.log(deadlines)
-  for (let i = 0; i < env.NEXT_PUBLIC_TOTAL_WEEKS * 7; i++) {
-    //start of week date
 
-    const dateOfDay = addDays(env.NEXT_PUBLIC_START_DATE, i);
+function extractDeadlines(programmeDeadlines: ProgrammeDeadlines): (Deadline & Course)[]{
+  let retDeadlines: (Deadline & Course)[]= []
+
+
+  programmeDeadlines?.courses.map((course) =>{
+    course.deadlines.map((deadline)=>{
+      const {deadlines, ...rest} = course
+      const b = {...deadline, ...rest}
+      retDeadlines.push(b)
+    })
+  })
+  return retDeadlines
+}
+
+
+
+
+const calendarStart = subDays(env.NEXT_PUBLIC_SEMESTER_START, 14)
+
+
+export function getDeadlinesForAllDays(programmeDeadlines: ProgrammeDeadlines): (number | null)[][] {
+  const deadlinesOrdered: (number | null)[][] = [];
+
+  const deadlines = extractDeadlines(programmeDeadlines)
+
+
+  // for each day in calendar
+  for (let i = 0; i < 14 * 7; i++) {
+
+    const dateOfDay = addDays(calendarStart, i);
 
     //array to hold deadlines for that day, in correct position from yesterday
     let day: (number | null)[] = [];
+
     //deadlines which have not been in the calendar before today
-    const newDay: (number | null)[] = [];
-
-
-    const deadlines: (Deadline & Course)[]= []
-    programmeDeadlines?.courses.map((course) =>{
-      course.deadlines.map((deadline)=>{
-        const {deadlines, ...rest} = course
-        deadlines.push({...deadline, ...rest})
-      })
-    })
-
-
-
+    let newDay: (number | null)[] = [];
 
     //find deadlines which apply for today
     const relevantDeadlines = deadlines.filter((x) =>
@@ -107,15 +118,15 @@ export function getDeadlinesForAllDays(
 export function transformDeadlinesToObject(programmeDeadlines: ProgrammeDeadlines) {
   // convert array of deadlines to array of tuples [deadline.id, deadline]
   // then convert array of tuples to object {deadline.id: deadline}
-    const deadlines: (Deadline & Course)[]= []
+    const retDeadlines: (Deadline & Course)[]= []
     programmeDeadlines?.courses.map((course) =>{
       course.deadlines.map((deadline)=>{
         const {deadlines, ...rest} = course
-        deadlines.push({...deadline, ...rest})
+        retDeadlines.push({...deadline, ...rest})
       })
     })
   //
   return Object.fromEntries(
-    deadlines.map((deadline) => [deadline.id, deadline])
+    retDeadlines.map((deadline) => [deadline.id, deadline])
   );
 }

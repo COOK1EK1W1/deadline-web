@@ -13,6 +13,7 @@ model Programme{
   title String
   courses Course[]
   year          DateTime
+  password   String
 }
 
 model Course{
@@ -23,7 +24,7 @@ model Course{
   deadlines     Deadline[]
   programme     Programme @relation(fields: [programmeCode], references: [code], onDelete: Cascade, onUpdate: Cascade)
   programmeCode String
-  info          String
+  courseInfo    String @default("")
 }
 
 model Deadline {

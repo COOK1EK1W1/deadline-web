@@ -1,9 +1,8 @@
 import React from "react";
 import Week from "./week";
-import { env } from '@/config/env/client';
 
 const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"] as const;
-const TOTAL_WEEKS = env.NEXT_PUBLIC_TOTAL_WEEKS;
+const TOTAL_WEEKS = 12 + 2;
 const totalWeeksIndexes = Array.from(Array(TOTAL_WEEKS).keys());
 
 export default function Calendar() {
