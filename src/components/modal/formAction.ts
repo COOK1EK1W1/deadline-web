@@ -11,12 +11,12 @@ async function validatePassword(courseCode: string, password: string) {
     where:{code: courseCode},
     include: {programme: true}
   })
-  return password == course?.programme.password
+  return (password === course?.programme.password)
 }
 
 export async function createAction(formData: Deadline, password: string) {
   // validate password
-  if (!validatePassword(formData.courseCode, password)) {
+  if (!await validatePassword(formData.courseCode, password)) {
     console.log("password invalid")
     return false
   }
@@ -35,7 +35,7 @@ export async function createAction(formData: Deadline, password: string) {
 }
 
 export async function deleteAction(courseCode: string, password: string, id: number) {
-  if (!validatePassword(courseCode, password)) {
+  if (!await validatePassword(courseCode, password)) {
     console.log("password invalid")
     return false
   }
@@ -48,7 +48,7 @@ export async function deleteAction(courseCode: string, password: string, id: num
 
 export async function editAction(formData: Deadline, password: string){
   // validate password
-  if (!validatePassword(formData.courseCode, password)) {
+  if (!await validatePassword(formData.courseCode, password)) {
     console.log("password invalid")
     return false
   }

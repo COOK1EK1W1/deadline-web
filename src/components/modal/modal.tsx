@@ -98,7 +98,7 @@ export default function Modal() {
                   onClose={handleCloseEditForm}
                   onChange={() => setIsEditFormChanged(true)}
                   onSubmit={handleSubmitEditForm}
-                  id={deadline}
+                  deadlineId={deadline}
                   dateOfDay={modalDeadlines.date}
                 />
               )}
