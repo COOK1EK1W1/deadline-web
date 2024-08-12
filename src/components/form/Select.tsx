@@ -27,7 +27,7 @@ export default function Input({
   return (
     <div className="flex flex-col w-full m-1">
       <label htmlFor={id}>{label}: </label>
-      <select id={id} name={name} value={getData(name)} onChange={handleChange} className="p-1 px-2 rounded bg-slate-800">
+      <select id={id} name={name} value={getData(name)} onChange={handleChange} className="p-1 px-2 rounded dark:bg-slate-800 bg-white">
         {options.map((x, id) =>(
           <option key={id}>{x}</option>
 

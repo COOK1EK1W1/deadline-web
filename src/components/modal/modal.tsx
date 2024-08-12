@@ -72,11 +72,11 @@ export default function Modal() {
 
   return (
     <div
-      className={`modalCover ${showModal && "active"} ${showCover && "hidden"}`}
+      className={`modalCover fixed top-0 right-0 w-full h-full ${showModal && "active"} ${showCover && "hidden"}`}
       onClick={handleCloseModal}
     >
       <div className="flex w-full h-full justify-center">
-        <div className="bg-white dark:bg-slate-800 rounded-3xl modalCard">
+        <div className="modalCard bg-white dark:bg-slate-800 rounded-3xl border-2 dark:border-slate-700">
           <div className="m-2" onClick={(e) => e.stopPropagation()}>
             <div className="flex justify-between">
               <DateIco date={modalDeadlines.date} showDay={false} />

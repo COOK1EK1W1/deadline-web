@@ -47,7 +47,6 @@ div.week > div:last-child{
 }
 
 .modalCover{
-  @apply fixed w-full h-full top-0 right-0;
   backdrop-filter: blur(10px) opacity(0);
   transition :backdrop-filter 0.3s;
   display:none;
@@ -68,8 +67,6 @@ div.week > div:last-child{
   width: 98%;
   height: 70vh;
   box-shadow: 0 0px 30px 0 rgb(0 0 0 0 / 0.05);
-  border-width: 3px;
-  border-color: lightgrey;
 }
 .modalCover.active>div>.modalCard{
   margin-top: 40vh;

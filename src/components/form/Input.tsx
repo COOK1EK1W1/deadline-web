@@ -33,7 +33,7 @@ export default function Input({
     <div className="flex-col flex w-full m-1">
       <label htmlFor={id}>{label}: </label>
       <input
-        className="p-1 px-2 bg-slate-800"
+        className="p-1 px-2 dark:bg-slate-800 bg-white"
         type={type}
         id={id}
         name={name}
