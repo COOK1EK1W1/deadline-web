@@ -1,13 +1,14 @@
 "use client";
 import { AiOutlineClose } from "react-icons/ai";
 import { PiPaperPlaneTiltBold } from "react-icons/pi";
-import { Deadline } from "@prisma/client";
+import { Deadline, DeadlineType } from "@prisma/client";
 import { Form, Input, Select } from "@/components/form";
 import { createAction, editAction } from "./formAction";
 import { useTransition } from "react";
 import Spinner from "@/components/spinner/Spinner";
-import { format } from "date-fns";
+import { add, format, Duration } from "date-fns";
 import { useDeadlines } from '../deadlines/deadlines.context';
+import DatePicker from "./datePicker";
 
 type Props = {
   deadlineId: number | null;
@@ -39,11 +40,11 @@ export default function EditForm({ onClose, onChange, onSubmit, deadlineId, date
   const { getDeadlineById, programme} = useDeadlines();
 
   let initialData: Deadline = {
-    type: "COURSEWORK",
+    type: DeadlineType.Coursework,
     name: "",
     courseCode: programme?.courses[0].code || "",
     start: null,
-    due: dateOfDay,
+    due: add(dateOfDay, {hours: 15, minutes: 30}),
     room: "",
     url: "",
     mark: 0,
@@ -78,12 +79,14 @@ export default function EditForm({ onClose, onChange, onSubmit, deadlineId, date
     });
   };
 
+  let color = Number(programme?.courses.filter((x)=>x.code == initialData.courseCode)[0].color) || 1
+
   return (
     <Form
       initialData={initialData}
       transformers={transformers}
       formatters={formatters}
-      color={100}
+      color={color}
       onSubmit={handleSubmit}
       onChange={() => onChange()}
     >
@@ -96,11 +99,12 @@ export default function EditForm({ onClose, onChange, onSubmit, deadlineId, date
           <Input name="name" label="Name" type="text" required />
           <Select name="courseCode" label="Course" options={programme?.courses.map((x) => x.code) || []}/>
         </div>
-
-        <div className="flex flex-wrap justify-around">
-          <Input name="start" label="Start Date" type="datetime-local" />
-          <Input name="due" label="Due Date" type="datetime-local" />
+        <div>
+          <Select name="type" label="Deadline Type" options={Object.values(DeadlineType)}/>
         </div>
+
+        <DatePicker/>
+
 
         <div className="flex flex-wrap justify-around">
           <Input name="mark" label="Mark" type="number" />

@@ -30,7 +30,7 @@ model Course{
 model Deadline {
   id         Int       @id @default(autoincrement())
   name       String
-  type       DeadlineType @default(COURSEWORK)
+  type       DeadlineType @default(Coursework)
   course     Course @relation(fields: [courseCode], references: [code], onDelete: Cascade, onUpdate: Cascade)
   courseCode String
   start      DateTime?
@@ -42,7 +42,7 @@ model Deadline {
 }
 
 enum DeadlineType {
-  COURSEWORK
-  TEST
-  EXAM
+  Coursework
+  Test
+  Exam
 }
