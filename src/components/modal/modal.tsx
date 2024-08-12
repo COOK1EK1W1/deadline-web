@@ -50,7 +50,7 @@ export default function Modal() {
   }
 
   function shouldCloseEditForm() {
-    return !isEditFormChanged || window.confirm("Disregard changes?");
+    return !isEditFormChanged || window.confirm("Discard changes?");
   }
 
   function handleCloseEditForm() {

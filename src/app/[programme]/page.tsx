@@ -6,22 +6,16 @@ import Modal from '@/components/modal/modal';
 import Calendar from "@/components/calendar/calendar";
 import prisma from "@/config/prisma";
 import { ProgrammeDeadlines } from '@/types/programmeDeadline';
+import { getDeadlines, getDeadlinesCache } from '@/util/getDate';
+import { extractDeadlines } from '@/components/deadlines/deadlines.util';
 
 
 export default async function Home({params}: {params: {programme: string}}) {
 
-  const deadlines: ProgrammeDeadlines = await prisma.programme.findFirst({
-    where: {code: params.programme},
-    select: {
-      code: true,
-      title: true,
-      year: true,
-      courses: {include: {deadlines: true}},
-      password: false,
-    }
-  });
+  const deadlines = await getDeadlinesCache(params.programme)
 
-
+  console.log(deadlines)
+  console.log(extractDeadlines(deadlines))
   return (
     <Providers deadlines={deadlines}>
       <Calendar />

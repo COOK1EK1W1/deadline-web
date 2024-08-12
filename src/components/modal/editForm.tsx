@@ -94,25 +94,26 @@ export default function EditForm({ onClose, onChange, onSubmit, deadlineId, date
         <AiOutlineClose className="cursor-pointer" onClick={() => onClose()} />
       </div>
 
-      <div className="flex flex-col gap-5">
-        <div className="flex flex-wrap justify-around">
+      <div className="flex flex-col items-center">
+        <div className="flex flex-wrap md:flex-nowrap w-full">
           <Input name="name" label="Name" type="text" required />
           <Select name="courseCode" label="Course" options={programme?.courses.map((x) => x.code) || []}/>
         </div>
-        <div>
+        <div className="flex flex-wrap md:flex-nowrap w-full">
           <Select name="type" label="Deadline Type" options={Object.values(DeadlineType)}/>
+          <Input name="mark" label="Mark %" type="number" min={0} max={100}/>
         </div>
 
         <DatePicker/>
 
 
-        <div className="flex flex-wrap justify-around">
-          <Input name="mark" label="Mark" type="number" />
+        <div className="flex flex-wrap md:flex-nowrap w-full">
+          <Input name="room" label="Room" type="text" />
           <Input name="url" label="URL" type="url" />
         </div>
 
-        <div className="flex flex-wrap justify-around">
-          <Input name="room" label="Room" type="text" />
+
+        <div className="flex flex-wrap md:flex-nowrap">
           {/* TODO create a Textarea component and replace info Input */}
           <Input name="info" label="Info" type="text" />
         </div>

@@ -30,9 +30,10 @@ export default function Input({
   };
 
   return (
-    <div>
+    <div className="flex-col flex w-full m-1">
       <label htmlFor={id}>{label}: </label>
       <input
+        className="p-1 px-2 bg-slate-800"
         type={type}
         id={id}
         name={name}

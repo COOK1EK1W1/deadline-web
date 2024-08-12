@@ -14,7 +14,7 @@ export default function DatePicker(){
     )
   default:
     return (
-      <div className="flex flex-wrap justify-around">
+      <div className="flex justify-around">
         <Input name="start" label="Start Date" type="datetime-local" />
         <Input name="due" label="Due Date" type="datetime-local" />
       </div>

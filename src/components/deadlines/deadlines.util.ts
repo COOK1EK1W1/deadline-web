@@ -4,7 +4,7 @@ import { env } from '@/config/env/client';
 import { ProgrammeDeadlines } from '@/types/programmeDeadline';
 
 
-function extractDeadlines(programmeDeadlines: ProgrammeDeadlines): (Deadline & Course)[]{
+export function extractDeadlines(programmeDeadlines: ProgrammeDeadlines): (Deadline & Course)[]{
   let retDeadlines: (Deadline & Course)[]= []
 
 
