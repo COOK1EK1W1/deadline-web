@@ -24,7 +24,9 @@ export function extractDeadlines(programmeDeadlines: ProgrammeDeadlines): (Deadl
 const calendarStart = subDays(env.NEXT_PUBLIC_SEMESTER_START, 14)
 
 
-export function getDeadlinesForAllDays(programmeDeadlines: ProgrammeDeadlines): (number | null)[][] {
+export function getDeadlinesForAllDays(programmeDeadlines: ProgrammeDeadlines, currentShow: string[]): (number | null)[][] {
+
+
   const deadlinesOrdered: (number | null)[][] = [];
 
   const deadlines = extractDeadlines(programmeDeadlines)
@@ -46,6 +48,7 @@ export function getDeadlinesForAllDays(programmeDeadlines: ProgrammeDeadlines): 
       x.due &&
       !isBefore(startOfDay(x.due), startOfDay(dateOfDay)) &&
       !isBefore(startOfDay(dateOfDay), startOfDay(x.start || x.due))
+      && currentShow.includes(x.code)
     );
 
     //loop through each deadline and check if its in the day

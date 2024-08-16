@@ -4,6 +4,7 @@ import { getDeadlinesForAllDays, transformDeadlinesToObject } from './deadlines.
 import { useMemo, useCallback } from 'react';
 import { WeekDay } from "./types";
 import { ProgrammeDeadlines } from '@/types/programmeDeadline';
+import { useSearchParams } from 'next/navigation';
 
 type Props = {
   children: React.ReactNode;
@@ -11,7 +12,10 @@ type Props = {
 };
 
 export default function DeadlinesProvider({ children, deadlines }: Props) {
-  const deadlinesForAllDays = getDeadlinesForAllDays(deadlines)
+  const searchParams = useSearchParams()
+  const curShow = searchParams.get("show")?.split(",") || deadlines?.courses.map(x=>x.code) || []
+
+  const deadlinesForAllDays = getDeadlinesForAllDays(deadlines, curShow)
   const deadlinesObject = transformDeadlinesToObject(deadlines)
 
   const getDeadlinesForDay = useCallback(({ week, day }: WeekDay) => {
