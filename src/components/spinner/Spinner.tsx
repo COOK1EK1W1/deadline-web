@@ -7,6 +7,6 @@ type Props = {
 
 export default function Spinner({ size }: Props) {
   return (
-    <Image src={spinnerSVG} alt="Loading..." width={size} height={size} className='max-w-none' />
+    <Image src={spinnerSVG} alt="Loading..." width={size} height={size} className='max-w-none inline' />
   );
 }

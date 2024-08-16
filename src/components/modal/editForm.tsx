@@ -9,6 +9,7 @@ import Spinner from "@/components/spinner/Spinner";
 import { add, format, Duration } from "date-fns";
 import { useDeadlines } from '../deadlines/deadlines.context';
 import DatePicker from "./datePicker";
+import Button from "../button";
 
 type Props = {
   deadlineId: number | null;
@@ -119,13 +120,10 @@ export default function EditForm({ onClose, onChange, onSubmit, deadlineId, date
         </div>
 
 
-        <button
-          type="submit"
-          className="w-min self-center flex items-center gap-1 rounded-full bg-white dark:bg-slate-800 p-2 px-4 hover:scale-105"
-        >
-          Submit
-          {isPending ? <Spinner size={20} /> : <PiPaperPlaneTiltBold />}
-        </button>
+        <Button type="submit" className="w-40">
+          <span className="pr-2">Submit</span>
+            <span className="inline">{isPending ? <Spinner size={20}/> : <PiPaperPlaneTiltBold className="inline"/>}</span>
+        </Button>
       </div>
     </Form>
   );
