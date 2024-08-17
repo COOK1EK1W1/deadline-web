@@ -14,7 +14,7 @@ type Props = {
 const START_DATE = subDays(env.NEXT_PUBLIC_SEMESTER_START, 14)
 
 export default function Day({ day, week }: Props) {
-  const { openModal } = useModalMutators();
+  const { openModalDay } = useModalMutators();
   const { getDeadlinesForDay } = useDeadlines();
   const deadlines = getDeadlinesForDay({ week, day });
   const dateOfDay = addDays(START_DATE, (week * 7) + day);
@@ -22,7 +22,7 @@ export default function Day({ day, week }: Props) {
   return (
     <div
       className="w-full min-h-[7rem] border cursor-pointer dark:border-slate-700 pb-1"
-      onClick={() => openModal({ date: dateOfDay, deadlines })}
+      onClick={() => openModalDay({ date: dateOfDay, deadlines })}
     >
       {/* dates */}
       <DateIco date={dateOfDay} showDay={true} />

@@ -4,11 +4,13 @@ import { useDeadlines } from "./deadlines";
 import { usePathname, useSearchParams } from "next/navigation";
 import {FaRegEye, FaRegEyeSlash} from "react-icons/fa"
 import Link from "next/link";
+import { useModalMutators } from "./modal/modalProvider";
 
 export default function Filters(){
   const { programme } = useDeadlines();
   const searchParams = useSearchParams()
   const pathname = usePathname()
+  const { openModalCourse } = useModalMutators();
 
   const curShow = searchParams.get("show")?.split(",") || programme?.courses.map(x=>x.code) || []
 
@@ -61,7 +63,7 @@ export default function Filters(){
         console.log(createQueryShow(x.code))
         return <div className="rounded-full px-2 flex items-center" key={i}
         style={{ backgroundColor: `lch(64% ${shown ? 50 : 10} ${x.color} / .7)` }}
-        ><span className="inline-block">{x.title}</span>
+        ><span className="inline-block cursor-pointer" onMouseDown={()=>{openModalCourse(x.code)}}>{x.title}</span>
           <Link href={pathname + '?' + createQueryShow(x.code)}>
             {shown ? <FaRegEye className="inline-block mx-1" size={20}/> : <FaRegEyeSlash className="inline mx-1" size={20}/>}
           </Link>

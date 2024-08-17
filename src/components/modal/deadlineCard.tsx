@@ -15,7 +15,7 @@ type Props = {
 
 export default function DeadlineCard({ id, handleEdit }: Props) {
   const [isPending, startTransition] = useTransition();
-  const { closeModal } = useModalMutators();
+  const { closeModalDay } = useModalMutators();
   const { getDeadlineById } = useDeadlines();
   const deadline = getDeadlineById(id);
 
@@ -25,7 +25,7 @@ export default function DeadlineCard({ id, handleEdit }: Props) {
       if (!response) {
         window.alert("there was an error");
       } else {
-        closeModal();
+        closeModalDay();
       }
     });
   };
