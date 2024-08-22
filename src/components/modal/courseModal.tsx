@@ -1,13 +1,10 @@
 "use client";
-
-import DeadlineCard from "./deadlineCard";
-import EditForm from "./editForm";
 import { useModalData, useModalMutators } from "./modalProvider";
-
 import { PiNotePencilBold } from "react-icons/pi";
 import { useState } from "react";
 import { useDeadlines } from "../deadlines";
 import CourseCard from "./courseCard";
+import CourseEditForm from "./courseEditForm";
 
 export default function CourseModal() {
   const [isEditFormChanged, setIsEditFormChanged] = useState<boolean>(false);
@@ -15,6 +12,11 @@ export default function CourseModal() {
   const { showCoverCourse, showModalCourse } = useModalData();
   const { closeModalCourse } = useModalMutators();
   const { programme } = useDeadlines();
+  // no longer need to keep track of oldData and newData
+  // as the Form component will not alter the oldData at all
+  // and internally keeps track of the newData which can then be accessed
+  // in its submit handler
+  const [course, setCourse] = useState<string | null>(null);
 
 
   //close modal on esc
@@ -25,12 +27,6 @@ export default function CourseModal() {
       }
     });
   }
-
-  // no longer need to keep track of oldData and newData
-  // as the Form component will not alter the oldData at all
-  // and internally keeps track of the newData which can then be accessed
-  // in its submit handler
-  const [course, setCourse] = useState<string | null>(null);
 
   // set deadline to default values before opening editForm for CREATING a new deadline
   function handleOpenFormForCreate() {
@@ -81,8 +77,28 @@ export default function CourseModal() {
       <div className="flex w-full h-full justify-center">
         <div className="modalCard bg-white dark:bg-slate-800 rounded-3xl border-2 dark:border-slate-700">
           <div className="m-2" onClick={(e) => e.stopPropagation()}>
-            <h2 className="pl-4 text-xl pb-2">{programme?.title}</h2>
+            <div className="flex justify-between">
+              <h2 className="pl-4 text-xl pb-2">{programme?.title}</h2>
 
+              {!showEditForm && (
+                <button
+                  type="button"
+                  className="bg-green-300 hover:bg-blue-400 dark:bg-green-600 rounded-full m-1 p-1 w-40"
+                  onClick={handleOpenFormForCreate}
+                >
+                  <PiNotePencilBold style={{ display: "inline" }} /> Create New
+                </button>
+              )}
+
+            </div>
+              {showEditForm && (
+                <CourseEditForm
+                  onClose={handleCloseEditForm}
+                  onChange={() => setIsEditFormChanged(true)}
+                  onSubmit={handleSubmitEditForm}
+                  courseCode={course}
+                />
+              )}
             <div className="h-[53vh] overflow-y-auto">
               {programme?.courses.map((x, id) =>(
                 <CourseCard course={x} key={id} handleEdit={handleOpenFormForEdit}/>

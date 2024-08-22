@@ -1,5 +1,6 @@
 "use client"
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
+import { IoIosArrowDown } from "react-icons/io";
 import { useDeadlines } from "./deadlines";
 import { usePathname, useSearchParams } from "next/navigation";
 import {FaRegEye, FaRegEyeSlash} from "react-icons/fa"
@@ -7,6 +8,7 @@ import Link from "next/link";
 import { useModalMutators } from "./modal/modalProvider";
 
 export default function Filters(){
+  const [open, setOpen] = useState(false)
   const { programme } = useDeadlines();
   const searchParams = useSearchParams()
   const pathname = usePathname()
@@ -57,19 +59,25 @@ export default function Filters(){
   )
 
   return(
-    <div className="flex gap-2 mb-2">
-      {programme?.courses.map((x, i) =>{
-        const shown = curShow.includes(x.code)
-        console.log(createQueryShow(x.code))
-        return <div className="rounded-full px-2 flex items-center" key={i}
-        style={{ backgroundColor: `lch(64% ${shown ? 50 : 10} ${x.color} / .7)` }}
-        ><span className="inline-block cursor-pointer" onMouseDown={()=>{openModalCourse(x.code)}}>{x.title}</span>
-          <Link href={pathname + '?' + createQueryShow(x.code)}>
-            {shown ? <FaRegEye className="inline-block mx-1" size={20}/> : <FaRegEyeSlash className="inline mx-1" size={20}/>}
-          </Link>
-        </div>
-      })}
+    <div className="flex flex-col items-center">
+      <button onMouseDown={()=>setOpen(!open)}>
+        <h2 className="text-xl">{programme?.title}<IoIosArrowDown className={`duration-500 inline ${open ? "rotate-0": "rotate-180"}`}/></h2>
+      </button>
+      <div className={`flex gap-2 mb-4 flex-col duration-500 overflow-hidden ${open ? "max-h-96": "max-h-0" }`}>
+        {programme?.courses.map((course, i) =>{
+          const shown = curShow.includes(course.code)
+          return (
+            <div className="rounded-full px-2 flex items-center justify-between" key={i} style={{ backgroundColor: `lch(64% ${shown ? 50 : 10} ${course.color} / .7)` }}>
+              <span className="inline-block cursor-pointer" onMouseDown={()=>{openModalCourse(course.code)}}>{course.title}</span>
+              <Link href={pathname + '?' + createQueryShow(course.code)}>
+                {shown ? <FaRegEye className="inline-block mx-1" size={20}/> : <FaRegEyeSlash className="inline mx-1" size={20}/>}
+              </Link>
+            </div>
+          )
+        })}
+        <span>bookmark this with <kbd>ctrl</kbd> + <kbd>D</kbd></span>
 
-    </div>
+      </div>
+    </div> 
   )
 }

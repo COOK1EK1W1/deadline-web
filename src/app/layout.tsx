@@ -21,7 +21,7 @@ export default async function RootLayout({ children, }: { children: React.ReactN
       <body className={`${inter.className} bg-white dark:bg-slate-800 dark:text-white`}>
       <TopBar />
         <main className="flex flex-col items-center">
-          <h1 className="pt-2 pb-6 text-4xl dark:text-white">Deadline o matic</h1>
+          <h1 className="pt-2 pb-4 text-4xl dark:text-white">Deadline o matic</h1>
           {children}
         </main>
       </body>
