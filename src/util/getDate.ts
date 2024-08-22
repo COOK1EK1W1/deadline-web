@@ -22,6 +22,25 @@ export async function getDeadlines(programme: string): Promise<ProgrammeDeadline
 }
 
 
+export async function getBound(guild_id: string): Promise<{code: string}>{
+  const deadlines: Promise<{code: string}> = prisma.programme.findFirst({
+    where: {D_guild_id: guild_id},
+    select: {
+      code: true,
+    }
+  });
+  return deadlines
+}
+
+
+export async function discordBound(guild_id: string){
+
+  const getGuildCache = unstable_cache(async (guild_id) => getBound(guild_id), [],{tags: ["d-bound-cache"]})
+  const id = await getGuildCache(guild_id)
+  return id.code
+
+}
+
 export async function getDeadlinesCache(programme: string){
 
   const getDeadlinesCache = unstable_cache(async (programme) => getDeadlines(programme), [],{tags: ["deadline-cache"]})

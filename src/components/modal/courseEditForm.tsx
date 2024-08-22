@@ -26,7 +26,8 @@ export default function CourseEditForm({ onClose, onChange, onSubmit, courseCode
     D_emoji: "" ,
     color: "",
     programmeCode: programme?.code || "",
-    courseInfo: ""
+    courseInfo: "",
+    D_announce_channel: null,
   }
 
   let [color, setColor] = useState(Number(initialData.color) || 1)
@@ -34,8 +35,8 @@ export default function CourseEditForm({ onClose, onChange, onSubmit, courseCode
   if (courseCode){
     const courses = programme?.courses.filter((x) => x.code == courseCode)[0]
     if (courses){
-      const { code, title, D_emoji, color, programmeCode, courseInfo } = courses
-      initialData = {code, title, D_emoji, color, programmeCode, courseInfo}
+      const { code, title, D_emoji, color, programmeCode, courseInfo, D_announce_channel } = courses
+      initialData = {code, title, D_emoji, color, programmeCode, courseInfo, D_announce_channel}
     }
 
   }
@@ -79,6 +80,7 @@ export default function CourseEditForm({ onClose, onChange, onSubmit, courseCode
 
         <div className="flex flex-wrap md:flex-nowrap">
           {/* TODO create a Textarea component and replace info Input */}
+          <Input name="D_announce_channel" label="Info" type="text" />
           <Input name="courseInfo" label="Info" type="text" />
         </div>
 

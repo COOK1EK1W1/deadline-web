@@ -14,6 +14,7 @@ model Programme{
   courses Course[]
   year          DateTime
   password   String
+  D_guild_id String?
 }
 
 model Course{
@@ -25,6 +26,7 @@ model Course{
   programme     Programme @relation(fields: [programmeCode], references: [code], onDelete: Cascade, onUpdate: Cascade)
   programmeCode String
   courseInfo    String @default("")
+  D_announce_channel String?
 }
 
 model Deadline {
