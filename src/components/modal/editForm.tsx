@@ -98,7 +98,7 @@ export default function EditForm({ onClose, onChange, onSubmit, deadlineId, date
       <div className="flex flex-col items-center">
         <div className="flex flex-wrap md:flex-nowrap w-full">
           <Input name="name" label="Name" type="text" required />
-          <Select name="courseCode" label="Course" options={programme?.courses.map((x) => x.title) || []}/>
+          <Select name="courseCode" label="Course" options={programme?.courses.map((x) => x.code) || []}/>
         </div>
         <div className="flex flex-wrap md:flex-nowrap w-full">
           <Select name="type" label="Deadline Type" options={Object.values(DeadlineType)}/>
