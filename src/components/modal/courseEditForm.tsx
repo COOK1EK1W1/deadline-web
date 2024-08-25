@@ -74,13 +74,15 @@ export default function CourseEditForm({ onClose, onChange, onSubmit, courseCode
           <Input name="code" label="Code" type="text" required/>
         </div>
         <div className="flex flex-wrap md:flex-nowrap w-full">
-          <Input name="D_emoji" label="Discord Emoji" type="text" required/>
           <Input name="color" label="Color" type="range" min={0} max={360} onChange={(e)=>{setColor(Number(e))}}/>
         </div>
 
-        <div className="flex flex-wrap md:flex-nowrap">
+        <div className="flex flex-wrap md:flex-nowrap w-full">
+          <Input name="D_emoji" label="Discord Emoji" type="text" required/>
+          <Input name="D_announce_channel" label="Discord Announce Channel" type="text" />
+        </div>
+        <div className="flex flex-wrap md:flex-nowrap w-full">
           {/* TODO create a Textarea component and replace info Input */}
-          <Input name="D_announce_channel" label="Info" type="text" />
           <Input name="courseInfo" label="Info" type="text" />
         </div>
 

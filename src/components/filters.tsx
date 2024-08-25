@@ -63,7 +63,7 @@ export default function Filters(){
       <button onMouseDown={()=>setOpen(!open)}>
         <h2 className="text-xl">{programme?.title}<IoIosArrowDown className={`duration-500 inline ${open ? "rotate-0": "rotate-180"}`}/></h2>
       </button>
-      <div className={`flex gap-2 mb-4 flex-col duration-500 overflow-hidden ${open ? "max-h-96": "max-h-0" }`}>
+      <div className={`flex gap-2 my-3 flex-col duration-500 overflow-hidden ${open ? "max-h-96": "max-h-0" }`}>
         {programme?.courses.map((course, i) =>{
           const shown = curShow.includes(course.code)
           return (
@@ -75,7 +75,7 @@ export default function Filters(){
             </div>
           )
         })}
-        <span>bookmark this with <kbd>ctrl</kbd> + <kbd>D</kbd></span>
+        {curShow.length !== programme?.courses.length ? <span>bookmark this with <kbd>ctrl</kbd> + <kbd>D</kbd></span> : null}
 
       </div>
     </div> 
