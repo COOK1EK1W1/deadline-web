@@ -1,6 +1,6 @@
 "use client"
 import { useCallback, useState } from "react";
-import { IoIosArrowDown } from "react-icons/io";
+import { IoIosArrowDown, IoMdInformationCircleOutline } from "react-icons/io";
 import { useDeadlines } from "./deadlines";
 import { usePathname, useSearchParams } from "next/navigation";
 import {FaRegEye, FaRegEyeSlash} from "react-icons/fa"
@@ -63,20 +63,25 @@ export default function Filters(){
       <button onMouseDown={()=>setOpen(!open)}>
         <h2 className="text-xl">{programme?.title}<IoIosArrowDown className={`duration-500 inline ${open ? "rotate-0": "rotate-180"}`}/></h2>
       </button>
-      <div className={`flex gap-2 my-3 flex-col duration-500 overflow-hidden ${open ? "max-h-96": "max-h-0" }`}>
-        {programme?.courses.map((course, i) =>{
-          const shown = curShow.includes(course.code)
-          return (
-            <div className="rounded-full px-2 flex items-center justify-between" key={i} style={{ backgroundColor: `lch(64% ${shown ? 50 : 10} ${course.color} / .7)` }}>
-              <span className="inline-block cursor-pointer" onMouseDown={()=>{openModalCourse(course.code)}}>{course.title}</span>
-              <Link href={pathname + '?' + createQueryShow(course.code)}>
-                {shown ? <FaRegEye className="inline-block mx-1" size={20}/> : <FaRegEyeSlash className="inline mx-1" size={20}/>}
-              </Link>
-            </div>
-          )
-        })}
-        {curShow.length !== programme?.courses.length ? <span>bookmark this with <kbd>ctrl</kbd> + <kbd>D</kbd></span> : null}
+      <div className={`flex gap-2 my-3 flex-col duration-500 overflow-hidden ${open ? "max-h-96": "max-h-0" } items-center`}>
+        <button className="rounded-full px-2 hbg w-20 justify-center flex items-center" onMouseDown={()=>openModalCourse("")}>
+          <IoMdInformationCircleOutline className="inline-block mr-1" /> info
+        </button>
+        <div className="flex gap-2 flex-col">
+          {programme?.courses.map((course, i) =>{
+            const shown = curShow.includes(course.code)
+            return (
+              <div className="rounded-full px-2 flex items-center justify-between flex" key={i} style={{ backgroundColor: `lch(64% ${shown ? 50 : 10} ${course.color} / .7)` }}>
+                <span className="inline-block cursor-pointer" onMouseDown={()=>{openModalCourse(course.code)}}>{course.title}</span>
+                <Link href={pathname + '?' + createQueryShow(course.code)}>
+                  {shown ? <FaRegEye className="inline-block mx-1" size={20}/> : <FaRegEyeSlash className="inline mx-1" size={20}/>}
+                </Link>
+              </div>
+            )
+          })}
+          {curShow.length !== programme?.courses.length ? <span>bookmark this with <kbd>ctrl</kbd> + <kbd>D</kbd></span> : null}
 
+        </div>
       </div>
     </div> 
   )
